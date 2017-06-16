@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--android基础(五) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Android Studio,android," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言学习完Android中内置的 UI控件 和 简单的布局,是不是还会有那么一点小小的遗憾,如何定制自己喜欢的控件?今天我们就来学习一下Android中自定义控件及Android中最常见并且最难用的ListView。 自定义控件在实际开发中,系统内置的UI控件往往不能满足我们的功能需求,这时就需要我们自定义控件了。今天我们来定义一个与iOS中的默认的导航栏一样的">
+<meta name="keywords" content="Android Studio,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--android基础(五)">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/learningAndroid5/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言学习完Android中内置的 UI控件 和 简单的布局,是不是还会有那么一点小小的遗憾,如何定制自己喜欢的控件?今天我们就来学习一下Android中自定义控件及Android中最常见并且最难用的ListView。 自定义控件在实际开发中,系统内置的UI控件往往不能满足我们的功能需求,这时就需要我们自定义控件了。今天我们来定义一个与iOS中的默认的导航栏一样的">
+<meta property="og:image" content="http://static.open-open.com/lib/uploadImg/20151218/20151218085754_968.jpg">
+<meta property="og:updated_time" content="2017-05-25T06:38:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--android基础(五)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言学习完Android中内置的 UI控件 和 简单的布局,是不是还会有那么一点小小的遗憾,如何定制自己喜欢的控件?今天我们就来学习一下Android中自定义控件及Android中最常见并且最难用的ListView。 自定义控件在实际开发中,系统内置的UI控件往往不能满足我们的功能需求,这时就需要我们自定义控件了。今天我们来定义一个与iOS中的默认的导航栏一样的">
+<meta name="twitter:image" content="http://static.open-open.com/lib/uploadImg/20151218/20151218085754_968.jpg">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义控件"><span class="toc-text">自定义控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ListView的使用"><span class="toc-text">ListView的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningAndroid5" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--android基础(五)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学习完<code>Android</code>中内置的 <strong>UI控件</strong> 和 <strong>简单的布局</strong>,是不是还会有那么一点小小的遗憾,如何定制自己喜欢的控件?今天我们就来学习一下<code>Android</code>中自定义控件及<code>Android</code>中最常见并且最难用的<code>ListView</code>。</p>
+<h2 id="自定义控件"><a href="#自定义控件" class="headerlink" title="自定义控件"></a>自定义控件</h2><p>在实际开发中,系统内置的UI控件往往不能满足我们的功能需求,这时就需要我们自定义控件了。今天我们来定义一个与iOS中的默认的导航栏一样的导航栏。</p>
+<p>我们在自定义控件之前先来看一下<code>Android</code>中控件和布局的继承结构,如下图(图片来自百度图片)<br><img src="http://static.open-open.com/lib/uploadImg/20151218/20151218085754_968.jpg" alt=""><br>从图中我们可以看到,我们所用的所有控件都是直接或者间接的继承自 <strong>View</strong> 的,所用的所有布局都是直接或者间接的继承自 <strong>ViewGroup</strong> 的, <strong>View</strong> 是<code>Android</code>中最基本的UI组件,它可以在屏幕上绘制一块矩形区域,并能响应这块区域的各种事件,因此我们使用的各种控件都是在 <strong>View</strong> 的基础上添加各自特有的功能的。而 <strong>ViewGroup</strong> 则是一种特殊的 <strong>View</strong>,它可以包含很多子 <strong>View</strong> 和 子 <strong>ViewGroup</strong>, 是一个用于放置控件和布局的容器。<br>了解完<code>Android</code>中控件和布局的继承结构,我们开始定制一个类似于 <strong>iOS中的导航栏控件</strong>。</p>
+<p><strong>第一步,引入布局:</strong><br>用过iPhone的人都知道,在其app中大部分界面顶部都会有一个标题栏,标题两边各有一个按钮,左侧按钮用于返回操作,有则按钮可以是其他功能。<br>新建一个布局文件名字为 <strong>navigation.xml</strong>,关于怎么新建布局文件我们在之前的文章就介绍过了,这里不再啰嗦。<br>修改内容,代码示例:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:background</span>=<span class="string">"@drawable/title_bg"</span>&gt;</div><div class="line">    //左侧按钮</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_nav_left"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/back_bg"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"返回"</span></div><div class="line">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></div><div class="line">        /&gt;</div><div class="line">    //标题文字</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></div><div class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></div><div class="line">        <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"Title Text"</span></div><div class="line">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span></div><div class="line">        /&gt;</div><div class="line">    //右侧按钮</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_nav_right"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/back_bg"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"右侧按钮"</span></div><div class="line">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们在工程的默认活动中引入这个布局,我这里默认活动名字为 <strong>HomeActivity</strong>,我们在其布局文件中修改如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">android:id</span>=<span class="string">"@+id/Home_Root"</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line">    //引入我们刚才创建布局文件</div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/navigation"</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行程序,我们可看到,在屏幕上会显示一组控件,左侧是按钮,中间是一个标题,左右还有一个按钮,但是<code>Android</code>中内置的标题栏还会显示在屏幕上,我们使用如下代码将其隐藏。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_home_layout);</div><div class="line">        <span class="comment">//获取系统导航栏</span></div><div class="line">        ActionBar bar = getSupportActionBar();</div><div class="line">        <span class="keyword">if</span> (bar != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            bar.hide();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>再次运行,程序的界面就变成我们想要的样式了,不管你程序中有多少界面,只要在每个界面使用一条 <strong>include</strong> 语句即可,使用引入布局的技巧确实解决了重复编写代码的问题,但是如果有些控件要求能够响应事件,我们还是需要单独在每个界面在写一遍事件注册的代码,如我们刚才定制的导航栏中的左侧按钮都是返回上一个界面的功能(销毁当前活动)。这种情况无疑会增加很多重复的代码,这时最好的解决方式就是使用自定义控件的方式解决。</p>
+<p><strong>第二步,创建控件:</strong><br>新建 <strong>NavigationLayout</strong> 继承自 <strong>LinearLayout</strong>, 使它成为自定义的导航栏。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> android.view.LayoutInflater;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.Button;</div><div class="line"><span class="keyword">import</span> android.widget.LinearLayout;</div><div class="line"><span class="keyword">import</span> android.widget.Toast;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by chuliangliang on 2017/5/24.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NavigationLayout</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NavigationLayout</span><span class="params">(Context ctx, AttributeSet attrs)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">super</span>(ctx,attrs);</div><div class="line">        LayoutInflater.from(ctx).inflate(R.layout.navigation,<span class="keyword">this</span>);</div><div class="line">        <span class="comment">//获取左右按钮</span></div><div class="line">        Button leftButton = (Button)findViewById(R.id.button_nav_left);</div><div class="line">        Button rightButton = (Button)findViewById(R.id.button_nav_right);</div><div class="line">        <span class="comment">//左侧按钮注册点击事件</span></div><div class="line">        leftButton.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                ((Activity)getContext()).finish();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="comment">//右侧按钮注册点击事件</span></div><div class="line">        rightButton.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Toast.makeText(getContext(), <span class="string">"点击右侧按钮了 "</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们在上述代码中复写了 <strong>LinearLayout</strong> 的构造方法,然后在构造方法里对导航栏布局进行动态加载,动态加载借助于 <strong>LayoutInflater</strong> 实现,通过 <strong>LinearLayout</strong> 的 <strong>from()</strong> 方法可以构建出一个 <strong>LayoutInflater</strong> 对象,然后调用 <strong>inflate()</strong> 方法就实现了动态加载一个布局文件, <strong>inflate()</strong> 方法接收两个参数,第一个参数是要加载的布局文件的id, 这里我们传入 <strong>R.layout.navigation</strong>;第二个参数是给加载好的布局再添加一个父布局,这里我们要指定为 <strong>NavigationLayout</strong> 所以我们传入 <strong>this</strong>。</p>
+<p>现在控件创建好了,我们修改一下 <strong>HomeActivity</strong> 的布局文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">android:id</span>=<span class="string">"@+id/Home_Root"</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line">    //引入自定义控件</div><div class="line">    <span class="tag">&lt;<span class="name">com.customui.chuliangliang.customui.NavigationLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/nav_bar"</span>&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">com.customui.chuliangliang.customui.NavigationLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>添加自定义控件与普通控件是一样的,只不过在添加的时候我们需要指明完整的类名,包名在这里是不可以省略的。<br>运行程序,点击右侧按钮会出现一个文字提示,点击右侧按钮退出程序。</p>
+<p>以上就是完整的自定义控件的过程。</p>
+<h2 id="ListView的使用"><a href="#ListView的使用" class="headerlink" title="ListView的使用"></a>ListView的使用</h2><p><strong>ListView</strong> 绝对称得上是<code>Android</code>中最常用的控件之一,几乎所有的程序都会使用到它。由于手机屏幕空间有限,能够一次性在屏幕上展示的内容并不多,当我们程序中有大量的数据需要展示时,就可以借助 <strong>ListView</strong> 来实现。<strong>ListView</strong> 允许用户通过上下滑动的方式将屏幕外的数据滚动到屏幕内,同时屏幕内的数据会滚出屏幕,例如QQ的聊天界面。</p>
+<p><strong>1.ListView 的简单用法:</strong><br>我们新建一个活动名为 <strong>ListViewActivity</strong>,我们在其布局文件上添加一个 <strong>ListView</strong>。<br>代码示例:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">android:id</span>=<span class="string">"@+id/ListAc_Root"</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line">    //引入自定义导航栏控件</div><div class="line">    <span class="tag">&lt;<span class="name">com.customui.chuliangliang.customui.NavigationLayout</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">com.customui.chuliangliang.customui.NavigationLayout</span>&gt;</span></div><div class="line">    //添加  ListView 控件</div><div class="line">    <span class="tag">&lt;<span class="name">ListView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/list_1"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"#ff0000"</span>&gt;<span class="tag">&lt;/<span class="name">ListView</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>可以看出来 <strong>ListView</strong> 与普通控件的添加完全一样。<br>接下来我们修改一下 <strong>ListViewActivity</strong> 中的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.customui.chuliangliang.customui;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.ActionBar;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.widget.ArrayAdapter;</div><div class="line"><span class="keyword">import</span> android.widget.ListView;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Array;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListViewActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">  <span class="comment">//字符串数组 作为 listview 的数据源</span></div><div class="line">    <span class="keyword">private</span> String[] dataArray = &#123;<span class="string">"1234"</span>,<span class="string">"dsda"</span>,<span class="string">"eazduriof"</span>,<span class="string">"哈哈哈"</span>, <span class="string">"第一个字符"</span>, <span class="string">"把安静的啦"</span>,</div><div class="line">            <span class="string">"u9wrjwejrleiw"</span>, <span class="string">"啊多瘦返回空i"</span>,<span class="string">"dghjklj"</span>,<span class="string">"34423"</span>,<span class="string">"uwoqu"</span>,<span class="string">"话电话"</span>,<span class="string">"百度"</span>,<span class="string">"123456789"</span>,<span class="string">"腾讯"</span>,<span class="string">"阿里是是是"</span>,<span class="string">"你后方可"</span>,<span class="string">"多少积分看电视"</span>&#125;;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_listview_layout);</div><div class="line">        ActionBar bar = getSupportActionBar();</div><div class="line">        <span class="keyword">if</span> (bar != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            bar.hide();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//为list view 填充数据</span></div><div class="line">        ArrayAdapter &lt;String&gt; adapter = <span class="keyword">new</span> ArrayAdapter&lt;String&gt;(ListViewActivity.<span class="keyword">this</span>,android.R.layout.simple_list_item_1,dataArray);</div><div class="line">        ListView listView = (ListView) findViewById(R.id.list_1);</div><div class="line">        listView.setAdapter(adapter);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>数组中的数据是无法直接传递给 <strong>ListView</strong> 的,我们需要借助适配器来完成, <code>Android</code>中提供了很多适配器的实现类,我们今天以 <strong>ArrayAdapter</strong> 为例(本人也比较喜欢使用这个适配器),它可以用过泛型来指定要适配的数据类型,然后在构造函数中把要适配的数据传入。因为我们数组中都是字符串,所以我们的泛型指定为 <strong>String</strong>,然后在 <strong>ArrayAdapter</strong> 的构造函数中依次传入上下文、<strong>ListView的子项布局</strong> 的id,以及需要展示的数据。我们这里使用了系统内置的 <strong>android.R.layout.simple_list_item_1</strong> 作为 <strong>ListView的子项布局</strong>。</p>
+<p><strong>ListView的子项布局</strong> 等价于 iOS中的 <strong>UITableViewCell</strong>。</p>
+<p>运行程序,就会在屏幕上呈现一个可以滑动的区域,内部有很多行文字。这是 <strong>ListView</strong> 最最基础的用法。我们看到每条只显示一行文字太过于单调了,我们现在就对其界面进行定制。</p>
+<p><strong>2.定制ListView界面</strong><br>我们使每条子项布局都展示一个图片+一段文字,首先我们需要一个数据模型,用来保存每个子项布局的数据;之后我们自定义一个用来展示数据的子项布局。我们通过上面的例子知道,数组中的数据是不可以直接被 <strong>ListView</strong> 使用的,所以我们还需要一个适配器。这些都有了</p>
+<p>第一步,定义数据模型<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.customui.chuliangliang.customui;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by chuliangliang on 2017/5/24.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataModel</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pid;</div><div class="line">    <span class="comment">//构造函数</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DataModel</span><span class="params">(String name, <span class="keyword">int</span> imgId)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.pid = imgId;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//获取名字</span></div><div class="line">    <span class="function"><span class="keyword">public</span>  String <span class="title">getName</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//获取图片标识id</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPid</span> <span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.pid;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个是数据模型,一共有两个属性, 一个是图片的在名字(R.drawable 文件夹下为图片自动生成的id),一个是图片对应的描述文字。</p>
+<p>第二步,自定义子项布局,新建一个布局文件名字为 <strong>data_list_item.xml</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/data_list_item_img"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/data_list_item_name"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center_vertical"</span></div><div class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"10dp"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这个布局与 <strong>OC中的自定义UITableViewCell</strong> 作用一样,用来展示数据;左边展示一张图片,图片右侧显示一句文字信息。</p>
+<p>第三步,创建我们自己的适配器,取名 <strong>DataModelAdapter</strong><br>代码示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.customui.chuliangliang.customui;</div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</div><div class="line"><span class="keyword">import</span> android.support.annotation.Nullable;</div><div class="line"><span class="keyword">import</span> android.view.LayoutInflater;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.view.ViewGroup;</div><div class="line"><span class="keyword">import</span> android.widget.ArrayAdapter;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"><span class="keyword">import</span> android.widget.TextView;</div><div class="line"><span class="keyword">import</span> org.w3c.dom.Text;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by chuliangliang on 2017/5/24.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataModelAdapter</span> <span class="keyword">extends</span> <span class="title">ArrayAdapter</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> resourceID;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DataModelAdapter</span><span class="params">(Context ctx, <span class="keyword">int</span> textViewResourceId, List&lt;DataModel&gt; objects)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">super</span>(ctx,textViewResourceId,objects);</div><div class="line">        resourceID = textViewResourceId;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@NonNull</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, @Nullable View convertView, @NonNull ViewGroup parent)</span> </span>&#123;</div><div class="line">        <span class="comment">//获取DataModel 数据模型对象</span></div><div class="line">        DataModel dataModel = (DataModel)getItem(position);</div><div class="line">        <span class="comment">//获取显示的view</span></div><div class="line">        View view = LayoutInflater.from(getContext()).inflate(resourceID,parent,<span class="keyword">false</span>);</div><div class="line">        <span class="comment">//获取View (类似于中的cell) 上的 图片视图</span></div><div class="line">        ImageView imgView = (ImageView)view.findViewById(R.id.data_list_item_img);</div><div class="line">        <span class="comment">//获取View (类似于中的cell) 上的 文字控件</span></div><div class="line">        TextView textView = (TextView)view.findViewById(R.id.data_list_item_name);</div><div class="line">        <span class="comment">//为控件赋值</span></div><div class="line">        imgView.setImageResource(dataModel.getPid());</div><div class="line">        textView.setText(dataModel.getName());</div><div class="line">        <span class="keyword">return</span> view;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在我们创建一个活动展示我们自定义的 <strong>ListView</strong>,代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.customui.chuliangliang.customui;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.ActionBar;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.AdapterView;</div><div class="line"><span class="keyword">import</span> android.widget.ListView;</div><div class="line"><span class="keyword">import</span> android.widget.Toast;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="comment">//列表数据源 &lt;数组&gt;</span></div><div class="line">    <span class="keyword">private</span> List&lt;DataModel&gt; dataObjects = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_custom);</div><div class="line">        ActionBar bar = getSupportActionBar();</div><div class="line">        <span class="keyword">if</span> (bar != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            bar.hide();</div><div class="line">        &#125;</div><div class="line">        initDataObjects();</div><div class="line">        DataModelAdapter adapter = <span class="keyword">new</span> DataModelAdapter(CustomActivity.<span class="keyword">this</span>,R.layout.data_list_item,dataObjects);</div><div class="line">        ListView listView = (ListView)findViewById(R.id.custom_list_1);</div><div class="line">        listView.setAdapter(adapter);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//构造数据模型</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initDataObjects</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">//初始化数组</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> ; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="comment">//第一条数据</span></div><div class="line">            DataModel dataModel_pg = <span class="keyword">new</span> DataModel(<span class="string">"苹果"</span>,R.drawable.pg);</div><div class="line">            dataObjects.add(dataModel_pg);</div><div class="line">            <span class="comment">//第二条数据</span></div><div class="line">            DataModel dataModel_cm = <span class="keyword">new</span> DataModel(<span class="string">"草莓"</span>,R.drawable.cm);</div><div class="line">            dataObjects.add(dataModel_cm);</div><div class="line">            <span class="comment">//第三条数据</span></div><div class="line">            DataModel dataModel_cz = <span class="keyword">new</span> DataModel(<span class="string">"橙子"</span>,R.drawable.cz);</div><div class="line">            dataObjects.add(dataModel_cz);</div><div class="line">            <span class="comment">//第四条数据</span></div><div class="line">            DataModel dataModel_pt = <span class="keyword">new</span> DataModel(<span class="string">"葡萄"</span>,R.drawable.pt);</div><div class="line">            dataObjects.add(dataModel_pt);</div><div class="line">            <span class="comment">//第五条数据</span></div><div class="line">            DataModel dataModel_xj = <span class="keyword">new</span> DataModel(<span class="string">"香蕉"</span>,R.drawable.xj);</div><div class="line">            dataObjects.add(dataModel_xj);</div><div class="line">            <span class="comment">//第六条数据</span></div><div class="line">            DataModel dataModel_yt = <span class="keyword">new</span> DataModel(<span class="string">"樱桃"</span>,R.drawable.yt);</div><div class="line">            dataObjects.add(dataModel_yt);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序程序,我们就会看到条 <strong>子项布局(OC中的cell)</strong> 都会有一个图片和一个文字描述,这就是我们自定义的 <strong>ListView</strong>,通过这个例子相信大家可以定制出属于自己的 <strong>ListView</strong> 了。</p>
+<p><strong>3.ListView的优化</strong><br>之前说 <strong>ListView</strong> 很难用,就是因为它有很多细节可以优化,其中运行效率就是很重要的一点。目前我们 <strong>ListView</strong> 的运行效率是很低的,因为在 <strong>DataModelAdapter</strong> 的 <strong>getView()</strong> 方法中每次都将布局重新加载了一遍,当 <strong>ListView</strong> 快速滚动时,这里就会消耗很大的资源,导致性能下降。仔细观察会发现, <strong>getView()</strong> 方法中有一个 <strong>convertView</strong> 参数,这个参数就是将之前加载好的布局进行缓存,以便之后可以进行复用。我们修改一下 <strong>DataModelAdapter</strong> 适配器中的代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.customui.chuliangliang.customui;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</div><div class="line"><span class="keyword">import</span> android.support.annotation.Nullable;</div><div class="line"><span class="keyword">import</span> android.view.LayoutInflater;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.view.ViewGroup;</div><div class="line"><span class="keyword">import</span> android.widget.ArrayAdapter;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"><span class="keyword">import</span> android.widget.TextView;</div><div class="line"><span class="keyword">import</span> org.w3c.dom.Text;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by chuliangliang on 2017/5/24.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataModelAdapter</span> <span class="keyword">extends</span> <span class="title">ArrayAdapter</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> resourceID;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DataModelAdapter</span><span class="params">(Context ctx, <span class="keyword">int</span> textViewResourceId, List&lt;DataModel&gt; objects)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">super</span>(ctx,textViewResourceId,objects);</div><div class="line">        resourceID = textViewResourceId;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@NonNull</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, @Nullable View convertView, @NonNull ViewGroup parent)</span> </span>&#123;</div><div class="line">        <span class="comment">/*</span></div><div class="line">        * 1. 复用布局 view (也就是oc中的cell) convertView 如果存在即为已经初始化过</div><div class="line">        * 2. 避免频繁获取控件 如 从 view中获取 ImageView 和 TextView</div><div class="line">        * */</div><div class="line">        <span class="comment">//获取DataModel 数据模型对象</span></div><div class="line">        DataModel dataModel = (DataModel)getItem(position);</div><div class="line">        View view;</div><div class="line">        ViewHolder viewHolder;</div><div class="line">        <span class="keyword">if</span> (convertView == <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="comment">//此种布局从未创建或者不存在可复用的布局</span></div><div class="line">            <span class="comment">//创建布局</span></div><div class="line">            view = LayoutInflater.from(getContext()).inflate(resourceID,parent,<span class="keyword">false</span>);</div><div class="line">            <span class="comment">//初始化内部类</span></div><div class="line">            viewHolder = <span class="keyword">new</span> ViewHolder();</div><div class="line">            <span class="comment">//获取View (类似于中的cell) 上的 图片控件 保存近内部类中</span></div><div class="line">            viewHolder.imgView = (ImageView)view.findViewById(R.id.data_list_item_img);</div><div class="line">            <span class="comment">//获取View (类似于中的cell) 上的 文字控件 保存近内部类中</span></div><div class="line">            viewHolder.textView = (TextView)view.findViewById(R.id.data_list_item_name);</div><div class="line">            <span class="comment">//将内部类 保存进 布局中 (oc中的cell)</span></div><div class="line">            view.setTag(viewHolder);</div><div class="line">        &#125;<span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">//存在可复用的布局(oc中的cell)</span></div><div class="line">            view = convertView;</div><div class="line">            viewHolder = (ViewHolder)convertView.getTag();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//为布局填充数据源 (oc中的cell 填充数据源)</span></div><div class="line">        viewHolder.textView.setText(dataModel.getName());</div><div class="line">        viewHolder.imgView.setImageResource(dataModel.getPid());</div><div class="line">        <span class="keyword">return</span> view;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line">        ImageView imgView;</div><div class="line">        TextView textView;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上述代码中可以看到,我们在 <strong>getView()</strong> 方法中对布局进行了重用,并且在 <strong>DataModelAdapter</strong> 适配器中增加一个内部类 <strong>ViewHolder</strong>, <strong>ViewHolder</strong> 用于将布局中所有的控件实例进行保存,避免频繁调用 <strong>findViewById()</strong> 方法获取控件实例,这样就大大提高了 <strong>ListView</strong> 的运行效率。</p>
+<p><strong>4.ListView的点击事件</strong><br><strong>ListView</strong> 不光可以呈现好看的界面,它也接受用户的点击事件,那么应该如何实现呢?其实很简单,我们直接看代码吧~~<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//列表数据源 &lt;数组&gt;</span></div><div class="line">    <span class="keyword">private</span> List&lt;DataModel&gt; dataObjects = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_custom);</div><div class="line">        ActionBar bar = getSupportActionBar();</div><div class="line">        <span class="keyword">if</span> (bar != <span class="keyword">null</span>)</div><div class="line">        &#123;</div><div class="line">            bar.hide();</div><div class="line">        &#125;</div><div class="line">        initDataObjects();</div><div class="line">        DataModelAdapter adapter = <span class="keyword">new</span> DataModelAdapter(CustomActivity.<span class="keyword">this</span>,R.layout.data_list_item,dataObjects);</div><div class="line">        ListView listView = (ListView)findViewById(R.id.custom_list_1);</div><div class="line">        listView.setAdapter(adapter);</div><div class="line"></div><div class="line">        <span class="comment">//添加点击事件</span></div><div class="line">        listView.setOnItemClickListener(<span class="keyword">new</span> AdapterView.OnItemClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; parent, View view, <span class="keyword">int</span> position, <span class="keyword">long</span> id)</span> </span>&#123;</div><div class="line">                DataModel dataModel = dataObjects.get(position);</div><div class="line">                Toast.makeText(CustomActivity.<span class="keyword">this</span>, dataModel.getName(), Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>是不是很简单呢, 我们在点击事件中弹出一个<code>Toast</code>提示,提示点击的是哪条数据。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这几天事情太多, 学习也处于断断续续的状态,调整状态继续前进…<br>本文中使用的<a href="https://github.com/chuliangliang/CustomUI-android" target="_blank" rel="external">Demo 下载</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

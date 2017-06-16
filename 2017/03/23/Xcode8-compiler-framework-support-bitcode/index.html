@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Xcode8 编译 framework 支持bitcode | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,xcode,framework,bitcode," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言关于Framework制作的教程数不胜数,但是比较老旧,一般都是xcode7或者更早的教程,并且有些教程并不齐全,制作出来的framework库还是存在大大小小的问题,所以我把自己制作framework的过程记录下来，并且使用的是最新的Xcode8环境; 正文Bitcode是什么? Bitcode is an intermediate representat">
+<meta name="keywords" content="iOS,xcode,framework,bitcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xcode8 编译 framework 支持bitcode">
+<meta property="og:url" content="http://yoursite.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言关于Framework制作的教程数不胜数,但是比较老旧,一般都是xcode7或者更早的教程,并且有些教程并不齐全,制作出来的framework库还是存在大大小小的问题,所以我把自己制作framework的过程记录下来，并且使用的是最新的Xcode8环境; 正文Bitcode是什么? Bitcode is an intermediate representat">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/bitcodeImage.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/theCompiler.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw1.png?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw2.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw3.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw4.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw5.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw6.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw7.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw8.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw9.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw10.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:updated_time" content="2017-04-13T03:39:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Xcode8 编译 framework 支持bitcode">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言关于Framework制作的教程数不胜数,但是比较老旧,一般都是xcode7或者更早的教程,并且有些教程并不齐全,制作出来的framework库还是存在大大小小的问题,所以我把自己制作framework的过程记录下来，并且使用的是最新的Xcode8环境; 正文Bitcode是什么? Bitcode is an intermediate representat">
+<meta name="twitter:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/bitcodeImage.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bitcode是什么"><span class="toc-text">Bitcode是什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始制作framework"><span class="toc-text">开始制作framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#制作通用库"><span class="toc-text">制作通用库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Xcode8-compiler-framework-support-bitcode" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Xcode8 编译 framework 支持bitcode</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.03.23</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于Framework制作的教程数不胜数,但是比较老旧,一般都是xcode7或者更早的教程,并且有些教程并不齐全,制作出来的framework库还是存在大大小小的问题,所以我把自己制作framework的过程记录下来，并且使用的是最新的Xcode8环境;</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h2 id="Bitcode是什么"><a href="#Bitcode是什么" class="headerlink" title="Bitcode是什么?"></a>Bitcode是什么?</h2><blockquote>
+<p>Bitcode is an intermediate representation of a compiled program. Apps you upload to iTunes Connect that contain bitcode will be compiled and linked on the store. Including bitcode will allow Apple to re-optimize your app binary in the future without the need to submit a new version of your app to the store.</p>
+<p>Xcode hides symbols generated during build time by default, so they are not readable by Apple. Only if you choose to include symbols when uploading your app to iTunes Connect would the symbols be sent to Apple. You must include symbols to receive crash reports from Apple.<br>原文大意:<br>Bitcode是编译程序的中间表示形式。 您上传到iTunes Connect的包含位代码的应用程序将在商店中进行编译和链接。 包括位代码将允许Apple在将来重新优化您的应用程序二进制文件，而无需将新版本的应用程序提交到商店。</p>
+<p>默认情况下，Xcode会隐藏在构建时生成的符号，因此它们不可读取。 只有当您将应用程序上传到iTunes Connect时选择包含符号，才能将符号发送给Apple。 您必须包含符号以从Apple收到崩溃报告。<br>摘自:<a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35" target="_blank" rel="external">Apple 开发者文档</a></p>
+</blockquote>
+<p>bitcode图解<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/bitcodeImage.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>为了更好的理解什么是<strong>bitcode</strong>，简单介绍一下编译器编译的过程：<br>1.<strong>Lexer:</strong> 读入源文件，并将其转化成字符流<br>2.<strong>Parser:</strong> 将字符流转换成AST（抽象语法树）<br>3.<strong>Semantic Analysis:</strong> 对输入的AST进行语法检查。<br>4.<strong>Code Generation:</strong> 代码生成，将AST转换成低层次的IR指令<br>4.<strong>Optimization:</strong> 分析IR指令，将其中潜在会拖慢运行速度的指令干掉。<br>5.<strong>AsmPrinter:</strong> 通过IR（中间码）生成特定CPU架构的汇编代码<br>6.<strong>Assemble:</strong> 将汇编代码转化成二进制<br>7.<strong>Linker:</strong> 通常程序会引用其他的二进制文件（.a或者framework)，但是这些链接在程序中没有正确的地址，只是个占位符。Linker的工作就是给这些占位符正确的地址。<br>更多信息请参考<a href="https://www.objc.io/issues/6-build-tools/compiler/" target="_blank" rel="external">The Compiler</a></p>
+<p>一般情况下编译器构架会将上述过程分成前端和后端两部分来处理：<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/theCompiler.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>在前后端之间传递的就是IR（中间码），而bitcode就是一种特殊形式的中间码。原本前后端的工作都是在本地LLVM中完成，虽然Apple没有给出具体的Bitcode实现，但是通过他们的文档可以猜测，是将一部分后端的工作移到了服务器进行。从Xcode上传IR到服务器，服务器来真对不同的机型进行后续操作。从而达到真对不同机型生成对应指令集的二进制，而减小报体积的目的。</p>
+<h2 id="开始制作framework"><a href="#开始制作framework" class="headerlink" title="开始制作framework"></a>开始制作framework</h2><p>1.首先新建一个项目，选择 <code>Cocoa touch Framework</code> 取名”TalentCFor-framework”<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw1.png?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>2.将要封装成framework的代码拖入工程<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw2.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>3.设置Build Setting<br>选择工程文件&gt; <strong>target</strong> 第一项&gt;<strong>Build Setting</strong><br>(1).<strong>Dead Code Stripping:</strong> 设置为 <strong>NO</strong>, 网上对此项的解释如下，大致意思是如果开启此项就会对代码中的”dead”、”unreachable”的代码过滤，不过这个开关是否关闭，似乎没有多大影响，不过为了完整还原framework中的代码，将此项关闭也未曾不可。</p>
+<blockquote>
+<p>The resulting executable will not include any “dead” or unreachable code。</p>
+</blockquote>
+<p>(2).<strong>Link With Standard Libraries:</strong> 设置为 <strong>NO</strong> 可能是为了避免重复链接<br>(3).<strong>Mach-O Type:</strong> 设为 <strong>Static Library</strong> framework可以是动态库也可以是静态库，对于系统的framework是动态库，而用户制作的framework只能是静态库。<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw3.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>然后将需要公开的头文件从_Project中拖入 <strong>Public</strong>，至于是否需要将私有的头文件拖入 <strong>Private</strong>，我觉得直接放在Project中即可，若是Private中有头文件，打包以后的framework中会多出一个Private的文件夹包含着放入Private的头文件，不过我觉得如果是私有最好还是不要让别人看到。 这里为了给大家演示则将Utils这个工具类放入Private。<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw4.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>为了对一些特殊机型的支持，添加 <strong>armv7s</strong> 架构，当然不添加也没什么问题，只有5和5c使用了此架构。<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw5.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>注意,注意,注意 重要的事说三遍… 以下 (4)、(5) 很重要 很重要 很重要</p>
+<blockquote>
+<p>Bitcode是苹果在Xcode7及以后推出的新功能。用于代码的二次编译，针对CPU进行优化，编译工作由苹果AppStore后台来完成。<br>针对iOS是可选项，默认打开。watchOS 和 tvOS 是必选项</p>
+</blockquote>
+<p>(4).<strong>Build Active Architecture only:</strong> 设置为 <strong>NO</strong> ,设为YES，导致其编译时只生成当前机器的框架，将其设置为NO后，发现用模拟器编译后生成的framework同时包含x86_64和i386架构。<br>(5).所以需要打开库工程的此选项并加上 <strong>-fembed-bitcode</strong> 参数<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw6.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>到此全部设置完毕开始编译 !!!<br>编译成功 查看编译后的framework库<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw7.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>打开终端查看模拟器的framework 与 真机的 framework 支持的架构</p>
+<blockquote>
+<p><strong>查看真机环境的framework:</strong> lipo -info lipo -info /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphoneos/TalentC.framework/TalentC<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw8.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br><strong>查看模拟器的framework:</strong> lipo -info /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphonesimulator/TalentC.framework/TalentC<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw9.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+</blockquote>
+<h2 id="制作通用库"><a href="#制作通用库" class="headerlink" title="制作通用库"></a>制作通用库</h2><p>终端执行</p>
+<blockquote>
+<p>lipo -create /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphoneos/TalentC.framework/TalentC /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphonesimulator/TalentC.framework/TalentC -output /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/All/TalentC<br> <img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw10.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+</blockquote>
+<p> 将<strong>…Products/All/TalentC</strong> 的 <strong>TalentC</strong> 文件替换 <strong>…/Products/Debug-iphoneos/TalentC.framework/TalentC</strong> 中的 <strong>TalentC</strong> 文件, 至此通用的framework就制作完毕了, 底部有工程下载地址;</p>
+<p>实际结果均以最终打包结果为准,此framework经过实际打包app是完全可以通过的!!!</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>架构:</strong> 对于模拟器来说4s和5的模架构是i386的32位架构，5s至今是x86_64的64位架构。对于真机来说3GS~4s是armv7架构，5和5c是armv7s架构，5s至今是arm64架构</p>
+<p><strong>静态库:</strong> 链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝</p>
+<p><strong>动态库:</strong> 链接时不会拷贝至可执行文件中，运行时动态加载进内存，供程序调用，只加载一次，多个程序可以共用</p>
+<p>本次演示<a href="https://github.com/chuliangliang/TalentCFrameworkDemo" target="_blank" rel="external">Demo</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

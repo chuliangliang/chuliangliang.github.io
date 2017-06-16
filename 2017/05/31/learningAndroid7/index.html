@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--android基础(七) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Android Studio,android," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言端午节后,第一天上班,我们也来学一点新知识吧,Android中的四大组件之二 ———  Broadcast Receiver(广播)。Broadcast Receiver 也就是 “广播接收者” 的意思，顾名思义，它就是用来接收来自系统和应用中的广播。在Android系统中，广播体现在方方面面，例如当开机完成后系统会产生一条广播，接收到这条广播就能实现开机启">
+<meta name="keywords" content="Android Studio,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--android基础(七)">
+<meta property="og:url" content="http://yoursite.com/2017/05/31/learningAndroid7/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言端午节后,第一天上班,我们也来学一点新知识吧,Android中的四大组件之二 ———  Broadcast Receiver(广播)。Broadcast Receiver 也就是 “广播接收者” 的意思，顾名思义，它就是用来接收来自系统和应用中的广播。在Android系统中，广播体现在方方面面，例如当开机完成后系统会产生一条广播，接收到这条广播就能实现开机启">
+<meta property="og:updated_time" content="2017-05-31T08:41:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--android基础(七)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言端午节后,第一天上班,我们也来学一点新知识吧,Android中的四大组件之二 ———  Broadcast Receiver(广播)。Broadcast Receiver 也就是 “广播接收者” 的意思，顾名思义，它就是用来接收来自系统和应用中的广播。在Android系统中，广播体现在方方面面，例如当开机完成后系统会产生一条广播，接收到这条广播就能实现开机启">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android中有哪些广播"><span class="toc-text">Android中有哪些广播?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监听系统广播"><span class="toc-text">监听系统广播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义广播的发送与监听"><span class="toc-text">自定义广播的发送与监听</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地广播机制"><span class="toc-text">本地广播机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningAndroid7" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--android基础(七)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.31</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>端午节后,第一天上班,我们也来学一点新知识吧,<code>Android</code>中的四大组件之二 ———  <strong>Broadcast Receiver(广播)</strong>。<br><strong>Broadcast Receiver</strong> 也就是 <strong>“广播接收者”</strong> 的意思，顾名思义，它就是用来接收来自系统和应用中的广播。在<code>Android</code>系统中，广播体现在方方面面，例如当开机完成后系统会产生一条广播，接收到这条广播就能实现开机启动服务的功能；当网络状态改变时系统会产生一条广播，接收到这条广播就能及时地做出提示和保存数据等操作；当电池电量改变时，系统会产生一条广播，接收到这条广播就能在电量低时告知用户及时保存进度，等等。<code>Android</code>中的广播机制设计的非常出色，很多事情原本需要开发者亲自操作的，现在只需等待广播告知自己就可以了，大大减少了开发的工作量和开发周期。而作为应用开发者，就需要数练掌握<code>Android</code>系统提供的一个开发利器，那就是 <strong>Broadcast Receiver</strong>。</p>
+<h2 id="Android中有哪些广播"><a href="#Android中有哪些广播" class="headerlink" title="Android中有哪些广播?"></a><code>Android</code>中有哪些广播?</h2><p>在<code>Android</code>中，广播可以分为两大类：<strong>标准广播(Normal broadcasts)</strong> 和 <strong>有序广播(Ordered broadcasts)</strong>。</p>
+<p><strong>标准广播:</strong> 一种异步执行的广播，在广播发出后所有的接收者几乎是同一时间接收到广播。这种广播效率很高，但是没有先后顺序所以一位置不能被截断。<br><strong>有序广播:</strong> 一种同步执行的广播，在广播发出后优先级最高的广播接收器可以接收到这条广播，当这个广播接收器中的逻辑执行完成以后，广播才会继续传递。因此如果在优先级高的广播接收器中截断了正在传递的广播，那么后面的广播接收器就无法接收到这条广播。</p>
+<p><strong>接收广播的基本步骤:</strong></p>
+<blockquote>
+<p>我们可以接收自定义的广播，也可以接收系统的广播。系统会发出很多广播，例如开机启动完成，电量过低等都会发出广播，但是想接收这些广播需要声明权限。</p>
+</blockquote>
+<h2 id="监听系统广播"><a href="#监听系统广播" class="headerlink" title="监听系统广播"></a>监听系统广播</h2><p><code>Android</code>内置了很多系统级别的广播,我们可以在应用程序中监听这些广播获得系统的状态信息,如监听系统网络状态变化等。</p>
+<p><code>Android</code>中注册监听有两种方式: <strong>动态注册监听</strong> 和 <strong>静态注册监听</strong>。</p>
+<p><strong>动态注册监听:</strong> 在代码中进行注册后，当应用程序关闭后，就不再进行监听。<br><strong>静态注册监听:</strong> 在 <strong>AndroidManifest.xml</strong> 文件中注册。不管改应用程序是否处于活动状态，都会进行监听，比如某个程序时监听内存 的使用情况的，当在手机上安装好后，不管改应用程序是处于什么状态，都会执行改监听方法中的内容。</p>
+<p><strong>监听系统广播之 —— 动态注册监听</strong><br>刚才我们提到如果程序需要使用用户比较敏感的操作,就必须在配置文件中声明权限才可以,否则程序直接崩溃掉。<br>因为我们需要监控设备的网络状态变化,所以我们需要在配置文件中添加权限。如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.broadcasttest.chuliangliang.broadcasttest"</span>&gt;</div><div class="line">    //声明权限</div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>自定义一个类 <strong>NetworkChangeReveiver</strong> 继承自 <strong>BroadcastReceiver</strong>,重写 <code>onReceive()</code>方法,并添加自己的代码逻辑,收到广播时,就会调用 <code>onReceive()</code>方法。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetworkChangeReveiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">            ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);</div><div class="line">            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();</div><div class="line">            Log.d(<span class="string">"NetworkStateBroadcast"</span>, <span class="string">"onReceive: "</span> + networkInfo);</div><div class="line">            <span class="keyword">if</span> (networkInfo != <span class="keyword">null</span> &amp;&amp; networkInfo.isAvailable())</div><div class="line">            &#123;</div><div class="line">                Toast.makeText(context, <span class="string">"网络已连接"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;<span class="keyword">else</span>  &#123;</div><div class="line">                Toast.makeText(context, <span class="string">"网络断开连接"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>广播监听类创建完毕,我们开始注册广播监听,修改 <strong>MainActivity</strong> 代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> NetworkChangeReveiver networkStateBroadcast;</div><div class="line">    <span class="keyword">private</span> IntentFilter intentFilter;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        <span class="comment">//初始化广播监听类, 并向系统注册监听</span></div><div class="line">        intentFilter = <span class="keyword">new</span> IntentFilter();</div><div class="line">        intentFilter.addAction(<span class="string">"android.net.conn.CONNECTIVITY_CHANGE"</span>);</div><div class="line">        networkStateBroadcast = <span class="keyword">new</span> NetworkChangeReveiver();</div><div class="line">        registerReceiver(networkStateBroadcast,intentFilter);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//在活动销毁时 解除监听</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        <span class="comment">//解除监听</span></div><div class="line">        unregisterReceiver(networkStateBroadcast);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上述代码中,初始换广播监听类,向系统中注册监听,并指定监听的类型为网络状态变化,到网络状态发生改变时就会调用 <strong>NetworkChangeReveiver</strong> 的 <code>onReceive()</code>方法,我们就可以在这个方法中做一些事情。最后要记得动态注册的广播接收器一定要取消注册,这里我们在活动的<code>onDestroy()</code>方法中取消注册。</p>
+<p>动态注册广播接收器可以很自由的控制注册与注销,使用起来非常灵活,但是存在一个缺点,必须在程序启动之后才可以接收到广播,因为注册广播接收器的逻辑写在<code>onCreate()</code>方法中。而静态注册广播接收器则可以在程序未启动的情况下接收到广播。</p>
+<p><strong>监听系统广播之 —— 静态注册监听</strong><br>我们这次来监听一条开机广播,从而实现开机启动的功能。我们可以使用<code>Android Studio</code>提供的快捷方式来创建一个广播接收器,在 <strong>包名的文件夹下(存放java源码的文件夹)右键 –&gt; New –&gt; Other –&gt; Broadcast Receiver</strong>,就会弹出一个对话框,我们可以输入将要创建的广播类名 <strong>BootCompleteReceiver</strong>, 在输入类名的下方有两个复选框, 第一个复选框 <strong>Exported</strong> 表示是否允许这个广播接收器接收本程序之外的广播,第二个复选框 <strong>Enabled</strong> 表示是否启用这个广播接收器,我们这里将两个都选中,点击 <strong>finish</strong> 完成创建。<br>打开新创建的广播接收器,代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BootCompleteReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"Boot complete"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这与我刚才手动创建的广播接收器类的代码完全一致,下一步我们需要在配置文件中注册这个广播接收器,我们打开 <strong>AndroidManifest.xml</strong>,注册广播接收器,由于我们是使用快捷方式创建,所以系统会自动帮我们处理了,代码如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.broadcasttest.chuliangliang.broadcasttest"</span>&gt;</div><div class="line">    //声明权限</div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.RECEIVE_BOOT_COMPLETED"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        //静态注册广播接收器</div><div class="line">        <span class="tag">&lt;<span class="name">receiver</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".BootCompleteReceiver"</span></div><div class="line">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">              //指定这个广播接收器 接收的广播类型</div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.BOOT_COMPLETED"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们修改上面的代码,设置广播接收器接收的广播类型为 <strong>android.intent.action.BOOT_COMPLETED</strong>。同样,也需要我们声明权限 <strong>android.permission.RECEIVE_BOOT_COMPLETED</strong>。<br>运行程序后,将手机或者模拟器关闭,重新开机,我们的程序就会监听到系统开机的广播并弹出提示。</p>
+<h2 id="自定义广播的发送与监听"><a href="#自定义广播的发送与监听" class="headerlink" title="自定义广播的发送与监听"></a>自定义广播的发送与监听</h2><p>前面我们说过广播分为两种: <strong>标准广播</strong> 和 <strong>有序广播</strong>。现在我们就分别来看一下如何实现。</p>
+<p><strong>自定义广播之 —— 标准广播</strong><br>我们在 <strong>MainActivity</strong> 中添加一个按钮,点击这个按钮,发送一条广播,在广播中我们可以携带参数,然后在广播接收器中通过 <strong>Toast</strong> 提示给用户。</p>
+<p>1)定义广播接收器与上面的方式相同,我们取名 <strong>MyBroadcastReceiver</strong>, 创建步骤就不再重复了,代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcastReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"MyBroadcastReceiver 接收到广播"</span> + intent.getStringExtra(<span class="string">"data_key"</span>), Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>2)修改 <strong>AndroidManifest.xml</strong> 文件注册广播接收器, 代码如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.broadcasttest.chuliangliang.broadcasttest"</span>&gt;</div><div class="line">    //声明权限</div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.RECEIVE_BOOT_COMPLETED"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        //静态注册广播接收器</div><div class="line">        <span class="tag">&lt;<span class="name">receiver</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".BootCompleteReceiver"</span></div><div class="line">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">              //指定这个广播接收器 接收的广播类型</div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.BOOT_COMPLETED"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></div><div class="line">        //注册自定义广播的 接收器 并制定广播名字 com.buuuu.MYBROADCAST</div><div class="line">        <span class="tag">&lt;<span class="name">receiver</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".MyBroadcastReceiver"</span></div><div class="line">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.buuuu.MYBROADCAST"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>上面两个步骤都是我们之前介绍过的, 我们通过上面步骤完成了广播接收器的定义及注册,下面就让我们来看看,如何发放广播?</p>
+<p>3)发送广播,修改按钮点击事件,在点击事件中发送一条广播。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        Button button = (Button)findViewById(R.id.button_1);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                <span class="comment">//点击按钮发送广播</span></div><div class="line">                Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">                intent.setAction(<span class="string">"com.buuuu.MYBROADCAST"</span>);</div><div class="line">                intent.putExtra(<span class="string">"data_key"</span>,<span class="string">"我是广播数据"</span>);</div><div class="line">                sendBroadcast(intent);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序,点击按钮,会在屏幕上弹出一句文字提示,同时会将广播中传递的字符串显示出来,这就是<code>Android</code>中标准广播的发送与接收。</p>
+<p><strong>自定义广播之 —— 有序广播</strong><br>我们只需要将上述代码中的 <strong>sendBroadcast(intent);</strong> 修改为 <strong>sendOrderBroadcast(intent,null);</strong> 即可,<strong>sendOrderBroadcast()</strong> 方法需要传两个参数,第一个参数仍然是<code>Intent</code>,第二个参数是一个与权限相关的字符串,这里使用null即可。</p>
+<p>我们再创建一个广播接收器 <strong>MyBroadcastReceiver02</strong>,为了省事我们将 <strong>MyBroadcastReceiver</strong> 复制一份,修改名字为 <strong>MyBroadcastReceiver02</strong>。 那么问题来了,如何指定两个广播接收器的接收顺序?我们可以通过设置广播接收器的优先级来指定广播接收器的接收顺序;设置广告接收器优先级使用如下方式:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.broadcasttest.chuliangliang.broadcasttest"</span>&gt;</div><div class="line">    //声明权限</div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.RECEIVE_BOOT_COMPLETED"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        //静态注册广播接收器</div><div class="line">        <span class="tag">&lt;<span class="name">receiver</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".BootCompleteReceiver"</span></div><div class="line">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">              //指定这个广播接收器 接收的广播类型</div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.BOOT_COMPLETED"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></div><div class="line">        //注册自定义广播的 接收器 并制定广播名字 com.buuuu.MYBROADCAST</div><div class="line">        <span class="tag">&lt;<span class="name">receiver</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".MyBroadcastReceiver"</span></div><div class="line">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">"200"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.buuuu.MYBROADCAST"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></div><div class="line">        // 注册自定义广播的 接收器002 并制定广播名字 com.buuuu.MYBROADCAST</div><div class="line">        <span class="tag">&lt;<span class="name">receiver</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".MyBroadcastReceiver002"</span></div><div class="line">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">"100"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.buuuu.MYBROADCAST"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">receiver</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>通过 <strong>android:priority=”200”</strong> 为广播接收器设置优先级,优先级越高,越先监听到广播消息。运行程序,我们可以看到 <strong>MyBroadcastReceiver</strong> 第一个接收到广播消息,之后 <strong>MyBroadcastReceiver002</strong> 接收到广播消息。我们也可以在 <strong>MyBroadcastReceiver</strong> 监听到广播消息后手动中断广播不再继续传播,修改 <strong>MyBroadcastReceiver</strong> 中的代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBroadcastReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">        Toast.makeText(context, <span class="string">"MyBroadcastReceiver 接收到广播"</span> + intent.getStringExtra(<span class="string">"data_key"</span>), Toast.LENGTH_SHORT).show();</div><div class="line">        abortBroadcast(); <span class="comment">//中断广播传递</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们在 <strong>MyBroadcastReceiver</strong> 广播接收器<code>onReceive()</code>方法中接收到广播消息后处理消息并调用<code>abortBroadcast()</code>方法中断广播消息接续传递,也就是 <strong>MyBroadcastReceiver</strong> 可以收到广播 <strong>MyBroadcastReceiver002</strong> 则不能收到广播消息了。<br>运行程序,测试一下,点击按钮发送广播消息, <strong>MyBroadcastReceiver</strong> 可以监听到而 <strong>MyBroadcastReceiver002</strong> 则不能收到消息。</p>
+<h2 id="本地广播机制"><a href="#本地广播机制" class="headerlink" title="本地广播机制"></a>本地广播机制</h2><p>前面我们发送的广播都是属于系统全局广播,即发出的广播可以被其他程序监听到,并且我们也可以接收来自其他程序的广播,这样就很容易引起安全性的问题,例如我们发送的广播中带有一些很重要的数据被其他程序监听到,或者其他程序不停向我们的程序发送垃圾广播等。<br>为了能有效避免这个问题,<code>Android</code>中引入了一套本地广播机制,使用这种机制的广播只能在程序内部进行传递,并只能接受来自程序内部的广播。</p>
+<p>本地广播的使用很简单,主要使用了 <strong>LocalBroadcastManager</strong> 来对广播进行管理,并提供了发送广播和注册广播接收器的方法。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.broadcasttest.chuliangliang.broadcasttest;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Intent;</div><div class="line"><span class="keyword">import</span> android.content.IntentFilter;</div><div class="line"><span class="keyword">import</span> android.support.v4.content.LocalBroadcastManager;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.Button;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main2Activity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> IntentFilter intentFilter;</div><div class="line">    <span class="keyword">private</span> MyReceiver myReceiver;</div><div class="line">    <span class="keyword">private</span> LocalBroadcastManager localBroadcastManager;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main2);</div><div class="line">        <span class="comment">//获取  LocalBroadcastManager 实例</span></div><div class="line">        localBroadcastManager = LocalBroadcastManager.getInstance(<span class="keyword">this</span>);</div><div class="line">        intentFilter = <span class="keyword">new</span> IntentFilter();</div><div class="line">        intentFilter.addAction(<span class="string">"com.custom.MYBROADCAST"</span>);</div><div class="line">        myReceiver = <span class="keyword">new</span> MyReceiver();</div><div class="line">        <span class="comment">//注册本地 通知</span></div><div class="line">        localBroadcastManager.registerReceiver(myReceiver,intentFilter);</div><div class="line">        <span class="comment">//按钮事件</span></div><div class="line">        Button button = (Button)findViewById(R.id.button_2);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">                intent.setAction(<span class="string">"com.custom.MYBROADCAST"</span>);</div><div class="line">                intent.putExtra(<span class="string">"data_key"</span>,<span class="string">"我是广播数据2"</span>);</div><div class="line">                <span class="comment">//发送本地广播</span></div><div class="line">                localBroadcastManager.sendBroadcast(intent);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        <span class="comment">//注销本地广播</span></div><div class="line">        localBroadcastManager.unregisterReceiver(myReceiver);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过代码可以看出,本地广播与之前介绍的系统全局广播的使用上都是一样的,唯一的区别就是使用 <strong>LocalBroadcastManager</strong> 去注册/发送/注销。</p>
+<p><strong>注意:</strong> 本地广播是无法通过静态注册的方式来接收的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>今天的内容相对来说比较少,也很好理解,学习过<code>iOS</code>的小伙伴一定会发现,<code>Android</code>中的广播与<code>iOS</code>中的通知非常相似。广播接收器是<code>Android</code>中四大组件之一,在不知不觉中我们已经掌握了四大组件中的两个了。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

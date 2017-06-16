@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--Java基础(四) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="android,Java," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言今天是学习Java的第四天,每天抽出一点时间学习知识,有时也会感觉很累,但过后会觉得很充实,在学习新知识的同时也会对老知识进行巩固,总之坚持下来,就会有或多或少的收获;今天的学习目标是,Java中对象的生命周期、内存管理、Java中常见的设计模式。 Java中对象的生命周期1. 创建阶段(Created)  为对象分配存储空间; 开始构造对象; 从父类到子类">
+<meta name="keywords" content="android,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--Java基础(四)">
+<meta property="og:url" content="http://yoursite.com/2017/05/10/learningJava4/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言今天是学习Java的第四天,每天抽出一点时间学习知识,有时也会感觉很累,但过后会觉得很充实,在学习新知识的同时也会对老知识进行巩固,总之坚持下来,就会有或多或少的收获;今天的学习目标是,Java中对象的生命周期、内存管理、Java中常见的设计模式。 Java中对象的生命周期1. 创建阶段(Created)  为对象分配存储空间; 开始构造对象; 从父类到子类">
+<meta property="og:updated_time" content="2017-05-12T09:01:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--Java基础(四)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言今天是学习Java的第四天,每天抽出一点时间学习知识,有时也会感觉很累,但过后会觉得很充实,在学习新知识的同时也会对老知识进行巩固,总之坚持下来,就会有或多或少的收获;今天的学习目标是,Java中对象的生命周期、内存管理、Java中常见的设计模式。 Java中对象的生命周期1. 创建阶段(Created)  为对象分配存储空间; 开始构造对象; 从父类到子类">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中对象的生命周期"><span class="toc-text">Java中对象的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的内存管理"><span class="toc-text">Java中的内存管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中常见的设计模式"><span class="toc-text">Java中常见的设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningJava4" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--Java基础(四)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.10</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天是学习<code>Java</code>的第四天,每天抽出一点时间学习知识,有时也会感觉很累,但过后会觉得很充实,在学习新知识的同时也会对老知识进行巩固,总之坚持下来,就会有或多或少的收获;今天的学习目标是,<code>Java</code>中对象的生命周期、内存管理、<code>Java</code>中常见的设计模式。</p>
+<h2 id="Java中对象的生命周期"><a href="#Java中对象的生命周期" class="headerlink" title="Java中对象的生命周期"></a>Java中对象的生命周期</h2><p><strong>1. 创建阶段(Created)</strong></p>
+<ul>
+<li>为对象分配存储空间;</li>
+<li>开始构造对象;</li>
+<li>从父类到子类对static成员进行初始化;</li>
+<li>父类成员变量按照顺序初始化，递归调用父类的构造方法;</li>
+<li>子类成员变量按照顺序初始化，子类构造方法调用;</li>
+<li>一旦对象被创建，并有某个引用指向它，这个对象的状态就切换到了应用阶段(In Use);</li>
+</ul>
+<p><strong>2. 应用阶段(In Use)</strong><br>对象至少被一个强引用持有并且对象在作用域内。</p>
+<p><strong>3. 不可见阶段(Invisible)</strong><br>程序本身不再持有该对象的任何强引用，但是这些引用可能还存在着；一般具体是指程序的执行已经超过该对象的作用域了。</p>
+<p><strong>4. 不可达阶段(Unreachable)</strong><br>该对象不再被任何强引用所持有；可能仍被<code>JVM</code>等系统下的某些已经装载的惊天变量或者线程或<code>JNI</code>所持有，这些特殊的强引用被称为<code>GC root</code>,这种情况容易导致内存泄露，无法被回收。</p>
+<p><strong>5. 收集阶段(Collected)</strong><br>对象不可达，并且GC已经准备好对该对象占用的内存空间重新分配的时候，处于手机阶段。<br>如果重写了<code>finazlie()</code>方法，则会去执行该方法。尽量不要重写<code>finazlie()</code>方法，因为有可能影响<code>JVM</code>的对象分配与回收速度或者可能造成该对象的再次复活。</p>
+<p><strong>6. 终结阶段</strong><br>当对象执行完<code>finalize()</code>方法之后，仍然处于不可达状态时，则该对象进入终结阶段。在这个阶段，内存空间等待GC进行回收。</p>
+<p><strong>7. 对象空间的重新分配</strong><br>GC对该对象占有的内存空间进行回收或者再分配，该对象彻底消失。</p>
+<h2 id="Java中的内存管理"><a href="#Java中的内存管理" class="headerlink" title="Java中的内存管理"></a>Java中的内存管理</h2><p><strong>1.java是如何管理内存的?</strong><br> Java的内存管理就是对象的分配和释放问题。（两部分）<br><strong>分配:</strong> 内存的分配是由程序完成的，程序员需要通过关键字 <strong>new</strong> 为每个对象申请内存空间 (基本类型除外)，所有的对象都在堆 (Heap)中分配空间。<br><strong>释放:</strong> 对象的释放是由垃圾回收机制决定和执行的，这样做确实简化了程序员的工作。但同时，它也加重了<code>JVM</code>的工作。因为，<code>GC</code>为了能够正确释放对象，<code>GC</code>必须监控每一个对象的运行状态，包括对象的申请、引用、被引用、赋值等，<code>GC</code>都需要进行监控。</p>
+<p><strong>2.什么叫java的内存泄露?</strong><br>在<code>Java</code>中，内存泄漏就是存在一些被分配的对象，这些对象有下面两个特点，首先，这些对象是可达的，即在有向图中，存在通路可以与其相连（也就是说仍存在该内存对象的引用）；其次，这些对象是无用的，即程序以后不会再使用这些对象。如果对象满足这两个条件，这些对象就可以判定为<code>Java</code>中的内存泄漏，这些对象不会被<code>GC</code>所回收，然而它却占用内存。</p>
+<p><strong>3.<code>JVM</code>的内存区域组成:</strong><br><code>Java</code>把内存分两种：一种是 <strong>栈内存</strong>，另一种是 <strong>堆内存</strong></p>
+<ul>
+<li>在函数中定义的基本类型变量和对象的引用变量都在函数的栈内存中分配；</li>
+<li>堆内存用来存放由 <strong>new</strong> 创建的对象和数组以及对象的实例变量 在函数（代码块）中定义一个变量时，<code>Java</code>就在栈中为这个变量分配内存空间，当超过变量的作用域后，<code>Java</code>会自动释放掉为该变量所分配的内存空间；在堆中分配的内存由 <strong>Java虚拟机</strong> 的自动垃圾回收器来管理。</li>
+</ul>
+<p><strong>堆和栈的优缺点:</strong><br>堆的优势是可以动态分配内存大小，生存期也不必事先告诉编译器，因为它是在运行时动态分配内存的。<br>缺点就是要在运行时动态分配内存，存取速度较慢； 栈的优势是，存取速度比堆要快，仅次于直接位于<code>CPU</code>中的寄存器。另外，栈数据可以共享。但缺点是，存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。</p>
+<p>更深层次的<code>Java</code>内存管理这里就不介绍了,感兴趣的可以参考下面的文章<br><a href="http://www.importnew.com/21463.html" target="_blank" rel="external">Java 内存管理详解</a></p>
+<h2 id="Java中常见的设计模式"><a href="#Java中常见的设计模式" class="headerlink" title="Java中常见的设计模式"></a>Java中常见的设计模式</h2><p><strong>设计模式(Design Patterns)</strong>,设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性。 毫无疑问，设计模式于己于他人于系统都是多赢的，设计模式使代码编制真正工程化，设计模式是软件工程的基石，如同大厦的一块块砖石一样。项目中合理的运用设计模式可以完美的解决很多问题，每种模式在现在中都有相应的原理来与之对应，每一个模式描述了一个在我们周围不断重复发生的问题，以及该问题的核心解决方案，这也是它能被广泛应用的原因。</p>
+<p><strong>设计模式的分类</strong><br>总体来说设计模式分为三大类：</p>
+<p><strong>创建型模式，共五种:</strong> 工厂方法模式、抽象工厂模式、单例模式、建造者模式、原型模式。</p>
+<p><strong>结构型模式，共七种</strong> 适配器模式、装饰器模式、代理模式、外观模式、桥接模式、组合模式、享元模式。</p>
+<p><strong>行为型模式，共十一种</strong> 策略模式、模板方法模式、观察者模式、迭代子模式、责任链模式、命令模式、备忘录模式、状态模式、访问者模式、中介者模式、解释器模式。</p>
+<p><strong>还有两类:</strong> 并发型模式和线程池模式。</p>
+<p><strong>下面我们简单看一下几个常用的设计模式</strong><br><strong>1.单例模式</strong><br>该模式主要目的是使内存中保持1个对象。<br>代码示例:</p>
+<blockquote>
+<p>方案一<br>public class Singleton<br>{<br>    //将自身的实例对象设置为一个属性,并加上Static和final修饰符<br>    private static final Singleton instance = new Singleton();<br>    private Singleton()<br>    {<br>        //将构造方法设置成私有形式<br>    }<br>    public static Singleton getInstance() {<br>        //通过一个静态方法向外界提供这个类的实例<br>        return instance;<br>    }<br>}<br>方案二<br>public class Singleton<br>{<br>    private  static Singleton instance = null;<br>    public static synchronized Singleton getInstance()<br>    {<br>        if (instance == null){<br>            instance = new Singleton();<br>        }<br>        return instance;<br>    }<br>}</p>
+</blockquote>
+<p>以上两种方案都可以实现単例,个人比较喜欢第一种。</p>
+<p><strong>2.工厂模式</strong><br>该模式主要功能是统一提供实例对象的引用。<br>代码示例:</p>
+<blockquote>
+<p>Apple手机通过工厂模式生产,同时ApplePhone实现接口 Phone<br>//接口类 Phone<br>public interface Phone {<br>    public String getPhoneMode();<br>}<br>//苹果手机类 ApplePhone 实现接口 Phone<br>public class ApplePhone implements Phone {<br>    private String phone_Mode;<br>    public ApplePhone()<br>    {<br>        phone_Mode = “我是 iphone 系统 iOS 10.0”;<br>    }<br>    public String getPhoneMode ()<br>    {<br>        return phone_Mode;<br>    }<br>}<br>//工厂类 Factory 负责创建 苹果手机 以后可以创建安卓手机等<br>public class Factory<br>{<br>    public ApplePhone getApplePhone()<br>    {<br>        ApplePhone aPhone = new ApplePhone();<br>        return aPhone;<br>    }<br>}<br>//测试使用代码<br>Factory f = new Factory();                              //初始化工厂<br>String phoneMode = f.getApplePhone().getPhoneMode();    //生产苹果手机并获取手机型号<br>System.out.print(“工厂模式创建的apple 型号:” + phoneMode); //输出生产的手机型号信息<br>输出结果:<br>工厂模式创建的apple 型号:我是 iphone 系统 iOS 10.0</p>
+</blockquote>
+<p>这个是最简单的例子了。</p>
+<p><strong>4.观察者模式</strong><br>观察者模式又称为订阅—发布模式，在此模式中，一个目标对象管理所有相依于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。<br>代码示例:</p>
+<blockquote>
+<p>观察者代码示例<br>public class Watcher  implements  java.util.Observer<br>{<br>    public void update(java.util.Observable obj, Object arg){<br>        System.out.println(“观察者接收消息, count is “ + ((Integer) arg).intValue());<br>    }<br>}<br>//被观察的代码示例<br>public class BeingWatched extends java.util.Observable<br>{<br>    public void counter(int period) {<br>    for(; period&gt;=0; period– ) {<br>        setChanged();<br>        notifyObservers(new Integer(period));<br>        try {<br>            Thread.sleep(100);<br>        } catch( InterruptedException e) {<br>            System.out.println(“Sleep interrupeted” );<br>        }<br>      }<br>    }<br>}<br>//测试代码<br>BeingWatched beingWatched = new BeingWatched();//受查者<br>Watcher watcher = new Watcher();//观察者<br>beingWatched.addObserver(watcher);<br>beingWatched.counter(10);<br>输出结果:<br>观察者接收消息, count is 10<br>观察者接收消息, count is 9<br>观察者接收消息, count is 8<br>观察者接收消息, count is 7<br>观察者接收消息, count is 6<br>观察者接收消息, count is 5<br>观察者接收消息, count is 4<br>观察者接收消息, count is 3<br>观察者接收消息, count is 2<br>观察者接收消息, count is 1<br>观察者接收消息, count is 0</p>
+</blockquote>
+<p>关于<code>Java</code>中的设计模式这里就介绍这三个吧,如果大家兴趣可以查一查资料。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>昨天忙了一天,被临时分配了一个任务,很简单的任务,只是用一个Activity实现一个简单的的UI页面,一个初级的安卓工程师也就半天就可以搞定的界面;而作为一个安卓开发初学者的我,居然搞了一天,不过还是很有收获的,在这之前完完全全没有接触过安卓,就连安卓系统都是没怎么接触过,昨天整个人都要发疯了,中途也想过要放弃了(毕竟我是帮忙的),不过我最后还是坚持下来了完成了开发工作,自己感觉到很有成就感;也希望大家在遇到挫折时能坚持住,不管生活还是工作只要坚持就会成功。最后还是要感谢我媳妇对我鼓励,哈哈~~~ 总体来说我的<code>Java</code>基础学习基本告一段落了,比预期的要早一周的时间;明天开始进入第二阶段:了解<code>Android</code>系统及<code>Android studio</code> 开发环境。</p>
+<p>最后允许我吐槽一下, 由于之前我做iOS开发公司配备的Mac book pro 使我成为了公司最有逼格的<code>Android</code>开发工程师,同时也是最痛苦的工程师,笔记本的磁盘居然120GB的,每次运行 <strong>Android studio</strong> 都需要清一下缓存。蛋疼的清缓存之路开启了….吐槽完毕。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

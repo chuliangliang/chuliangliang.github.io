@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS GCD(Grand Central Dispatch)的使用(三) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,GCD,多线程," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言很抱歉,最近比较忙更新的有点晚了;前几篇文章我们介绍了GCD的概念、理论基础及基础使用,我们这篇文章主要介绍一下 dispatch_suspend (队列挂起)、 dispatch_resume (队列恢复)、 dispatch_barrier(栅栏) 的使用。 suspend/resume suspend: 通过 dispatch_suspend() 函数">
+<meta name="keywords" content="iOS,GCD,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS GCD(Grand Central Dispatch)的使用(三)">
+<meta property="og:url" content="http://yoursite.com/2017/05/02/iOS-GCD-Grand-Central-Dispatch-3/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言很抱歉,最近比较忙更新的有点晚了;前几篇文章我们介绍了GCD的概念、理论基础及基础使用,我们这篇文章主要介绍一下 dispatch_suspend (队列挂起)、 dispatch_resume (队列恢复)、 dispatch_barrier(栅栏) 的使用。 suspend/resume suspend: 通过 dispatch_suspend() 函数">
+<meta property="og:updated_time" content="2017-05-02T06:13:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS GCD(Grand Central Dispatch)的使用(三)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言很抱歉,最近比较忙更新的有点晚了;前几篇文章我们介绍了GCD的概念、理论基础及基础使用,我们这篇文章主要介绍一下 dispatch_suspend (队列挂起)、 dispatch_resume (队列恢复)、 dispatch_barrier(栅栏) 的使用。 suspend/resume suspend: 通过 dispatch_suspend() 函数">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#suspend-resume"><span class="toc-text">suspend/resume</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dispatch-barrier"><span class="toc-text">dispatch_barrier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-iOS-GCD-Grand-Central-Dispatch-3" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">iOS GCD(Grand Central Dispatch)的使用(三)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很抱歉,最近比较忙更新的有点晚了;前几篇文章我们介绍了GCD的概念、理论基础及基础使用,我们这篇文章主要介绍一下 <code>dispatch_suspend</code> (队列挂起)、 <code>dispatch_resume</code> (队列恢复)、 <code>dispatch_barrier</code>(栅栏) 的使用。</p>
+<h2 id="suspend-resume"><a href="#suspend-resume" class="headerlink" title="suspend/resume"></a>suspend/resume</h2><ul>
+<li><strong>suspend:</strong> 通过 <code>dispatch_suspend()</code> 函数实现队列的”挂起”,使队列暂停工作。但是这里的“挂起”，并不能立即停止队列上正在运行的block;</li>
+<li><strong>resume:</strong>  <code>dispatch_resume()</code> 函数恢复队列,是队列继续工作。</li>
+</ul>
+<p>注意: <strong>dispatch_suspend</strong> 与 <strong>dispatch_resume</strong> 要成对出现。</p>
+<p>原因:</p>
+<blockquote>
+<p>我们可以使用dispatch_suspend函数暂停一个queue以阻止它执行block对象;使用dispatch_resume函数继续dispatch queue。调用dispatch_suspend会增加queue的引用计数,调用dispatch_resume则减少queue的引用计数。当计数大于0时，队列仍然被挂起，因此必须平衡每个dispatch_suspend调用与匹配的dispatch_resume调用。<br>摘自:<a href="https://developer.apple.com/reference/dispatch/1452801-dispatch_suspend" target="_blank" rel="external">Apple 开发者文档</a></p>
+</blockquote>
+<p>现在我们来实现一个小功能:一个异步串行队列,向其中添加5任务,延迟7秒暂停这个队列,然后再延迟5秒回复队列.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//队列挂起/恢复</span></div><div class="line"> <span class="built_in">dispatch_queue_t</span> talentQueue = dispatch_queue_create(<span class="string">"talentQueue.test"</span>, DISPATCH_QUEUE_SERIAL);</div><div class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">     <span class="built_in">dispatch_async</span>(talentQueue, ^&#123;</div><div class="line">         <span class="built_in">NSString</span> *taskString = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"任务%d"</span>,i];</div><div class="line">         <span class="built_in">NSLog</span>(<span class="string">@"%@开始执行 是否主线程:%@"</span>,taskString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">         sleep(<span class="number">3</span>);</div><div class="line">         <span class="built_in">NSLog</span>(<span class="string">@"%@执行完毕 是否主线程:%@"</span>,taskString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">     &#125;);</div><div class="line"> &#125;</div><div class="line"> <span class="built_in">NSLog</span>(<span class="string">@"任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line"> dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">7</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</div><div class="line">     <span class="built_in">NSLog</span>(<span class="string">@"队列延迟7秒挂起 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">     dispatch_suspend(talentQueue);     </div><div class="line">     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">5</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</div><div class="line">         <span class="built_in">NSLog</span>(<span class="string">@"队列挂起后延迟5秒恢复 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">         dispatch_resume(talentQueue);</div><div class="line">     &#125;);</div><div class="line"> &#125;);</div></pre></td></tr></table></figure>
+<p>输出结果:</p>
+<blockquote>
+<p>2017-05-02 10:46:59.639 GCD-Test[77894:5941123] 任务添加完毕 是否主线程:YES<br>2017-05-02 10:46:59.639 GCD-Test[77894:5941325] 任务0开始执行 是否主线程:NO<br>2017-05-02 10:47:02.643 GCD-Test[77894:5941325] 任务0执行完毕 是否主线程:NO<br>2017-05-02 10:47:02.644 GCD-Test[77894:5941325] 任务1开始执行 是否主线程:NO<br>2017-05-02 10:47:05.644 GCD-Test[77894:5941325] 任务1执行完毕 是否主线程:NO<br>2017-05-02 10:47:05.644 GCD-Test[77894:5941325] 任务2开始执行 是否主线程:NO<br>2017-05-02 10:47:06.640 GCD-Test[77894:5941123] 队列延迟7秒挂起 是否主线程:YES<br>2017-05-02 10:47:08.649 GCD-Test[77894:5941325] 任务2执行完毕 是否主线程:NO<br>2017-05-02 10:47:11.640 GCD-Test[77894:5941123] 队列挂起后延迟5秒恢复 是否主线程:YES<br>2017-05-02 10:47:11.652 GCD-Test[77894:5941325] 任务3开始执行 是否主线程:NO<br>2017-05-02 10:47:14.664 GCD-Test[77894:5941325] 任务3执行完毕 是否主线程:NO<br>2017-05-02 10:47:14.664 GCD-Test[77894:5941325] 任务4开始执行 是否主线程:NO<br>2017-05-02 10:47:17.667 GCD-Test[77894:5941325] 任务4执行完毕 是否主线程:NO</p>
+</blockquote>
+<p>通过打印结果我们可以验证当调用 <code>dispatch_suspend(talentQueue)</code> “挂起”队列 <code>talentQueue</code> 后已经开始执行的任务不会挂起,而未开始的任务可以挂起。</p>
+<h2 id="dispatch-barrier"><a href="#dispatch-barrier" class="headerlink" title="dispatch_barrier"></a>dispatch_barrier</h2><p>官方解释:</p>
+<blockquote>
+<p>一个 <strong>dispatch barrier</strong> 允许在一个并发队列中创建一个同步点。当在并发队列中遇到一个 <strong>barrier</strong>, 他会延迟执行 <strong>barrier</strong> 的 <strong>block</strong> ,等待所有在 <strong>barrier</strong> 之前提交的 <strong>blocks</strong> 执行结束。 这时，<strong>barrier block</strong> 自己开始执行。 之后， 队列继续正常的执行操作。</p>
+<p>调用这个函数总是在 <strong>barrier block</strong> 被提交之后立即返回，不会等到 <strong>block</strong>被执行。当 <strong>barrier block</strong> 到并发队列的最前端，他不会立即执行。相反，队列会等到所有当前正在执行的 <strong>blocks</strong>结束执行。到这时，<strong>barrier</strong> 才开始自己执行。所有在 <strong>barrier block</strong> 之后提交的 <strong>blocks</strong> 会等到 <strong>barrier block</strong> 结束之后才执行。</p>
+<p>这里指定的并发队列应该是自己通过 <strong>dispatch_queue_create</strong> 函数创建的。如果你传的是一个串行队列或者全局并发队列，这个函数等同于dispatch_async函数。<br>摘自:<a href="https://developer.apple.com/reference/dispatch#//apple_ref/c/func/dispatch_barrier_async" target="_blank" rel="external">Apple 开发者文档</a></p>
+</blockquote>
+<p>相关API:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//同步</span></div><div class="line"><span class="keyword">void</span> dispatch_barrier_sync(<span class="built_in">dispatch_queue_t</span> queue, DISPATCH_NOESCAPE dispatch_block_t block);</div><div class="line"><span class="keyword">void</span> dispatch_barrier_sync_f(<span class="built_in">dispatch_queue_t</span> queue,<span class="keyword">void</span> *_Nullable context,dispatch_function_t work);</div><div class="line"><span class="comment">//异步</span></div><div class="line"><span class="keyword">void</span> dispatch_barrier_async(<span class="built_in">dispatch_queue_t</span> queue, dispatch_block_t block);</div><div class="line"><span class="keyword">void</span> dispatch_barrier_async_f(<span class="built_in">dispatch_queue_t</span> queue, <span class="keyword">void</span> *_Nullable context, dispatch_function_t work);</div></pre></td></tr></table></figure></p>
+<p><code>dispatch_barrier_sync</code> 与  <code>dispatch_barrier_async</code> 的区别<br><strong>相同点:</strong></p>
+<ul>
+<li>等待在它前面插入队列的任务先执行完。</li>
+<li>等待他们自己的任务执行完再执行后面的任务。<br><strong>不同点:</strong></li>
+<li>dispatch_barrier_sync将自己的任务插入到队列的时候，需要等待自己的任务结束之后才会继续插入被写在它后面的任务，然后执行它们。</li>
+<li>dispatch_barrier_async将自己的任务插入到队列之后，不会等待自己的任务结束，它会继续把后面的任务插入到队列，然后等待自己的任务结束后才执行后面任务。<br>代码示例:<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_queue_t</span> talentQueue_bar = dispatch_queue_create(<span class="string">"talentQueue.barrier.test"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i ++) &#123;</div><div class="line">    <span class="keyword">if</span> (i == <span class="number">2</span>) &#123;</div><div class="line">        dispatch_barrier_async(talentQueue_bar, ^&#123;</div><div class="line">            <span class="built_in">NSString</span> *taskString = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"任务%d barrier任务"</span>,i];</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@开始执行 是否主线程:%@"</span>,taskString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">            <span class="comment">//这里使用 GCD 的计时器代替 sleep(3) 可以更加明显的看出效果</span></div><div class="line">            __block <span class="keyword">int</span> count_t = <span class="number">0</span>;</div><div class="line">            <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_main_queue();</div><div class="line">            dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, <span class="number">0</span>, <span class="number">0</span>, queue);</div><div class="line">            dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">1.0</span> * <span class="built_in">NSEC_PER_SEC</span>));</div><div class="line">            uint64_t interval = (uint64_t)(<span class="number">0.5</span> * <span class="built_in">NSEC_PER_SEC</span>);</div><div class="line">            dispatch_source_set_timer(timer, start, interval, <span class="number">0</span>);</div><div class="line">            dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">                <span class="built_in">CGFloat</span> p = count_t/<span class="number">10.0</span>;</div><div class="line">                p = p&gt;<span class="number">1</span>?<span class="number">1</span>:p;</div><div class="line">                <span class="keyword">if</span> (p == <span class="number">1</span>) &#123;</div><div class="line">                    <span class="comment">//取消定时器</span></div><div class="line">                    dispatch_cancel(timer);</div><div class="line">                    <span class="built_in">NSLog</span>(<span class="string">@"%@执行完毕 是否主线程:%@"</span>,taskString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">                &#125;</div><div class="line">                count_t++;</div><div class="line">            &#125;);</div><div class="line">            <span class="comment">// 启动定时器</span></div><div class="line">            dispatch_resume(timer);</div><div class="line">        &#125;);</div><div class="line">    &#125;<span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">dispatch_async</span>(talentQueue_bar, ^&#123;</div><div class="line">            <span class="built_in">NSString</span> *taskString = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"任务%d"</span>,i];</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@开始执行 是否主线程:%@"</span>,taskString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">            sleep(<span class="number">3</span>);</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@执行完毕 是否主线程:%@"</span>,taskString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>结果打印:<br>2017-05-02 12:11:11.232 GCD-Test[80817:5993383] 任务添加完毕 是否主线程:YES<br>2017-05-02 12:11:11.232 GCD-Test[80817:5993420] 任务0开始执行 是否主线程:NO<br>2017-05-02 12:11:11.232 GCD-Test[80817:5993422] 任务1开始执行 是否主线程:NO<br>2017-05-02 12:11:14.233 GCD-Test[80817:5993420] 任务0执行完毕 是否主线程:NO<br>2017-05-02 12:11:14.237 GCD-Test[80817:5993422] 任务1执行完毕 是否主线程:NO<br>2017-05-02 12:11:14.237 GCD-Test[80817:5993422] 任务2 barrier任务开始执行 是否主线程:NO<br>2017-05-02 12:11:14.238 GCD-Test[80817:5993422] 任务3开始执行 是否主线程:NO<br>2017-05-02 12:11:14.238 GCD-Test[80817:5993420] 任务4开始执行 是否主线程:NO<br>2017-05-02 12:11:17.238 GCD-Test[80817:5993420] 任务4执行完毕 是否主线程:NO<br>2017-05-02 12:11:17.238 GCD-Test[80817:5993422] 任务3执行完毕 是否主线程:NO<br>2017-05-02 12:11:20.238 GCD-Test[80817:5993383] 任务2 barrier任务执行完毕 是否主线程:YES</p>
+<p>从打印结果可以看出来等待任务0 和 任务1 执行完毕后开始执行 <strong>barrier任务</strong> 。但是因为这里用但是<code>dispatch_barrier_async</code>是异步的,所以不会等待 <strong>barrier任务</strong> 执行完毕再开启下一个任务,如果希望<strong>barrier任务</strong> 执行完毕后再开始其他任务则使用<code>dispatch_barrier_sync</code>。</p>
+<p>barrier 相关API<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在指定的通道上设置屏障操作。</span></div><div class="line"><span class="keyword">void</span> dispatch_io_barrier(dispatch_io_t channel, dispatch_block_t barrier);</div><div class="line"><span class="keyword">void</span> dispatch_assert_queue_barrier(<span class="built_in">dispatch_queue_t</span> queue);</div><div class="line"><span class="comment">//下面是两个宏</span></div><div class="line">dispatch_assert_queue_barrier_debug(q) <span class="comment">//此宏实际上调用的是dispatch_assert_queue_barrier</span></div><div class="line">dispatch_compiler_barrier();</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们在使用<code>dispatch_suspend</code>和<code>dispatch_resume</code>要注意他们两个要成对出现以避免队列不执行,永远挂起的情况;在使用<code>dispatch_barrier</code>时要注意<code>dispatch_barrier</code>的函数特性注意加入队列的位置及时机。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

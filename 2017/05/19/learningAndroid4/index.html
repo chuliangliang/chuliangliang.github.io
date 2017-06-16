@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--android基础(四) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Android Studio,android," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言一个丰富的界面总是需要有很多个控件组成,控件的基本使用我们学会了,那么我们应该如何控制这些控件的显示位置呢?这就需要使用我们今天要学习的知识了—Android的UI布局。布局是一种可以放置很多种控件的容器,它可以按照一定的规律调整内部控件的位置,从而实现精美的界面。在Android中有很多种布局方式,我们今天主要学习 四种最基本的布局。 线性布局 Linea">
+<meta name="keywords" content="Android Studio,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--android基础(四)">
+<meta property="og:url" content="http://yoursite.com/2017/05/19/learningAndroid4/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言一个丰富的界面总是需要有很多个控件组成,控件的基本使用我们学会了,那么我们应该如何控制这些控件的显示位置呢?这就需要使用我们今天要学习的知识了—Android的UI布局。布局是一种可以放置很多种控件的容器,它可以按照一定的规律调整内部控件的位置,从而实现精美的界面。在Android中有很多种布局方式,我们今天主要学习 四种最基本的布局。 线性布局 Linea">
+<meta property="og:updated_time" content="2017-05-19T12:11:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--android基础(四)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言一个丰富的界面总是需要有很多个控件组成,控件的基本使用我们学会了,那么我们应该如何控制这些控件的显示位置呢?这就需要使用我们今天要学习的知识了—Android的UI布局。布局是一种可以放置很多种控件的容器,它可以按照一定的规律调整内部控件的位置,从而实现精美的界面。在Android中有很多种布局方式,我们今天主要学习 四种最基本的布局。 线性布局 Linea">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线性布局-LinearLayout"><span class="toc-text">线性布局 LinearLayout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相对布局-RelativeLayout"><span class="toc-text">相对布局 RelativeLayout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#帧布局-FramLayout"><span class="toc-text">帧布局 FramLayout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#百分比布局"><span class="toc-text">百分比布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningAndroid4" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--android基础(四)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一个丰富的界面总是需要有很多个控件组成,控件的基本使用我们学会了,那么我们应该如何控制这些控件的显示位置呢?这就需要使用我们今天要学习的知识了—<strong>Android的UI布局</strong>。布局是一种可以放置很多种控件的容器,它可以按照一定的规律调整内部控件的位置,从而实现精美的界面。在<code>Android</code>中有很多种布局方式,我们今天主要学习 <strong>四种最基本的布局</strong>。</p>
+<h2 id="线性布局-LinearLayout"><a href="#线性布局-LinearLayout" class="headerlink" title="线性布局 LinearLayout"></a>线性布局 <strong>LinearLayout</strong></h2><p><strong>LinearLayout</strong> 又称线性布局,是一种非常常用的布局方式,正如它名字那样,将它所包含的控件按照线性的方向依次排列。我们在之前的演示工程中都是用的线性布局。线性布局分为 <strong>水平方向和竖直方向</strong>。<br>我们创建一个工程演示一下,工程名字叫做 <strong>LayoutTest</strong>,默认的 <strong>Acitvity</strong> 名字为 <strong>HomeActivity</strong>, 对应的布局文件名为 <strong>activity_home.xml</strong>。<br>我们打开 <strong>activity_home.xml</strong> 文件,将所有内容清空,并写入如下内容<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  <span class="attr">android:id</span>=<span class="string">"@+id/home_root"</span>  <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span> =<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们来分析一个这个文件每行的含义,<br>第一行中<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</code>标准的 <strong>XML</strong> 文件格式头。第二行中的<code>&lt;LinearLayout&gt;</code>标签表示布局类型为线性布局,<code>android:layout_width=&quot;match_parent&quot;</code> 和<br><code>android:layout_height=&quot;match_parent&quot;</code>表示布局的区域宽高取值与屏幕宽高一致,可选值有三种: <strong>match_parent</strong> 、 <strong>fill_parent</strong> 和 <strong>wrap_content</strong>。其中 <strong>match_parent</strong> 与 <strong>fill_parent</strong> 意义相同,现在官方比较推荐我们使用 <strong>match_parent</strong>,<strong>match_parent</strong> 表示让当前控件的大小与父布局一样大小,也就是由父布局决定当前控件的大小。 <strong>wrap_content</strong> 表示让控件的大小刚好能够包含里面的内容,也就是当前控件的大小由其内容决定;所以上面的控件宽度与手机屏幕宽度一致,高度与内容高度一致。<code>android:orientation=&quot;vertical&quot;</code>表示这个布局的区域的线性方向为竖直方向,有两个值可选择 <strong>horizontal</strong> 和 <strong>vertical</strong>;<strong>horizontal</strong> 表示按照水平方向依次排列,也就是按照屏幕横向区域依次排列控件,<strong>vertical</strong> 表示按照在竖直方向上依次排列控件位置。</p>
+<p>接下来我们来看看控件是如何设置布局的<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span>  <span class="attr">android:id</span>=<span class="string">"@+id/home_root"</span>  <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span> =<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line">    //创建三个按钮 在竖直方向依次排列</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_v_l_1"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮1"</span></div><div class="line">        /&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_v_l_2"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮2"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_v_l_3"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮3"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>可以看出每个按钮都是与屏幕的宽度相同,高度与自身文字内容高度相同,这是竖直方向的线性布局,如果想在水平方向上使用线性布局将上述中 <strong>android:orientation=”vertical”</strong> 修改为 <strong>android:orientation=”horizontal”</strong> 即可。</p>
+<p><strong>LinearLayout线性布局的相关属性说明:</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th style="text-align:center">功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>android:orientation</td>
+<td style="text-align:center">布局方向：”vertical”垂直线性布局,”horizontal”水平线性布局</td>
+</tr>
+<tr>
+<td>android:id</td>
+<td style="text-align:center">为控件指定相应的ID</td>
+</tr>
+<tr>
+<td>android:text</td>
+<td style="text-align:center">指定控件当中显示的文字，需要注意的是，这里尽量使用strings.xml文件当中的字符</td>
+</tr>
+<tr>
+<td>android:grivity</td>
+<td style="text-align:center">指定控件的基本位置，比如说居中，居右等位置</td>
+</tr>
+<tr>
+<td>android:textSize</td>
+<td style="text-align:center">指定控件当中字体的大小</td>
+</tr>
+<tr>
+<td>android:background</td>
+<td style="text-align:center">指定该控件所使用的背景色,RGB命名法</td>
+</tr>
+<tr>
+<td>android:width</td>
+<td style="text-align:center">指定控件的宽度</td>
+</tr>
+<tr>
+<td>android:height</td>
+<td style="text-align:center">指定控件的高度</td>
+</tr>
+<tr>
+<td>android:padding</td>
+<td style="text-align:center">指定控件的内边距，也就是说控件当中的内容</td>
+</tr>
+<tr>
+<td>android:singleLine</td>
+<td style="text-align:center">如果设置为真的话，则将控件的内容在同一行当中进行显示</td>
+</tr>
+<tr>
+<td>android:layout_weight</td>
+<td style="text-align:center">默认值为0，layout_weight属性可以控制各个控件在布局中的相对大小,线性布局会根据该控件layout_weight值与其·    所处布局中所有控件layout_weight值之和的比值为该控件分配占用的区域。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意:</strong><br>如果 <strong>LinearLayout</strong> 线性布局方向为 <strong>horizontal(水平)</strong>,内部空间的宽度决不能使用 <strong>match_parent</strong> 否则会导致一个控件独自占用整个屏幕的宽度,其他控件没有区域显示了。同理 <strong>vertical</strong> 时,高度也决不能使用 <strong>match_parent</strong>。</p>
+<p>如果 <strong>LinearLayout</strong> 线性布局方向为 <strong>horizontal(水平)</strong> 内部控件的 <strong>android:grivity</strong> 只有竖直方向的对齐方式才有效果,同理 <strong>vertical</strong> 时,对齐方向只有水平方向的才有效果。</p>
+<h2 id="相对布局-RelativeLayout"><a href="#相对布局-RelativeLayout" class="headerlink" title="相对布局 RelativeLayout"></a>相对布局 <strong>RelativeLayout</strong></h2><p><strong>RelativeLayout(相对布局)</strong> 和 <strong>LinearLayout</strong> 的排列规则不同,<strong>RelativeLayout</strong> 显得更加随意一些,它可以通过相对定位的方式让控件出现在布局的任何位置。</p>
+<p>我们通过一个例子来看一下相对布局的基础用法<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">android:id</span>=<span class="string">"@+id/rela_root"</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line">    //内部子控件</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_r_1"</span></div><div class="line">        <span class="attr">android:layout_centerInParent</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮1"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_r_2"</span></div><div class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮2"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_r_3"</span></div><div class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮3"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_r_4"</span></div><div class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentBottom</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮4"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_r_5"</span></div><div class="line">        <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentBottom</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮5"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>布局文件的格式除了 <code>&lt;RelativeLayout&gt;</code> 标签与线性布局的标签不一样其余的格式完全一样,当然内部的子控件布局属性也会不一样,上述运行效果是,屏幕中心位置有一个按钮,屏幕四个角落有一个按钮,一共五个按钮。</p>
+<p><strong>RelativeLayout相对布局的相关属性说明:</strong><br>1、相对于兄弟元素:</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th style="text-align:center">功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>android:layout_above=”@id/xxx”</td>
+<td style="text-align:center">在指定View的上方</td>
+</tr>
+<tr>
+<td>android:layout_below=”@id/aaa”</td>
+<td style="text-align:center">在指定View的下方</td>
+</tr>
+<tr>
+<td>android:layout_toLeftOf=”@id/bbb”</td>
+<td style="text-align:center">在指定View的左边</td>
+</tr>
+<tr>
+<td>android:layout_toRightOf=”@id/cccc”</td>
+<td style="text-align:center">在指定View的右边</td>
+</tr>
+</tbody>
+</table>
+<p>2、相对于父元素:</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th style="text-align:center">功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>android:layout_alignParentLeft=”true”</td>
+<td style="text-align:center">在父元素内左边</td>
+</tr>
+<tr>
+<td>android:layout_alignParentRight=”true”</td>
+<td style="text-align:center">在父元素内右边</td>
+</tr>
+<tr>
+<td>android:layout_alignParentTop=”true”</td>
+<td style="text-align:center">在父元素内顶部</td>
+</tr>
+<tr>
+<td>android:layout_alignParentBottom=”true”</td>
+<td style="text-align:center">在父元素内底部</td>
+</tr>
+<tr>
+<td>android:layout_alignWithParentIfMissing</td>
+<td style="text-align:center">如果对应的兄弟元素找不到的话就以父元素做参照物</td>
+</tr>
+</tbody>
+</table>
+<p>3、对齐方式:</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th style="text-align:center">功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>android:layout_centerInParent=”true”</td>
+<td style="text-align:center">居中布局</td>
+</tr>
+<tr>
+<td>android:layout_centerVertical=”true”</td>
+<td style="text-align:center">水平居中布局</td>
+</tr>
+<tr>
+<td>android:layout_centerHorizontal=”true”</td>
+<td style="text-align:center">垂直居中布局</td>
+</tr>
+<tr>
+<td>android:layout_alignTop=”@id/xxx”</td>
+<td style="text-align:center">与指定View的上边界一致</td>
+</tr>
+<tr>
+<td>android:layout_alignBottom=”@id/xxx”</td>
+<td style="text-align:center">与指定View下边界一致</td>
+</tr>
+<tr>
+<td>android:layout_alignLeft=”@id/xxx”</td>
+<td style="text-align:center">与指定View的左边界一致</td>
+</tr>
+<tr>
+<td>android:layout_alignRight=”@id/xxx”</td>
+<td style="text-align:center">与指定View的右边界一致</td>
+</tr>
+</tbody>
+</table>
+<p>4、间隔:</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th style="text-align:center">功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>android:layout_marginBottom=””</td>
+<td style="text-align:center">离某元素底边缘的距离, 单位dp</td>
+</tr>
+<tr>
+<td>android:layout_marginLeft=””</td>
+<td style="text-align:center">离某元素左边缘的距离, 单位dp</td>
+</tr>
+<tr>
+<td>android:layout_marginRight =””</td>
+<td style="text-align:center">离某元素右边缘的距离, 单位dp</td>
+</tr>
+<tr>
+<td>android:layout_marginTop=””</td>
+<td style="text-align:center">离某元素上边缘的距离, 单位dp</td>
+</tr>
+</tbody>
+</table>
+<p><strong>margin 与padding 区别</strong><br><strong>padding</strong> 是站在 <strong>父View</strong> 的角度，是自己的内容与其父控件的边之间的距离。<strong>margin</strong> 则是站在自己的角度描述问题，自己与旁边的某个组件的距离，如果同一级只有一个 <strong>View</strong> ，那么它的效果基本上就和 <strong>padding</strong> 一样了。</p>
+<h2 id="帧布局-FramLayout"><a href="#帧布局-FramLayout" class="headerlink" title="帧布局 FramLayout"></a>帧布局 <strong>FramLayout</strong></h2><p><strong>FramLayout</strong> 相对于前面两种布局方式就简单太多了,这个布局直接在屏幕上开辟出一块空白的区域,当我们往里面添加控件的时候,会默认把他们放到这块区域的左上角,而这种布局方式却没有任何的定位方式,所以它应用的场景并不多,帧布局的大小由控件中最大的子控件决定,如果控件的大小一样大的话,那么同一时刻就只能看到最上面的那个组件!后续添加的控件会覆盖前一个!虽然默认会将控件放置在左上角,但是我们也可以通过<code>layout_gravity</code>属性,指定到其他的位置!<br>代码示例:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">FrameLayout</span> <span class="attr">android:id</span>=<span class="string">"@+id/frame_root"</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line">    //创建三个子控件</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/buttom_frame_1"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮1"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/buttom_frame_2"</span></div><div class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"100dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮2"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/buttom_frame_3"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"center_horizontal"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮3"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这种布局方式只能使用一些基本的布局属性控制布局位置,如 <strong>android:layout_gravity</strong> 、<strong>layout_marginTop</strong> 等。</p>
+<h2 id="百分比布局"><a href="#百分比布局" class="headerlink" title="百分比布局"></a>百分比布局</h2><p>前面的三种布局在 <strong>Android 1.0</strong> 版本中就开始支持了,一直沿用至今,不过对于 <strong>layout_weight</strong> 属性只有线性布局(<strong>LinearLayout</strong>)才会有,其他两种布局方式都不支持;如果想实现两个按钮平分屏幕宽度,使用后两种布局方式很难实现,为此<code>Android</code>引入了全新的布局方式来解决这个问题——百分比布局。在这种布局方式下我们可以不使用 <strong>match_parent</strong> 和 <strong>wrap_content</strong> 等方式指定控件大小,而是允许直接指定控件在布局中所占的百分比,这样就是实现按百分比显示控件大小。<br>由于 <strong>LinearLayout</strong> 本身已经支持按比例指定控件大小了,因此百分比布局只为 <strong>FrameLayout</strong> 和 <strong>RelativeLayout</strong> 进行功能扩展, 提供了 <strong>PercentFrameLayout</strong> 和 <strong>PercentRelativeLayout</strong> 这两个全新布局,因为是新增的布局方式,<strong>Android团队</strong> 为了使低版本的<code>Android</code>也可使用这个布局方式,所以 <strong>Android团队</strong> 将这种布局方式定义在了 <strong>support</strong> 库中,我们只需要在项目的 <strong>build.gradle</strong> 中添加百分比布局的依赖,就能保证在<code>Androi</code>d的所有版本的兼容性了。<br>打开 <strong>app/build.gradle</strong> 找到 <strong>dependencies</strong> 修改如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    <span class="function">compile <span class="title">fileTree</span><span class="params">(dir: <span class="string">'libs'</span>, include: [<span class="string">'*.jar'</span>])</span></span></div><div class="line">    <span class="title">androidTestCompile</span><span class="params">(<span class="string">'com.android.support.test.espresso:espresso-core:2.2.2'</span>, &#123;</span></div><div class="line">        exclude group: <span class="string">'com.android.support'</span>, <span class="keyword">module</span>: <span class="string">'support-annotations'</span></div><div class="line">    &#125;)</div><div class="line">    compile 'com.android.support:appcompat-v7:25.3.1'</div><div class="line">    compile 'com.android.support.constraint:constraint-layout:1.0.2'</div><div class="line">    compile 'com.android.support:percent:24.2.1'</div><div class="line">    testCompile 'junit:junit:4.12'</div></pre></td></tr></table></figure></p>
+<p>上述代码片段中 <strong>compile ‘com.android.support:percent:24.2.1’</strong> 就是添加百分比布局的依赖,当我们添加完毕时,会在上方提示我们以下内容:</p>
+<blockquote>
+<p>Gradle files has changed since last protect sync, A project may be necessary for the IDE to work properly. <strong>Sync now</strong></p>
+</blockquote>
+<p>这里告诉我们自上次同步之后发生了变化,我们直接点击 <strong>Sync now</strong> 就可以了。然后 <strong>Gradle</strong> 就会进行同步,把我们新添加的百分比布局引入到工程当中。<br>代码示例: 四个按钮平分手机屏幕<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">android.support.percent.PercentFrameLayout</span> <span class="attr">android:id</span>=<span class="string">"@+id/per_f_root"</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line">    //创建子控件</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_pf_1"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮1"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"left|top"</span></div><div class="line">        <span class="attr">app:layout_widthPercent</span>=<span class="string">"50%"</span></div><div class="line">        <span class="attr">app:layout_heightPercent</span>=<span class="string">"50%"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_pf_2"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮2"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"right|top"</span></div><div class="line">        <span class="attr">app:layout_widthPercent</span>=<span class="string">"50%"</span></div><div class="line">        <span class="attr">app:layout_heightPercent</span>=<span class="string">"50%"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_pf_3"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮3"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"left|bottom"</span></div><div class="line">        <span class="attr">app:layout_widthPercent</span>=<span class="string">"50%"</span></div><div class="line">        <span class="attr">app:layout_heightPercent</span>=<span class="string">"50%"</span></div><div class="line">        /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_pf_4"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"按钮4"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"right|bottom"</span></div><div class="line">        <span class="attr">app:layout_widthPercent</span>=<span class="string">"50%"</span></div><div class="line">        <span class="attr">app:layout_heightPercent</span>=<span class="string">"50%"</span></div><div class="line">        /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">android.support.percent.PercentFrameLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>创建四个按钮平分整个手机屏幕,也就是每个按钮占据手机屏幕的四分一,由于 <strong>PercentFrameLayout</strong> 是后来导入的依赖库,所以这里使用 <code>app:layout_heightPercent</code> 等属性。百分比布局分为两种 <strong>PercentFrameLayout</strong> 和 <strong>PercentRelativeLayout</strong>,<strong>PercentFrameLayout</strong> 继承了 <strong>FrameLayout</strong> 的所有属性,<strong>PercentRelativeLayout</strong> 继承了 <strong>RelativeLayout</strong> 的所有属性。<strong>PercentRelativeLayout</strong> 与  <strong>PercentFrameLayout</strong> 用法类似这里就不过多演示,相信大家一定会举一反三的。</p>
+<p><strong>本分比布局相关属性说明:</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th style="text-align:center">功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>layout_widthPercent</td>
+<td style="text-align:center">宽度占有的百分比</td>
+</tr>
+<tr>
+<td>layout_heightPercent</td>
+<td style="text-align:center">高度占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginPercent</td>
+<td style="text-align:center">四周间距占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginLeftPercent</td>
+<td style="text-align:center">距离左侧占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginTopPercent</td>
+<td style="text-align:center">距离顶部占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginRightPercent</td>
+<td style="text-align:center">距离右侧占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginBottomPercent</td>
+<td style="text-align:center">距离底部占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginStartPercent</td>
+<td style="text-align:center">距离顶端开始占有的百分比</td>
+</tr>
+<tr>
+<td>layout_marginEndPercent</td>
+<td style="text-align:center">距离底部结束占有的百分比</td>
+</tr>
+</tbody>
+</table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过学习这篇文章,我们简单了解了<code>Android</code>中的UI布局方式,在使用百分比布局时一定要注意引入依赖的时候 <strong>compile ‘com.android.support:percent:24.2.1’</strong> 千万不能因为一时大意写成 <strong>compile ‘com.android.support.percent:24.2.1’</strong>, 我就是因为不小心将 “:percent:24.2.1”写成”.percent:24.2.1” 导致编译不过去,费了好半天才找到原因, 因为是 <strong>support</strong> 中的库,所以使用的时候要用<code>app:xxxx</code>,而使用<code>android:xxx</code> 是无法调用 <strong>support</strong> 中内容的。布局标签中可以嵌套另一布局标签的,也就是布局可以嵌套布局,又一周过去了,学习的时间总是很短暂,我们会在下一篇文章中学习如何自定义控件等。<br>本文中使用的<a href="https://github.com/chuliangliang/LayoutTest-android" target="_blank" rel="external">工程下载</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

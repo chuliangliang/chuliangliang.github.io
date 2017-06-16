@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--Java基础(二) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="android,Java," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言上一篇我们简单介绍了Java基本语法及语言特点,其实所有的编程语言都有很多相通之处,例如选择语句(if/else 、switch/case)等完全与c语言/c++/oc/php用法一致,所以过多的相通之处就不一一介绍了,也不用死记硬背这些语法,只要知道有这么个东西就可以,使用次数多了,自然就记住了,我们可以通查询Java手册了解更多Java语法。今天我们来了">
+<meta name="keywords" content="android,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--Java基础(二)">
+<meta property="og:url" content="http://yoursite.com/2017/05/05/learningJava2/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言上一篇我们简单介绍了Java基本语法及语言特点,其实所有的编程语言都有很多相通之处,例如选择语句(if/else 、switch/case)等完全与c语言/c++/oc/php用法一致,所以过多的相通之处就不一一介绍了,也不用死记硬背这些语法,只要知道有这么个东西就可以,使用次数多了,自然就记住了,我们可以通查询Java手册了解更多Java语法。今天我们来了">
+<meta property="og:updated_time" content="2017-05-08T03:22:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--Java基础(二)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言上一篇我们简单介绍了Java基本语法及语言特点,其实所有的编程语言都有很多相通之处,例如选择语句(if/else 、switch/case)等完全与c语言/c++/oc/php用法一致,所以过多的相通之处就不一一介绍了,也不用死记硬背这些语法,只要知道有这么个东西就可以,使用次数多了,自然就记住了,我们可以通查询Java手册了解更多Java语法。今天我们来了">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的字符串"><span class="toc-text">Java中的字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的数组"><span class="toc-text">Java中的数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningJava2" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--Java基础(二)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.05</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇我们简单介绍了<code>Java</code>基本语法及语言特点,其实所有的编程语言都有很多相通之处,例如选择语句(<code>if/else</code> 、<code>switch/case</code>)等完全与<code>c语言</code>/<code>c++</code>/<code>oc</code>/<code>php</code>用法一致,所以过多的相通之处就不一一介绍了,也不用死记硬背这些语法,只要知道有这么个东西就可以,使用次数多了,自然就记住了,我们可以通查询<a href="http://docs.oracle.com/javase/8/docs/api/" target="_blank" rel="external">Java手册</a>了解更多<code>Java</code>语法。今天我们来了解一下,<code>Java</code>中的<code>String</code> 、<code>array</code>等内置的引用型数据的使用及注意事项。</p>
+<h2 id="Java中的字符串"><a href="#Java中的字符串" class="headerlink" title="Java中的字符串"></a>Java中的字符串</h2><p>在<code>Java</code>中字符串使用<code>String</code>类,<code>String</code>是一个比较特殊的引用类型数据类型,它为什么特殊?特殊在哪里?我们在上一篇文章已经介绍了;它的特殊之处在于它可以像基本数据类型那样使用, 例如初始化可以使 String s = “talent”; 也可以是 String s = new String(“talent”);</p>
+<p>在<code>Java</code>中<code>String</code>是不可变字符串,创建之后不可以修改。如果想要创建可变字符串可以考虑使用<code>StringBuffer</code> 或 <code>StringBuilder</code>,我们通过以下几个问题来解释它们。</p>
+<p><strong>问题一、为什么<code>Java</code>中<code>String</code>类不可变?, 这样设计的优缺点?</strong><br>在<code>Java</code>API文档中我们可以看到<code>String</code>类的定义：</p>
+<blockquote>
+<p>public final class String extends Object implements Serializable, Comparable<string>, CharSequence</string></p>
+</blockquote>
+<p><code>String</code>类是一个<code>final</code>类，这代表一个<code>String</code>对象是不可改变的，<code>String</code>类的方法中我们也找不到任何能够改变字符串的值和长度的方法。这就是字符串的不可改变性。</p>
+<p><code>String</code>类中使用字符数组保存字符串,因为有<code>final</code>修饰符，所以可以知道<code>String</code>对象是不可变的。</p>
+<blockquote>
+<p>private final char value[]; //不可变 final 修饰符</p>
+</blockquote>
+<p>那么到这里很多人会比较疑惑当我们声明一个字符串变量<code>String s = &quot;abcdef&quot; s= s+&quot;talentC&quot;;</code> 这里明明是将字符串变量<code>s</code>的值修改成<code>abcdeftalentC</code>了,为什么说是没有改变呢? 其实这是一种欺骗，JVM是这样解析这段代码的：首先创建对象s，赋予一个”abcdef”，然后再创建一个新的对象s(值为”abcdeftalentC”)用来执行第二行代码，也就是说我们之前对象s并没有变化，所以我们说<code>String</code>类型是不可改变的对象了，由于这种机制，每当用String操作字符串时，实际上是在不断的创建新的对象，而原来的对象就会变为垃圾被<code>ＧＣ</code>回收掉，可想而知这样执行效率会有多慢。</p>
+<p>当我们进行连接字符串操作的时候，<code>Java</code>虚拟机没有改变其中任何一个字符串，而是创建了一个新的<code>String</code>对象，把连接后的结果赋予了它。<strong>Sun</strong> 将<code>String</code>设计成不可改变的，这是为了让<code>String</code>的行为最优化。因为<code>String</code>在多数应用中都被大量使用，所以它的优化是非常关键的。</p>
+<p><strong>优点:</strong> 只读性,多线程开发访问不会出现问题。<br><strong>缺点:</strong> 每个不同状态都需要一个对象来代表,可能会造成性能上的问题。<br><code>String</code>中的对象是不可变的，也就可以理解为常量，显然线程安全。</p>
+<p>那么我们想要创建可变字符串怎么办?接下来就该<code>StringBuffer</code>与<code>StringBuilder</code>出场了。</p>
+<p><strong>问题二、 <code>StringBuffer</code>是什么? <code>StringBuilder</code>是什么? 区别与联系?</strong><br><strong>StringBuffer:</strong>   字符串变量,线程安全。<br><strong>StringBuilder:</strong>  字符串变量,线程不安全。</p>
+<p><code>StringBuilder</code>与<code>StringBuffer</code>都继承自<code>AbstractStringBuilder</code>类( <strong>抽象类</strong> )，在<code>AbstractStringBuilder</code>中也是使用字符数组保存字符串;</p>
+<blockquote>
+<p>char[] value; //这就是它可变的根本原因</p>
+</blockquote>
+<p>抽象类与接口的其中一个区别是：抽象类中可以定义一些子类的公共方法，子类只需要增加新的功能，不需要重复写已经存在的方法；而接口中只是对方法的申明和常量的定义我们后面会详细讲所有与类有关的知识点。</p>
+<p><code>AbstractStringBuilder</code>类中规定了一些字符串基本操作,如 <strong>expandCapacity</strong> 、<strong>append</strong> 、<strong>insert</strong> 、 <strong>indexOf</strong> 等公共方法,通过查看其源码发现<code>StringBuffer</code>对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。</p>
+<blockquote>
+<p>public synchronized StringBuffer reverse() {<br>    super.reverse();<br>         return this;<br> }<br>public int indexOf(String str) {<br>   return indexOf(str, 0);        //存在 public synchronized int indexOf(String str, int fromIndex) 方法<br> }</p>
+</blockquote>
+<p><code>StringBuilder</code>并没有对方法进行加同步锁，所以是非线程安全的。如果程序不是多线程的，那么使用<code>StringBuilder</code>效率高于<code>StringBuffer</code>。通常我们在单一线程操作字符串,我们建议使用<code>StringBuilder</code>,原因就是它的执行速度快。</p>
+<p><code>Java</code>中字符串执行速度为: <code>StringBuilder</code> &gt; <code>StringBuffer</code> &gt; <code>String</code>;</p>
+<p><strong>Java中可以对字符串进行哪些操作?</strong></p>
+<p><code>StringBuffer</code> 与 <code>StringBuilder</code> 用法一样,我们这里使用<code>StringBuffer</code>演示<br><strong>(1)创建<code>StringBuffer</code>字符串</strong></p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“abc”);</p>
+</blockquote>
+<p>创建<code>StringBuffer</code>对象要通过构造器创建及StringBuffer(参数);</p>
+<p><code>StringBuffer</code>转<code>String</code>:</p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“abc”);<br>String str = s.toString(); //StringBuffer对象转 String对象</p>
+</blockquote>
+<p><code>String</code>转<code>StringBuffer</code>:</p>
+<blockquote>
+<p>String str = “abcd”;<br>StringBuffer s = new StringBuffer(str); //String对象转 StringBuffer对象</p>
+</blockquote>
+<p><strong>注意:</strong> <code>StringBuffer</code>与<code>String</code>转换不可以用过强制转换;</p>
+<p><strong>(2)<code>StringBuffer</code>字符串拼接使用append</strong></p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“abc”);<br>s.append(“123”);    //此时字符串s值为 “abc123”<br>String substr = “qq”;<br>s.append(qq);       //此时字符串s值为 “abc123qq”</p>
+</blockquote>
+<p>使用该方法进行字符串的连接，将比String更加节约内容,执行速度更加快速。</p>
+<p><strong>(3)<code>StringBuffer</code>字符串删除使用deleteCharAt 和 delete</strong><br>完整API:<br><strong>public StringBuffer deleteCharAt(int index)</strong><br>该方法的作用是删除指定位置的字符，然后将剩余的内容形成新的字符串</p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“TalentC”);<br>s. deleteCharAt(1);</p>
+</blockquote>
+<p>该代码的作用删除字符串对象s中索引值为1的字符，也就是删除第二个字符，剩余的内容组成一个新的字符串。所以对象s的值变为“TlentC”。</p>
+<p>还存在一个功能类似的delete方法：<br><strong>public StringBuffer delete(int start,int end)</strong><br>该方法的作用是删除指定区间以内的所有字符，包含start，不包含end索引值的区间</p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“TalentC”);<br>s. delete (1,4);</p>
+</blockquote>
+<p>该代码的作用是删除索引值1(包括)到索引值4(不包括)之间的所有字符，剩余的字符形成新的字符串。则对象s的值是”TntC”。</p>
+<p><strong>(4)<code>StringBuffer</code>字符串插入字符使用 insert</strong><br><strong>public StringBuffer insert(int offset, boolean b)</strong><br>该方法的作用是在StringBuffer对象中插入内容，然后形成新的字符串;</p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“TalentC”);<br>s.insert(4,false);</p>
+</blockquote>
+<p>该示例代码的作用是在对象s的索引值4的位置插入false值，形成新的字符串，则执行以后对象s的值是”TalefalsentC”。</p>
+<p><strong>(5)<code>StringBuffer</code>字符串反转使用 reverse</strong><br><strong>public StringBuffer reverse()</strong><br>该方法的作用是将StringBuffer对象中的内容反转，然后形成新的字符串</p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“TalentC”);<br>s.reverse();</p>
+</blockquote>
+<p>经过反转以后，对象s中的内容将变为”CtnelaT”。</p>
+<p><strong>(6)<code>StringBuffer</code>字符串替指定位置换字符使用 setCharAt</strong><br><strong>public void setCharAt(int index, char ch)</strong><br>该方法的作用是修改对象中索引值为index位置的字符为新的字符ch</p>
+<blockquote>
+<p>StringBuffer s = new StringBuffer(“TalentC”);<br>s.setCharAt(1,’D’);</p>
+</blockquote>
+<p>则对象s的值将变成”TDlentC”。</p>
+<p><strong>(7)<code>StringBuffer</code>对象的中存储空间缩小到和字符串长度一样的长度 trimToSize</strong><br><strong>public void trimToSize()</strong><br>该方法的作用是将StringBuffer对象的中存储空间缩小到和字符串长度一样的长度，减少空间的浪费。</p>
+<p><code>Java</code>中操作字符串的API还有很多就不一一介绍了;</p>
+<h2 id="Java中的数组"><a href="#Java中的数组" class="headerlink" title="Java中的数组"></a>Java中的数组</h2><p><strong>静态数组(不可变数组)</strong><br>静态数组(不可变数组),与c语言中的数组相同,</p>
+<blockquote>
+<p>int [] aArray = new int[10];<br>int [] bArray = new int[]{1,2,3};<br>或<br>int cArray[]  = new int[10];<br>int dArray[]  = new int[]{1,2,3};</p>
+</blockquote>
+<p>这是c语言常见数组声明方式,在Java中这种方式同样适用,一般我们推荐使用第一种方式,更能表明数据元素类型;静态数组的长度是固定的,一旦创建数组元素的个数就不可以随意增加或减少这就是静态数组的特点。</p>
+<p>静态数组中元素的修改/读取都与C语言等其他语言完全一致这里就不过多介绍了。</p>
+<p><strong>动态数组(可变数组)</strong><br>先介绍几个数据集合 Set、List、Map<br><strong>Set(集):</strong>     集合中的元素不按特定方式排序，并且没有重复对象。他的有些实现类能对集合中的对象按特定方式排序。<br><strong>List(列表):</strong>  集合中的元素按索引位置排序，可以有重复对象，允许按照对象在集合中的索引位置检索对象<br><strong>Map(映射):</strong>   map也叫做字典与OC中的dictionary(字典) 概念相同,集合中的每一个元素包含一对键对象和值对象，集合中没有重复的键对象，值对象可以重复。他的有些实现类能对集合中的键对象进行排序。</p>
+<p><strong>注意:</strong><br>  这三个数据集合,在很多计算机编程语言中的定义都一样,<strong>Map</strong> 在<code>objective-c</code>中叫做 <strong>字典</strong>,在<code>php</code>中叫做使用 <strong>key</strong> 作为下标数组,不管怎么改变叫法或者名称,他们的概念及用法都不变。</p>
+<p>我们再来了解Java中几个类:<code>ArrayList</code>  、<code>LinkedList</code> 、<code>List</code> 、<code>Collection</code></p>
+<p><strong>Collection:</strong> 该接口是 <strong>Set</strong> 和 <strong>List</strong> 的父接口，主要提供了下面的方法：</p>
+<ul>
+<li>public boolean add(Object?o)：往集合中添加新元素。添加成功，返回true，否则返回false。</li>
+<li>public Iterator iterator()：返回Iterator对象，这样就可以遍历集合中的所有元素了。</li>
+<li>public boolean contains(Object?o)：判断集合中是否包含指定的元素。</li>
+<li>public int size()：取得集合中元素的个数。</li>
+<li>public void clear()：删除集合中的所有元素。</li>
+</ul>
+<p><code>Collection</code>是最基本的集合接口，一个<code>Collection</code>代表一组 <strong>Object</strong> ，即<code>Collection</code>的元素（Elements）。一些<code>Collection</code>允许相同的元素而另一些不行。一些能排序而另一些不行。<strong>Java SDK</strong> 不提供直接继承自<code>Collection</code>的类，<strong>JavaSDK</strong> 提供的类都是继承自<code>Collection</code>的“子接口”如 <strong>List</strong> 和 <strong>Set</strong>。</p>
+<p>上面提到两个继承自<code>Collection</code>接口的接口类<code>List</code>和<code>Set</code></p>
+<p><strong>List集合</strong><br><code>List</code>继承自<code>Collection</code>接口。<code>List</code>是一种有序集合，<code>List</code>中的元素可以根据索引（顺序号：元素在集合中处于的位置信息）进行取得/删除/插入操作。<br>跟<code>Set</code>集合不同的是，<code>List</code>允许有重复元素。对于满足<code>e1.equals(e2)</code>条件的<code>e1</code>与<code>e2</code>对象元素，可以同时存在于<code>List</code>集合中。当然也有<code>List</code>的实现类不允许重复元素的存在。同时，<code>List</code>还提供一个<code>listIterator()</code>方法，返回一个<code>ListIterator</code>接口对象，和<code>Iterator</code>接口相比，<code>ListIterator</code>添加元素的添加，删除，和设定等方法，还能向前或向后遍历，会在后面详细讲解。<code>List</code>接口的实现类主要有<code>ArrayList</code>，<code>LinkedList</code>，<code>Vector</code>，<code>Stack</code>等。</p>
+<p><strong>ArrayList类</strong><br><code>ArrayList</code>实现了可变大小的数组。它允许所有元素，包括 <strong>null</strong>。<code>ArrayList</code>没有同步。<strong>size</strong>，<strong>isEmpty</strong>，<strong>get</strong>，<strong>set</strong> 方法运行时间为常数。但是 <strong>add</strong> 方法开销为分摊的常数，添加n个元素需要O(n)的时间。其他的方法运行时间为线性。<br>    每个<code>ArrayList</code>实例都有一个容量 <strong>（Capacity）</strong>，即用于存储元素的数组的大小。这个容量可随着不断添加新元素而自动增加，但是增长算法并没有定义。当需要插入大量元素时，在插入前可以调用 <strong>ensureCapacity</strong> 方法来增加<code>ArrayList</code>的容量以提高插入效率。</p>
+<p><strong>主要方法:</strong></p>
+<ul>
+<li>public boolean add(Object?o)：添加元素</li>
+<li>public void add(int index, Object element)：在指定位置添加元素</li>
+<li>public Iterator iterator()：取得Iterator对象便于遍历所有元素</li>
+<li>public Object get(int?index)：根据索引获取指定位置的元素</li>
+<li>public Object set(int index,Object element)：替换掉指定位置的元素<br><strong>排序方法:</strong></li>
+<li>Collections.sort(List list)：对List的元素进行自然排序</li>
+<li>Collections.sort(List list, Comparator comparator)：对List中的元素进行客户化排序</li>
+</ul>
+<blockquote>
+<p>//创建数组<br>ArrayList aArray = new ArrayList();<br>aArray.add(“我是第一个元素”);<br>System.out.print(“数组元素打印:” + aArray+”\n”);<br>aArray.add(0,”我是索引值0插入的元素”);<br>System.out.print(“数组元素打印:” + aArray+”\n”);<br>aArray.set(1,”我是指定索引值修改的元素内容”);<br>System.out.print(“数组元素打印:” + aArray+”\n”);<br>结果为:<br>数组元素打印:[我是第一个元素]<br>数组元素打印:[我是索引值0插入的元素, 我是第一个元素]<br>数组元素打印:[我是索引值0插入的元素, 我是指定索引值修改的元素内容]</p>
+</blockquote>
+<p><strong>数组的遍历:</strong><br>数组元素的遍历与C语言/OC数组遍历方式一样都是通过for循环去遍历</p>
+<blockquote>
+<p>ArrayList bArrray = new ArrayList(10);<br>for (int i =0 ; i&lt;10; i++){<br>  //循环向数组中填充数据<br>  String ys = “我是元素-“+i;<br>  bArrray.add(ys);<br>}<br>System.out.print(“数组元素打印:” + bArrray+”\n”); //打印数组数据,这里也可以将数组转成字符串进行打印<br>for (int j = 0; j&lt;bArrray.size();j++) {<br>  //循环遍历数组并输出元素<br>  System.out.print(“数组元素打印:index:”+j+”value:” + bArrray.get(j)+”\n”);<br>}</p>
+</blockquote>
+<p>关于ArrayList的其他使用是方法就不过多解释,直接参照API使用即可。</p>
+<p><strong>LinkedList类:</strong><br><code>LinkedList</code>实现了<code>List</code>接口，允许 <strong>null</strong> 元素。此外<code>LinkedList</code>提供额外的 <strong>get</strong>，<strong>remove</strong>，<strong>insert</strong> 方法在<code>LinkedList</code>的首部或尾部。这些操作使<code>LinkedList</code>可被用作 <strong>堆栈（stack），队列（queue）或双向队列（deque）</strong>。</p>
+<p><strong>注意:</strong><br><code>LinkedList</code>没有同步方法。如果多个线程同时访问一个<code>List</code>，则必须自己实现访问同步。一种解决方法是在创建<code>List</code>时构造一个同步的<code>List</code>：</p>
+<blockquote>
+<p>List list = Collections.synchronizedList(new LinkedList(…));</p>
+</blockquote>
+<p><strong>Set集合:</strong><br><code>Set</code>是最简单的集合，集合中的对象不按照特定的方式排序。主要有如下两个实现：<code>HashSet</code>和<code>TreeSet</code><br><code>HashSet</code>类按照哈希算法来存取集合中的对象，具有很好的存取性能。当<code>HashSet</code>向集合中加入一个对象时，会调用对象的<code>hashCode()</code>方法获取哈希码，然后根据这个哈希码进一步计算出对象在集合中的存放位置。</p>
+<p><code>TreeSet</code>实现了<code>SortedSet</code>接口，可以对集合中的元素排序。如何排序的内容请参考其他文档，这里不过多解释了。</p>
+<p><strong>Map</strong><br><code>Map</code>是一种把键对象和值对象进行映射的集合，它的每一个元素都包含一对键对象和值对象,与OC中的 <strong>字典(dictionary)</strong>、与 <strong>php</strong> 中的带有键值对的数组相通,它的存储方式与<code>Set</code>存储方式一致。</p>
+<ul>
+<li>向<code>Map</code>添加元素时，必须提供键对象和值对象。</li>
+<li>从<code>Map</code>中检索元素时，只要给出键对象，就可以返回对应的值对象。</li>
+<li>键对象不能重复，但值对象可以重复。</li>
+<li><code>Map</code>有两种常见的实现类：<code>HashMap</code>和<code>TreeMap</code>。</li>
+</ul>
+<p><strong>HashMap</strong><br><code>HashMap</code>按照哈希算法来存取键对象，有很好的存取性能。和<code>HashSet</code>一样，要求当两个键对象通过<code>equals()</code>方法比较为 <strong>true</strong> 时，这两个键对象的 <strong>hashCode()</strong> 方法返回的哈希码也一样。</p>
+<p><strong>TreeMap</strong><br><code>TreeMap</code>实现了<code>SortedMap</code>接口，能对键对象进行排序。同<code>TreeSet</code>一样，<code>TreeMap</code>也支持自然排序和客户化排序两种方式。</p>
+<p><strong>使用方法</strong></p>
+<ul>
+<li>public Object put(Object key, Object value)：插入元素</li>
+<li>public Object get(Object?key)：根据键对象获取值对象</li>
+<li>public Set keySet()：取得所有键对象集合</li>
+<li>public Collection values()：取得所有值对象集合</li>
+<li>public Set entrySet()：取得Map.Entry对象集合，一个Map.Entry代表一个Map中的元素</li>
+</ul>
+<p>这些使用方法都很简单,直接参照API就可以。</p>
+<p><strong>拓展:</strong><br>如果涉及到堆栈，队列等操作，应该考虑用 <strong>List</strong>，对于需要快速插入，删除元素，应该使用<code>LinkedList</code>，如果需要快速随机访问元素，应该使用<code>ArrayList</code>。尽量返回接口而非实际的类型，如返回<code>List</code>而非<code>ArrayList</code>，这样如果以后需要将<code>ArrayList</code>换成<code>LinkedList</code>时，客户端代码不用改变。这就是针对抽象编程。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章主要介绍了<code>Java</code>中对字符串的操作和一些常见的数据集合的介绍及原理分析,在日后的开发中可以根据不同的需求选在不同的实现方式已达到性能的最优;也充分验证了,计算机编程语言的共通性;学习是一件很枯燥的事情,只要坚持下来会有很多收获的。说实话,关于这篇文章中关于字符串的那部分,我也是学了两遍才完全弄明白其中的知识点,所以初学者们不要灰心,坚持住才会有收获。下一篇文章我会跟大家分享一下<code>Java</code>中如何创建<code>class</code>及相关知识。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

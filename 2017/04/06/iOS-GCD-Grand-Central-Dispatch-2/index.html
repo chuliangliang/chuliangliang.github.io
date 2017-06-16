@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS GCD(Grand Central Dispatch)的使用(二) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,GCD,多线程," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言上篇文章主要以一些理论知识为主,主要介绍了 GCD 相关概念及简单的API用法,本篇文章主要以实践操作为主,主要介绍 dispatch group 与 dispatch apply。 下面我们正式开始今天的任务。。。 Group的使用相关API介绍12345678910111213141516//创建groupdispatch_group_create();">
+<meta name="keywords" content="iOS,GCD,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS GCD(Grand Central Dispatch)的使用(二)">
+<meta property="og:url" content="http://yoursite.com/2017/04/06/iOS-GCD-Grand-Central-Dispatch-2/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言上篇文章主要以一些理论知识为主,主要介绍了 GCD 相关概念及简单的API用法,本篇文章主要以实践操作为主,主要介绍 dispatch group 与 dispatch apply。 下面我们正式开始今天的任务。。。 Group的使用相关API介绍12345678910111213141516//创建groupdispatch_group_create();">
+<meta property="og:updated_time" content="2017-05-18T03:12:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS GCD(Grand Central Dispatch)的使用(二)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言上篇文章主要以一些理论知识为主,主要介绍了 GCD 相关概念及简单的API用法,本篇文章主要以实践操作为主,主要介绍 dispatch group 与 dispatch apply。 下面我们正式开始今天的任务。。。 Group的使用相关API介绍12345678910111213141516//创建groupdispatch_group_create();">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Group的使用"><span class="toc-text">Group的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dispatch-Apply"><span class="toc-text">Dispatch Apply</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-iOS-GCD-Grand-Central-Dispatch-2" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">iOS GCD(Grand Central Dispatch)的使用(二)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.04.06</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上篇文章主要以一些理论知识为主,主要介绍了 <strong>GCD</strong> 相关概念及简单的API用法,本篇文章主要以实践操作为主,主要介绍 <strong>dispatch group</strong> 与 <strong>dispatch apply</strong>。</p>
+<p>下面我们正式开始今天的任务。。。</p>
+<h2 id="Group的使用"><a href="#Group的使用" class="headerlink" title="Group的使用"></a>Group的使用</h2><p>相关API介绍<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建group</span></div><div class="line">dispatch_group_create();</div><div class="line"><span class="comment">//异步调度分组</span></div><div class="line">dispatch_group_async(dispatch_group_t group,<span class="built_in">dispatch_queue_t</span> queue, dispatch_block_t block);</div><div class="line"><span class="comment">//异步调度分组另一种方式</span></div><div class="line">dispatch_group_async_f(dispatch_group_t group, <span class="built_in">dispatch_queue_t</span> queue,<span class="keyword">void</span> *_Nullable context,dispatch_function_t work);</div><div class="line"><span class="comment">//手动调度进组</span></div><div class="line">dispatch_group_enter(dispatch_group_t group);</div><div class="line"><span class="comment">//手动调度出组</span></div><div class="line">dispatch_group_leave(dispatch_group_t group);</div><div class="line"><span class="comment">//组等待 可借助其实现调度组同步执行</span></div><div class="line">dispatch_group_wait(dispatch_group_t group, dispatch_time_t timeout);</div><div class="line"><span class="comment">//异步调度组结果汇总</span></div><div class="line">dispatch_group_notify(dispatch_group_t group,<span class="built_in">dispatch_queue_t</span> queue, dispatch_block_t block);</div><div class="line"><span class="comment">//异步调度组结果汇总另一种方式</span></div><div class="line">dispatch_group_notify_f(dispatch_group_t group,<span class="built_in">dispatch_queue_t</span> queue,<span class="keyword">void</span> *_Nullable context,dispatch_function_t work);</div></pre></td></tr></table></figure></p>
+<p>以上API基本涵盖了 <strong>GCD Group</strong> 的所有函数,下面我们来用他们实现一些具体功能。<br><strong>1、分组执行一系列任务执行结果汇总输出</strong><br>例如并发执行任务1~任务5最后将五个任务的总结果输出<br><strong>实现方式一  自动调度组</strong><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 创建 并发队列talentQueue</div><div class="line"> 参数 "TalentC.dispatch.queue.test" 队列的标记 可自定义</div><div class="line"> 参数 DISPATCH_QUEUE_CONCURRENT并发队列 (同时可选则 DISPATCH_QUEUE_SERIAL 串行队列)</div><div class="line"> 返回 dispatch_queue_t 队列对象 dispatch_object</div><div class="line"> */</div><div class="line"><span class="built_in">dispatch_queue_t</span> talentQueue = dispatch_queue_create(<span class="string">"TalentC.dispatch.queue.test"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line"><span class="comment">//创建调度组</span></div><div class="line">dispatch_group_t talentGroup = dispatch_group_create();</div><div class="line"><span class="comment">//创建任务</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i ++) &#123;</div><div class="line">    dispatch_group_async(talentGroup, talentQueue, ^&#123;</div><div class="line">        sleep(<span class="number">3</span>);</div><div class="line">        <span class="built_in">NSString</span> *string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"任务%d"</span>,i];</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@ 是否主线程:%@"</span>,string,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//分组结果通知</span></div><div class="line">dispatch_group_notify(talentGroup, talentQueue, ^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"thread: %p 是否主线程?:%@ 任务全部执行完毕*********"</span>,[<span class="built_in">NSThread</span> currentThread],[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line"></div><div class="line">&#125;);</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"分组任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div></pre></td></tr></table></figure></p>
+<p>执行结果:</p>
+<blockquote>
+<p>2017-04-06 15:28:16.692 GCD-Test[17383:8092341] 分组任务添加完毕 是否主线程:YES<br>2017-04-06 15:28:19.698 GCD-Test[17383:8092364] 任务1 是否主线程:NO<br>2017-04-06 15:28:19.698 GCD-Test[17383:8092365] 任务2 是否主线程:NO<br>2017-04-06 15:28:19.699 GCD-Test[17383:8092358] 任务3 是否主线程:NO<br>2017-04-06 15:28:19.699 GCD-Test[17383:8092368] 任务4 是否主线程:NO<br>2017-04-06 15:28:19.699 GCD-Test[17383:8092369] 任务5 是否主线程:NO<br>2017-04-06 15:28:19.699 GCD-Test[17383:8092369] thread: 0x12ed21b50 是否主线程?:NO 任务全部执行完毕<strong><strong>*</strong></strong></p>
+</blockquote>
+<p><strong>注意:</strong> 这里的执行顺序不一定按照1~5执行因为 <strong>talentQueue</strong> 因为是并发线程如果为串行线程则会按照1~5的顺序进行。</p>
+<p><strong>实现方式二  手动调度组</strong><br>只需要将上述中的 <code>dispatch_group_async</code> 修改成 <code>dispatch_group_enter</code> + <code>dispatch_async</code> + <code>dispatch_group_leave</code> 的组合即可,代码如下<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    创建 并发队列talentQueue</div><div class="line">    参数 "TalentC.dispatch.queue.test" 队列的标记 可自定义</div><div class="line">    参数 DISPATCH_QUEUE_CONCURRENT 并发队列 (同时可选则 DISPATCH_QUEUE_SERIAL 串行队列)</div><div class="line">    返回 dispatch_queue_t 队列对象 dispatch_object</div><div class="line">    */</div><div class="line">   <span class="built_in">dispatch_queue_t</span> talentQueue = dispatch_queue_create(<span class="string">"TalentC.dispatch.queue.test"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line">   <span class="comment">//创建调度组</span></div><div class="line">   dispatch_group_t talentGroup = dispatch_group_create();</div><div class="line">   <span class="comment">//创建任务</span></div><div class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; i ++) &#123;</div><div class="line">       <span class="comment">//进组</span></div><div class="line">       dispatch_group_enter(talentGroup);</div><div class="line">       <span class="comment">//开启异步线程执行任务</span></div><div class="line">       <span class="built_in">dispatch_async</span>(talentQueue, ^&#123;</div><div class="line">           sleep(<span class="number">3</span>);</div><div class="line">           <span class="built_in">NSString</span> *string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"任务%d"</span>,i];</div><div class="line">           <span class="built_in">NSLog</span>(<span class="string">@"%@ 是否主线程:%@"</span>,string,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">           <span class="comment">//任务执行完毕出组</span></div><div class="line">           dispatch_group_leave(talentGroup);</div><div class="line">       &#125;);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="comment">//分组结果通知</span></div><div class="line">   dispatch_group_notify(talentGroup, talentQueue, ^&#123;</div><div class="line">       <span class="built_in">NSLog</span>(<span class="string">@"thread: %p 是否主线程?:%@ 任务全部执行完毕*********"</span>,[<span class="built_in">NSThread</span> currentThread],[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line"></div><div class="line">   &#125;);</div><div class="line">   <span class="built_in">NSLog</span>(<span class="string">@"分组任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div></pre></td></tr></table></figure></p>
+<p>运行结果:</p>
+<blockquote>
+<p>2017-04-06 15:38:26.260 GCD-Test[17391:8094544] 分组任务添加完毕 是否主线程:YES<br>2017-04-06 15:38:29.264 GCD-Test[17391:8094573] 任务1 是否主线程:NO<br>2017-04-06 15:38:29.264 GCD-Test[17391:8094577] 任务5 是否主线程:NO<br>2017-04-06 15:38:29.265 GCD-Test[17391:8094567] 任务2 是否主线程:NO<br>2017-04-06 15:38:29.266 GCD-Test[17391:8094572] 任务3 是否主线程:NO<br>2017-04-06 15:38:29.266 GCD-Test[17391:8094576] 任务4 是否主线程:NO<br>2017-04-06 15:38:29.266 GCD-Test[17391:8094576] thread: 0x13452ab30 是否主线程?:NO 任务全部执行完毕<strong><strong>*</strong></strong></p>
+</blockquote>
+<p><strong>dispatch_group_async_f 和 dispatch_group_notify_f 的用法</strong></p>
+<p>先定义几个 C 函数<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//任务1</span></div><div class="line"><span class="keyword">void</span> showStringForTask1 (<span class="keyword">void</span> *obj) &#123;</div><div class="line">    sleep(<span class="number">3</span>);</div><div class="line">    <span class="built_in">NSString</span> *objString = (__bridge <span class="built_in">NSString</span> *)obj;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"异步调度组任务1:%@ 是否主线程?:%@"</span>,objString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);    </div><div class="line">&#125;</div><div class="line"><span class="comment">//任务2</span></div><div class="line"><span class="keyword">void</span> showStringForTask2 (<span class="keyword">void</span> *obj) &#123;</div><div class="line">    sleep(<span class="number">3</span>);</div><div class="line">    <span class="built_in">NSString</span> *objString = (__bridge <span class="built_in">NSString</span> *)obj;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"异步调度组任务2:%@ 是否主线程?:%@"</span>,objString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);    </div><div class="line">&#125;</div><div class="line"><span class="comment">//任务3</span></div><div class="line"><span class="keyword">void</span> showStringForTask3 (<span class="keyword">void</span> *obj) &#123;</div><div class="line">    sleep(<span class="number">3</span>);</div><div class="line">    <span class="built_in">NSString</span> *objString = (__bridge <span class="built_in">NSString</span> *)obj;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"异步调度组任务3:%@ 是否主线程?:%@"</span>,objString,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);    </div><div class="line">&#125;</div><div class="line"><span class="comment">//全部任务结束回调</span></div><div class="line"><span class="keyword">void</span> allTaskNofify(<span class="keyword">void</span> *obj)</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"分组任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 创建 并发队列talentQueue</div><div class="line"> 参数 "TalentC.dispatch.queue.test" 队列的标记 可自定义</div><div class="line"> 参数 DISPATCH_QUEUE_CONCURRENT 并发队列 (同时可选则 DISPATCH_QUEUE_SERIAL 串行队列)</div><div class="line"> 返回 dispatch_queue_t 队列对象 dispatch_object</div><div class="line"> */</div><div class="line"><span class="built_in">dispatch_queue_t</span> talentQueue = dispatch_queue_create(<span class="string">"TalentC.dispatch.queue.test"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line"><span class="comment">//创建调度组</span></div><div class="line">dispatch_group_t talentGroup = dispatch_group_create();</div><div class="line"><span class="comment">/**</span></div><div class="line"> 创建任务1</div><div class="line">  @"我是参数" 参数可以使任意数据类型</div><div class="line"> showStringForTask1 任务函数 函数类型可以查看dispatch_function_t</div><div class="line"> */</div><div class="line">dispatch_group_async_f(talentGroup, talentQueue, <span class="string">@"我是参数"</span>, showStringForTask1);</div><div class="line"><span class="comment">//创建任务2</span></div><div class="line">dispatch_group_async_f(talentGroup, talentQueue, <span class="string">@"我是一只小蜜蜂哈哈哈"</span>, showStringForTask2);</div><div class="line"><span class="comment">//创建任务3</span></div><div class="line">dispatch_group_async_f(talentGroup, talentQueue, <span class="string">@"再来一个任务吧"</span>, showStringForTask3);</div><div class="line"><span class="comment">//组任务结果汇总</span></div><div class="line">dispatch_group_notify_f(talentGroup, talentQueue, <span class="literal">nil</span>, allTaskNofify);</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"分组任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div></pre></td></tr></table></figure>
+<p>执行结果:</p>
+<blockquote>
+<p>2017-04-06 16:04:50.116 GCD-Test[17428:8102843] 分组任务添加完毕 是否主线程:YES<br>2017-04-06 16:04:53.122 GCD-Test[17428:8102858] 异步调度组任务1:我是参数 是否主线程?:NO<br>2017-04-06 16:04:53.122 GCD-Test[17428:8102860] 异步调度组任务3:再来一个任务吧 是否主线程?:NO<br>2017-04-06 16:04:53.122 GCD-Test[17428:8102861] 异步调度组任务2:我是一只小蜜蜂哈哈哈 是否主线程?:NO<br>2017-04-06 16:04:53.123 GCD-Test[17428:8102861] 分组任务添加完毕 是否主线程:NO</p>
+</blockquote>
+<p><strong>2、等待群组任务完成disaptch_group_wait</strong><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> dispatch_group_wait(dispatch_group_t group, dispatch_time_t timeout);</div></pre></td></tr></table></figure></p>
+<p>同步等待事先提交到群组中的任务完成。在指定的超时期限过去之前，返回这些block是否完成。当发生超时时，这个群组将恢复到原来的状态。</p>
+<ul>
+<li>如果这个调度群组是空的（没有block与这个群组相关联），这个函数立即返回。<br>在这个函数成功返回之后，这个调度群组是空的。它既可以使用 <strong>dispatch_release</strong> 释放掉，也可以重新添加block。</li>
+<li>成功（在指定的超时期限内，所有与群组相关联的block完成）将返回零。失败（超时发生）返回非零。</li>
+<li>group，等待完成的调度群组。不可以为NULL。</li>
+<li>timeout，超时时间（参考dispatch_time）。常量 <strong>DISPATCH_TIME_NOW</strong> (立即)和 <strong>DISPATCH_TIME_FOREVER</strong> (无穷大)被提供使用很方便。<br>示例:<br>我们将上面代码稍作修改子后面添加<blockquote>
+<p>   long ret = dispatch_group_wait(talentGroup, DISPATCH_TIME_FOREVER);</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dispatch_group_async_f(talentGroup, talentQueue, <span class="string">@"我是参数"</span>, showStringForTask1);</div><div class="line">    <span class="comment">//创建任务2</span></div><div class="line">    dispatch_group_async_f(talentGroup, talentQueue, <span class="string">@"我是一只小蜜蜂哈哈哈"</span>, showStringForTask2);</div><div class="line">    <span class="comment">//创建任务3</span></div><div class="line">    dispatch_group_async_f(talentGroup, talentQueue, <span class="string">@"再来一个任务吧"</span>, showStringForTask3);</div><div class="line">    <span class="comment">//组任务结果汇总</span></div><div class="line">    dispatch_group_notify_f(talentGroup, talentQueue, <span class="literal">nil</span>, allTaskNofify);</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"分组任务添加完毕 是否主线程:%@"</span>,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">long</span> ret = dispatch_group_wait(talentGroup, DISPATCH_TIME_FOREVER);</div><div class="line">    <span class="keyword">if</span> (ret == <span class="number">0</span>) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"群组任务全部执行成功"</span>);</div><div class="line">    &#125;<span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"群组任务全部执行失败|超时"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>执行结果:</p>
+<blockquote>
+<p>2017-04-06 16:22:28.435 GCD-Test[17433:8105482] 分组任务添加完毕 是否主线程:YES<br>2017-04-06 16:22:31.441 GCD-Test[17433:8105516] 异步调度组任务1:我是参数 是否主线程?:NO<br>2017-04-06 16:22:31.442 GCD-Test[17433:8105512] 异步调度组任务2:我是一只小蜜蜂哈哈哈 是否主线程?:NO<br>2017-04-06 16:22:31.442 GCD-Test[17433:8105510] 异步调度组任务3:再来一个任务吧 是否主线程?:NO<br>2017-04-06 16:22:31.442 GCD-Test[17433:8105482] 群组任务全部执行成功<br>2017-04-06 16:22:31.451 GCD-Test[17433:8105510] 分组任务添加完毕 是否主线程:NO</p>
+</blockquote>
+<p>GCD Group的全部API及使用介绍完毕,个人可以按照实际需求自由组合。</p>
+<h2 id="Dispatch-Apply"><a href="#Dispatch-Apply" class="headerlink" title="Dispatch Apply"></a>Dispatch Apply</h2><p><strong>dispatch_apply</strong><br>文档注释解释说:Submits a block to a dispatch queue for multiple invocations.<br>提交一个block块到一个分发的队里,以供多次调用.</p>
+<blockquote>
+<p>This function submits a block to a dispatch queue for multiple invocations and waits for all iterations of the task block to complete before returning. If the target queue is a concurrent queue returned by dispatch_get_global_queue, the block can be invoked concurrently, and it must therefore be reentrant-safe. Using this function with a concurrent queue can be useful as an efficient parallel for loop.<br>The current index of iteration is passed to each invocation of the block.<br>摘自<a href="https://developer.apple.com/reference/dispatch/1453050-dispatch_apply" target="_blank" rel="external">Apple 开发者文档</a></p>
+</blockquote>
+<p><strong>Apply 相关API</strong><br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_apply(size_t iterations, <span class="built_in">dispatch_queue_t</span> queue,DISPATCH_NOESCAPE <span class="keyword">void</span> (^block)(size_t));</div><div class="line">dispatch_apply_f(size_t iterations, <span class="built_in">dispatch_queue_t</span> queue,<span class="keyword">void</span> *_Nullable context,<span class="keyword">void</span> (*work)(<span class="keyword">void</span> *_Nullable, size_t));</div></pre></td></tr></table></figure></p>
+<p><strong>一个任务执行5次 dispatch_apply</strong><br>代码如下:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_queue_t</span> talentQueue = dispatch_queue_create(<span class="string">"TalentC.dispatch.queue.test"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line">dispatch_apply(<span class="number">5</span>, talentQueue, ^(size_t idx) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"dispatch_apply 执行idx:%zu 是否主线程:%@"</span>,idx,[<span class="built_in">NSThread</span> currentThread].isMainThread?<span class="string">@"YES"</span>:<span class="string">@"NO"</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>执行结果</p>
+<blockquote>
+<p>2017-04-06 17:11:43.441 GCD-Test[17440:8111766] dispatch_apply 执行idx:0 是否主线程:YES<br>2017-04-06 17:11:43.441 GCD-Test[17440:8111786] dispatch_apply 执行idx:1 是否主线程:NO<br>2017-04-06 17:11:43.442 GCD-Test[17440:8111786] dispatch_apply 执行idx:3 是否主线程:NO<br>2017-04-06 17:11:43.442 GCD-Test[17440:8111786] dispatch_apply 执行idx:4 是否主线程:NO<br>2017-04-06 17:11:43.442 GCD-Test[17440:8111766] dispatch_apply 执行idx:2 是否主线程:YES</p>
+</blockquote>
+<p><strong>注意:</strong> 这里因为是并发线程所以不是按顺序输出,如果改成串行队列是可以按顺序输出的<br><code>dispatch_apply_f(size_t iterations, dispatch_queue_t queue,void *_Nullable context,void (*work)(void *_Nullable, size_t));</code><br>用法这里就不解释了与上述 <code>dispatch_group_async_f</code> 用法相似 只是参数多了一个。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这里讲解的都是一些基础用法对于初学者足以,通过自己动敲一遍代码会加深理解,建议初学者可以跟着敲一遍,遇到问题及时查资料,这样可以做到举一反三,要知其然知其所以然;下篇文章会介绍队列挂起/恢复、barrier(栅栏)等。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--Java基础(一) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="android,Java," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言前几天和朋友聊天,发现Android开发很是火热,觉得利用空闲时间尝试学习Android开发。Android使用的开发语言是Java,做为Java零基础的我,就先从Java学起,给自己制定了一个计划:(1)用1~2周时间去学习Java基础语法(时间全靠挤出来滴);(2)用1周左右时间了解Android系统及Android studio 开发环境;(3)用最多">
+<meta name="keywords" content="android,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--Java基础(一)">
+<meta property="og:url" content="http://yoursite.com/2017/05/04/learningJava1/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言前几天和朋友聊天,发现Android开发很是火热,觉得利用空闲时间尝试学习Android开发。Android使用的开发语言是Java,做为Java零基础的我,就先从Java学起,给自己制定了一个计划:(1)用1~2周时间去学习Java基础语法(时间全靠挤出来滴);(2)用1周左右时间了解Android系统及Android studio 开发环境;(3)用最多">
+<meta property="og:updated_time" content="2017-05-09T01:30:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--Java基础(一)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言前几天和朋友聊天,发现Android开发很是火热,觉得利用空闲时间尝试学习Android开发。Android使用的开发语言是Java,做为Java零基础的我,就先从Java学起,给自己制定了一个计划:(1)用1~2周时间去学习Java基础语法(时间全靠挤出来滴);(2)用1周左右时间了解Android系统及Android studio 开发环境;(3)用最多">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java语言简介"><span class="toc-text">Java语言简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的数据类型"><span class="toc-text">Java中的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的常量"><span class="toc-text">Java中的常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的操作符"><span class="toc-text">Java中的操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中流程控制"><span class="toc-text">Java中流程控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningJava1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--Java基础(一)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前几天和朋友聊天,发现Android开发很是火热,觉得利用空闲时间尝试学习<code>Android</code>开发。<code>Android</code>使用的开发语言是<code>Java</code>,做为<code>Java</code>零基础的我,就先从<code>Java</code>学起,给自己制定了一个计划:(1)用1~2周时间去学习Java基础语法(时间全靠挤出来滴);(2)用1周左右时间了解<code>Android</code>系统及<code>Android studio</code> 开发环境;(3)用最多3周写一个<code>Android</code>小程序;理论知识是盖房子的砖头,实际经验和动手能力是泥瓦匠,只有砖头没有泥瓦匠谈何高楼大厦,只有实际参与到开发中才会有所提升。</p>
+<h2 id="Java语言简介"><a href="#Java语言简介" class="headerlink" title="Java语言简介"></a>Java语言简介</h2><p><code>Java</code>是一种电脑编程语言,有跨平台、面向对象、泛型编程的特性。<code>Java</code>编程语言的风格十分接近<code>C++</code>语言,继承了<code>C++</code>语言面向对象技术的核心，<code>Java</code>舍弃了<code>C++</code>语言中容易引起错误的指針，改以引用取代，同时移除原<code>C++</code>与原来运算符重载，也移除多重继承特性，改用接口取代，增加垃圾回收器功能。<br><code>Java</code>的运行过程,它首先将源代码编译成字节码（bytecode），然后依赖各种不同平台上的<code>JVM</code>(Java虚拟机)来解释执行字节码，从而实现了“一次编译、到处执行”的跨平台特性。</p>
+<h2 id="Java中的数据类型"><a href="#Java中的数据类型" class="headerlink" title="Java中的数据类型"></a>Java中的数据类型</h2><p><code>Java</code>的数据类型分为两大类: <strong>基本数据类型</strong> 和 <strong>引用类型</strong><br><strong>基本数据类型:</strong> byte、short、int、long、float、double、char、boolean 共八种。<br>byte    字节型长度占8位;<br>short   短整型长度占16位;<br>int     整型长度占32位;<br>long    长整型长度占64位;<br>float   单精度浮点型长度占32位;<br>double  双精度浮点型长度占64位;<br>char    字符型标识一个单一的字母,在<code>Java</code>中不常使用,如char c = ‘a’;<br>boolean 逻辑型也叫布尔型只有两个值 true(真) 和 false(假),0和1不再表示逻辑值,仅表示数值;</p>
+<p><strong>注意:</strong> 整型默认以int型存储;声明float变量要注意 float a = 2.3;是错误的正确写法是 float a = 2.3f;或者 float a = (float)2.3; 原因是浮点型默认以double型储存;</p>
+<p><strong>引用类型:</strong><br>所有的对象都是引用类型,除去基本数据类型都是引用类型,引用类型中比较特殊类型是:String 字符串类型和包装器类型;<br>String: 是一个比较特殊引用类型,它可以像基本数据类型那样使用, 例如初始化可以使 String s = “talent”; 也可以是 String s = new String(“talent”);<br>包装器类型: 所谓的包装器类型就是在<code>Java</code>中为上面提到八种基本数据类型包装成八个类被称为包装器类型(wrapper),分别是:Intger、Long、Short、Byte、Double、Float、Character、Boolean以及Void,除void之外均与基本数据类型一一对应,前6个类都派生于一个公共的超类Number。</p>
+<p><strong>注意:</strong> 包装器是不可变的。也就是说构造好了包装器，就不能更改包装在其中的值。此外，包装器类是final类，无法定义它们的子类。</p>
+<p><strong>装箱:</strong> 装箱（boxing），是从Java SE 5.0开始出现的新特性,装箱自动将基本数据类型转换为对应包装器对象, 如 Integer a=10;如果没有装箱的特性则需要通过初始化对象进行,如 Integer a= new Integer(10);<br>通过反编译class文件后，我们知道装箱实际上是通过valueOf()方法实现的，该方法返回一个Integer对象</p>
+<p><strong>拆箱:</strong> 拆箱（unboxed），与装箱是正好相反的操作。自动将包装器对象转换为对应的基本数据类型,如:</p>
+<blockquote>
+<p>Integer i=new Integer(5);<br>int b=i;</p>
+</blockquote>
+<p>通过反编译，我们知道拆箱是通过xxxValue()方法实现的，该方法返回一个xxx类型的值。<br><strong>注意:</strong>  装箱和拆箱是编译器认可的，而不是虚拟机。<br>          编译器在生成类的字节码的同时，插入必要的方法调用；虚拟机只是执行这些字节码。</p>
+<p><strong>“==”与equals()方法</strong><br>由于装箱拆箱的存在，常常会给人一种错觉，让人认为基本数据类型和它们对应的包装器对象是一样的。<br>“==”用法分为以下几种情况</p>
+<ul>
+<li>“==” 两边是基本数据类型, 则比较的是它们的值。</li>
+<li>“==” 两边是对象,比较的是他们否指向同一个区域（即是否有相同的引用)。</li>
+<li>“==” 一边是基本数据类型一边是对象,则会将对象进行拆箱，从而变成两个基本数据类型进行值的比较。</li>
+</ul>
+<p>equals()用法: 比较的内容</p>
+<p>所以避免出错和造成不必要的混乱，在比较两个包装器对象时，尽量不要使用==，而是使用equals()方法。</p>
+<p>Java中的值传递:<br>基本数据类型: 值拷贝。<br>引用类型: 传递的是引用(“虚地址”);</p>
+<h2 id="Java中的常量"><a href="#Java中的常量" class="headerlink" title="Java中的常量"></a>Java中的常量</h2><p>在<code>Java</code>中常量有两种: 编译期常量 和 运行期常量<br>不管是哪种常量一旦初始化就不可以修改期值。</p>
+<p><strong>编译期常量:</strong><br>如:<br>final int m = 10;<br>static final int M_N = 10;<br>这两个都是编译期常量, 如果这两个常量放在类中作为属性使用则常量m可以在每个对象中存在一个值为10的常量m但是内存空间不同,而常量M_N是同一快内存空间同一个值。但两者都不可需改值。</p>
+<p><strong>运行期常量:</strong><br>如:<br>final int m;<br>static final int M_N;<br>在初始化是不赋值,在类对象创建的构造方法里进行赋值,一旦赋值,其值不可以再次修改。</p>
+<h2 id="Java中的操作符"><a href="#Java中的操作符" class="headerlink" title="Java中的操作符"></a>Java中的操作符</h2><p>Java的操作符，分为四类：<br><strong>算数运算符、位运算符、关系运算符、逻辑运算符。</strong></p>
+<p>(1)算数运算符: +、-、* 、/、% ++ 、 –<br>适用于基本数据类型, 但是 “+” 可以用在String 拼接, 但是效率会稍低,不建议大量使用。</p>
+<p>(2)位运算操作符: &lt;&lt;(左移)、&gt;&gt;(右移) 、&gt;&gt;&gt;(无符号右移)、”&amp;” 、”|” 、 “~” 、”^”<br><strong>左移乘以2:</strong></p>
+<blockquote>
+<p>例如向左移动2位<br>-100(十进制)转换为二进制位 1111 1111 1111 1111 1111 1111 1001 1100<br> &lt;&lt;2 在低位使用0补齐 -100(十进制)向左移动2位<br> 11111111111111111111111110011100&lt;&lt;2 = 111111111111111111111110011100<code>00</code> //低位使用0补齐</p>
+</blockquote>
+<p> <strong>右移除以2:</strong><br> 右移分为两种: 有符号右移 和 无符号右移<br>有符号右移: 将预算数向右移动,高位用0或1补齐判断补齐位用0还是1取决于移位之前最高位是0还是1,如果是0则全部用0补齐,如果是1则全部用1补齐。</p>
+<blockquote>
+<p>例 将-100向右移动2位<br>11111111111111111111111110011100&gt;&gt;2 = <code>11</code>111111111111111111111110011100 //高位位使用1补齐</p>
+</blockquote>
+<p>无符号右移: 将运算数向右移动,高位全部使用0补齐,忽略正负;</p>
+<blockquote>
+<p>例 将-100向右移动2位<br>11111111111111111111111110011100&gt;&gt;&gt;2 = <code>00</code>111111111111111111111110011100 //高位位使用0补齐</p>
+</blockquote>
+<p>(3)比较(关系)操作符 “==” 、”&lt;” 、 “&gt;” 、 “&gt;=” 、”=&lt;” 、”!=” 共6种 返回值均为true 和 false;<br>大多用于基本数据类型的比较,是对比较数的二进制进行比较;但是需要注意数据类型的一致性,如0.3f==0.3 返回结果为false,因为两种数据类型所占长度不同导致其二进制数页不同,不过0.5f==0.5,结果为true,因为0.5f与0.5这两个数的二级制数相同,所以结果为true;</p>
+<p>注意: “==” 与 “!=” 除了可以比较基本数据类型的二进制,也可以比较引用类型的引用是否相等。</p>
+<p>(4)逻辑操作符 “&amp;” 、 “|” 、”&amp;&amp;” 、”||” 、”!” 、”^” 六种;<br>逻辑与’&amp;&amp;’，逻辑或’||’，逻辑非’!’，逻辑异或’^’，逻辑与’&amp;’，逻辑或’|’;<br>A和B是逻辑运算的两个逻辑变量；<br>两种逻辑与（&amp;&amp;和&amp;）的运算规则基本相同，两种逻辑或（||和|）的运算规则也基本相同。<br>&amp;和|运算是把逻辑表达式全部计算完，而&amp;&amp;和||运算具有短路计算功能。<br>对于&amp;来说，如果左侧条件为false，也会计算右侧条件的值，而对于&amp;&amp;来说，如果左侧的条件为false，则不计算右侧的条件，这种现象被称作短路现象。<br>所谓短路计算，是指系统从左至右进行逻辑表达式的计算，一旦出现计算结果已经确定的情况，则计算过程即被终止。<br>对于&amp;&amp;运算来说，只要运算符左端的值为false，则因无论运算符右端的值为true或为false，其最终结果都为false。<br>所以，系统一旦判断出&amp;&amp;运算符左端的值为false，则系统将终止其后的计算过程；<br>对于 || 运算来说，只要运算符左端的值为true，则因无论运算符右端的值为true或为false，其最终结果都为true。<br>所以，系统一旦判断出|| 运算符左端的值为true，则系统将终止其后的计算过程。<br>注：异或相同为false，相反则为true。<br>利用短路现象：<br>在程序设计时使用&amp;&amp;和||运算符，不建议使用&amp;和|运算符。</p>
+<h2 id="Java中流程控制"><a href="#Java中流程控制" class="headerlink" title="Java中流程控制"></a>Java中流程控制</h2><p>Java中流程控制 分为三种:<br><strong>顺序、分支、循环</strong></p>
+<p><strong>顺序:</strong> 从上而下,按照代码的顺序执行。</p>
+<p><strong>分支:</strong> 分支流程最为常见流程 分为 if/else语句 和 switch/case 语句;</p>
+<p><strong>循环:</strong> 循环流程也是比较常用的流程, 分为三种: for循环 、while循环、do while循环;</p>
+<p>这里涉及到的语法与c语言的编程语言相同就不举例介绍了。</p>
+<p><strong>流程的中断/退出:</strong></p>
+<ul>
+<li>break 一般用于 循环语句 、switch语句中;用来中断循环或者结束switch case语句。</li>
+<li>return 可以用在方法的任何位置中断/退出这方法,可以带返回值或不带返回值,取决于这个方法是否带有返回值。</li>
+<li>continue 一般用在循环语句中, 结束此次循环进入下次循环。</li>
+<li>System.exit(0) System是API中的一个类,exit 是一个静态方法,参数0表示强制<code>JVM</code>退出,即main方法结束,程序退出;</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Java中的基础语法暂时学习到这里吧,下一篇文章我来重点学习字符串、数组、字典等常用引用类型介绍及使用。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

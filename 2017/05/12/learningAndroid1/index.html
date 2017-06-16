@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--android基础(一) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Android Studio,android," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言简单学习过Java基础语法后,正式进入Android开发的学习中,像我一样安卓开发零起点的小白来说,第一步就是要熟悉Android系统及我们要是使用的开发环境Android Studio。开始之前给大家推荐两本书,都是比较适合初学者的;郭霖 著作的《第一行代码》,我购买的是第二版的,全书基于Android 7.0,使用的开发用具Android Studi 2">
+<meta name="keywords" content="Android Studio,android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--android基础(一)">
+<meta property="og:url" content="http://yoursite.com/2017/05/12/learningAndroid1/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言简单学习过Java基础语法后,正式进入Android开发的学习中,像我一样安卓开发零起点的小白来说,第一步就是要熟悉Android系统及我们要是使用的开发环境Android Studio。开始之前给大家推荐两本书,都是比较适合初学者的;郭霖 著作的《第一行代码》,我购买的是第二版的,全书基于Android 7.0,使用的开发用具Android Studi 2">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android1.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android2.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android3.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android4.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android5.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android6.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta property="og:updated_time" content="2017-05-15T01:07:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--android基础(一)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言简单学习过Java基础语法后,正式进入Android开发的学习中,像我一样安卓开发零起点的小白来说,第一步就是要熟悉Android系统及我们要是使用的开发环境Android Studio。开始之前给大家推荐两本书,都是比较适合初学者的;郭霖 著作的《第一行代码》,我购买的是第二版的,全书基于Android 7.0,使用的开发用具Android Studi 2">
+<meta name="twitter:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android1.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android系统架构"><span class="toc-text">Android系统架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android四大组件"><span class="toc-text">Android四大组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建开发环境"><span class="toc-text">搭建开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志工具的使用"><span class="toc-text">日志工具的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningAndroid1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--android基础(一)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.12</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>简单学习过<code>Java</code>基础语法后,正式进入<code>Android</code>开发的学习中,像我一样安卓开发零起点的小白来说,第一步就是要熟悉<code>Android</code>系统及我们要是使用的开发环境<code>Android Studio</code>。<br>开始之前给大家推荐两本书,都是比较适合初学者的;<br><strong>郭霖</strong> 著作的《第一行代码》,我购买的是第二版的,全书基于<code>Android 7.0</code>,使用的开发用具<code>Android Studi 2.2</code>。<br>另外《疯狂android讲义》也是不错的选择。</p>
+<h2 id="Android系统架构"><a href="#Android系统架构" class="headerlink" title="Android系统架构"></a>Android系统架构</h2><p><code>Android</code>大致分为四层架构(由上往下): <strong>应用层</strong> 、<strong>应用框架层</strong> 、<strong>系统运行库层</strong> 、<strong>Linux内核层</strong>。</p>
+<p><strong>应用层:</strong><br>所有安装的app都是运行在这一层级上的,如你下载的微信客户端等。</p>
+<p><strong>应用框架层:</strong><br>这一层主要提供了构建应用程序可能使用的各种<code>API</code>,我们开发的app就是基于这些<code>API</code>完成的。</p>
+<p><strong>系统运行库层:</strong><br>这一层是<code>C/C++</code>实现的一些<code>Android</code>功能库,如<code>SQLite</code>库提供了数据库支持,<code>OpenGL|ES</code>库提供了3D绘图等。<br>Android的运行时库,运行时库中包含了 <strong>Dalvik虚拟机</strong>; 在 <strong>Android 5.0</strong> 之前是Dalvik虚拟机,5.0之后改为 <strong>ATR运行环境</strong>,它使得每一个<code>Android</code>应用都可以运行在一个独立进程中,并且拥有自己的虚拟机实例。</p>
+<p><strong>Linux内核层:</strong><br><code>Android</code>系统是基于<code>Linux</code>内核的,这一层为设备的各种硬件提供底层驱动,如显示驱动,音视频驱动等。</p>
+<h2 id="Android四大组件"><a href="#Android四大组件" class="headerlink" title="Android四大组件"></a>Android四大组件</h2><p>提到<code>Android</code>就不能不提四大组件,我们来看看 <strong>四大组件</strong> 都是什么?<br><code>Android</code>四大组件分别是: <strong>活动(Activity)</strong> 、 <strong>服务(Service)</strong> 、 <strong>广播接收器(Broadcast Receiver)</strong> 、<strong>内容提供器(Content Provider)</strong>。</p>
+<p><strong>活动(Activity):</strong><br><strong>Activity</strong> 是所有控件的容器,程序中所有看到的东西都是放在活动中, 与<code>OC</code>中的<code>UIViewController</code>及其相似甚至完全一样。</p>
+<p><strong>服务(Service):</strong><br><strong>Service</strong> 比较低调了,它不显示在界面上,但是它会在后台默默运行着,即使退出app也可以继续运行。</p>
+<p><strong>广播接收器(Broadcast Receiver):</strong><br><strong>Broadcast Receiver</strong> 允许你的应用接收来自各处广播消息,如电话,短信等,他也可以发出广播消息。</p>
+<p><strong>内容提供器(Content Provider):</strong><br><strong>Content Provider</strong> 为应用间数据共享提供支持,如你的app访问电话簿中的联系人。</p>
+<h2 id="搭建开发环境"><a href="#搭建开发环境" class="headerlink" title="搭建开发环境"></a>搭建开发环境</h2><ul>
+<li><strong>JDK:</strong> <strong>JDK</strong> 是<code>Java</code>语言的软件开发包。</li>
+<li><strong>Android SDK:</strong> 谷歌提供的<code>Android</code>开发工具包。</li>
+<li><strong>Android Studio:</strong> <code>Android</code>开发环境, 与 <code>Xcode</code> 作用相同。可以在google官网下载,下载完毕后直接按着提示安装就可以。</li>
+</ul>
+<p>安装<code>Android Studio</code>完毕后会出现一个欢迎界面,点击next进行配置即可;<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android1.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br>安装好<code>Android Studio</code>,我们创建第一个Android项目:<br>点击 <strong>Start a new Android Studio project</strong><br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android2.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br>进入如下界面<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android3.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br>下一步<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android4.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br>等待编译完成,工程创建完毕<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android5.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>工程创建完毕我们来看看工程结构是什么样的?<br>上面看到的图片不是工程的真实目录,我们点击上图中的<code>Android</code>区域选择<code>Project</code>选项,此时我们看到是真实的工程目录结构;<br>我们从上到下有如下目录:<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForlearnAndroid/android6.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br><strong>(1) <code>.gradle</code>和<code>.idea</code> :</strong>  这两个目录都是放置<code>Android Sudio</code>自动生成一些文件,我们可以忽略它。<br><strong>(2) <code>app</code>:</strong>  项目中的代码/资源文件等都会放在这里,是我们经常打交道的目录。<br><strong>(3) <code>build</code>:</strong>  这个目录也不需要我们过多关心,它主要包含了一些在编译时自动生成的文件。<br><strong>(4) <code>gradle</code>:</strong> 此目录包含了<code>gradle wrapper</code>的配置文件,使用<code>gradle wrapper</code>的方式不需要提前将<code>gradle</code>下载好,而是会根据缓存情况自动下载,<code>Android Sudio</code>默认是启用<code>gradle wrapper</code>方式的,如需要修改可以在 Android Studio导航栏 -&gt;File -&gt;Setting -&gt;Bulid, Extension, Deployment -&gt;gradle,进行配置。<br><strong>(5) <code>.gitignore</code>:</strong> 版本控制相关的。<br><strong>(7) <code>build.gradle</code>:</strong> 全局构建的脚本,通常不需要修改。<br><strong>(8) <code>gradle.properties</code>:</strong> 全局的<code>gradle</code>配置文件,在这里配置的属性会影响项目中所有的<code>gradle</code>编译脚本。<br><strong>(9) <code>FirstAndroidProject.iml</code>:</strong> iml文件是所有<code>Intellij IDEA</code> 项目都会自动生成的一个文件(<code>Android Sudio</code>基于<code>Intellij IDEA</code>开发的),我们不需要修改。<br><strong>(10) <code>local.properties</code>:</strong>  本机中<code>Android SDK</code> 路径信息, 自动生成的,一般不需要修改,除非的本机sdk路径发生变化。<br><strong>(11) <code>setting.gradle</code>:</strong> 这个文件用于指定项目中所有引入的模块,我们这项目中只有一个app模块,所以此文件只引入了app模块,通常情况下模块引入都是自动完成。<br>这就是整个工程的最外层目录结构介绍完毕,我们将上述中的<code>app</code>目录展开,其目录为:<br><strong>(1) <code>build</code>:</strong> 与最外层<code>build</code>类似,主要包含了一些在编译时自动生成的文件。<br><strong>(2) <code>libs</code>:</strong> 项目中使用到的第三方<code>jar</code>包,放在此目录下。<br><strong>(3) <code>androidTest</code>:</strong> 编写测试用例,可以对项目进行自动化测试。<br><strong>(4) <code>java</code>:</strong> 我们写的<code>java</code>代码。<br><strong>(5) <code>res</code>:</strong> 存放资源文件,如图片,布局文件,字符串等,图片等放在<code>drawable</code>目录下,布局放在<code>layout</code>目录下,字符串等放在<code>valus</code>目录下。<br><strong>(6) <code>AndroidManifest.xml</code>:</strong> 这是整个app的配置文件与<code>iOS</code>中的<code>info.plist</code>文件作用相同。<br><strong>(7) <code>test</code>:</strong> 测试单元,是项目自动化测试的一种。<br><strong>(8) <code>.gitignore</code>:</strong> app模块的git版本控制。<br><strong>(9) <code>app.iml</code>:</strong> <code>Intellij IDEA</code> 项目都会自动生成的一个文件。<br><strong>(10) <code>build.gradle</code>:</strong> app模块的构建脚本,一般情况不需要修改。<br><strong>(11) <code>proguard-rules.pro</code>:</strong> 用于项目代码指定混淆规则的文件。<br>所有目录到此都已经介绍完毕,我们继续剖析项目结构中的配置文件-<code>AndroidManifest.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.firstandroidproject.chuliangliang.firstandroidproject"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span> //所有用到的需要显示的Activity 都会自动加入到这里</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span> //设置主Activity 类似iOS设置root Viewcontroller 相同</div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span> //设置启动时就显示这个Activity</div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>Android</code>程序中是代码与UI分离开的,UI及布局通过layout目录下文件实现的,当然也可以使用代码构建,但是谷歌推荐使用前一种方式。</p>
+<h2 id="日志工具的使用"><a href="#日志工具的使用" class="headerlink" title="日志工具的使用"></a>日志工具的使用</h2><p>开发中调试利器之一 <strong>日志工具</strong>,在Android 开发中不再使用 <code>System.out</code>这种形式的log输出了,而是改用 <strong>Log.v()、Log.d()、Log.i()、Log.w()、Log.e()</strong>。<br><strong>Log.v():</strong> 用与打印最为琐碎,意义最小的日志信息对应级别<code>verbose</code>,是<code>Android</code>日志级别里最小的。<br><strong>Log.d():</strong> 用于打印调试信息,这些信息对于程序调试最有帮助的,对应级别<code>debug</code>,比<code>verbose</code>高一个级别。<br><strong>Log.i():</strong> 用于打印一下比较重要信息,可以帮你分析用户行为数据,对应级别<code>info</code>,比<code>debug</code>高一个级别。<br><strong>Log.w():</strong> 用于打印警告信息,提示潜在风险,对应级别<code>warn</code>, 比<code>info</code>高一个级别。<br><strong>Log.e():</strong> 用于打印程序中错误信息,如程序崩溃,对应级别<code>error</code>比<code>warn</code>高一个级别。<br>代码示例:</p>
+<blockquote>
+<p>Log.d(“自定义标记”, “输出内容”);</p>
+</blockquote>
+<p>小技巧:</p>
+<ul>
+<li>键盘输入logd <code>Android Studio</code> 会有完整代码提示,此时按下回车即可快速补全。</li>
+<li>因为 Log.d 需要一个标记,所以我们可以在类中定义一个常量, 可以输入logt 此时也会代码提示, 按回车自动补全</li>
+</ul>
+<p>完整代码示例:</p>
+<blockquote>
+<p>public class Person<br>{<br>    private static final String TAG = “Person”;<br>    public void showLog ()<br>    {<br>        Log.d(TAG, “showLog: “);<br>    }<br>}</p>
+</blockquote>
+<p>到这里大家会有一个小小的疑惑为什么每个log输出时都需要一个标记呢?别急我们现在就看看有啥用。<br>首先我们在底部工具栏找到 <strong>“Android Monitor”</strong> 点击后在底部出现一个对话框,在对话框左上角我们选中 <strong>“logcat”</strong> 此时就是log输出的窗口,在这个窗口上方中间位置有一个下拉选项我们可以设置对应log输出级别以便我们查看log,默认<code>verbose</code>,同一级别log输出可能还是会有很多,也不是很方便查找,那我们就可以通过log上的标记进行过滤了,在对话框右上角选中<code>Regex</code>,在其后面的下拉框中添加我们自定义的log输出标记,然后选在我们自定义的log标记进行过滤就可以很方便找到了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>今天事情比较多,时间比较零散,就暂时学这么多吧,下一篇文章会详细学习<code>Android</code>四大组件之一的 <strong>活动(Activity)</strong>,和一些简单的app配置相关的内容。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

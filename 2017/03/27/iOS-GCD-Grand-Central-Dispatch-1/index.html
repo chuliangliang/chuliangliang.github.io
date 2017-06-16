@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS GCD(Grand Central Dispatch)的使用(一) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,GCD,多线程," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言最近公司在招人,经常会问面试者一些关于多线程的问题,提到多线程就不得不说一下强大酷炫的GCD,对于GCD我一直没有系统的梳理,趁着现在有点小时间,把GCD相关知识梳理一遍,给自己留下个学习笔录,也方便更多的人理解GCD。 GCD简介 Grand Central Dispatch (GCD) comprises language features, runti">
+<meta name="keywords" content="iOS,GCD,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS GCD(Grand Central Dispatch)的使用(一)">
+<meta property="og:url" content="http://yoursite.com/2017/03/27/iOS-GCD-Grand-Central-Dispatch-1/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言最近公司在招人,经常会问面试者一些关于多线程的问题,提到多线程就不得不说一下强大酷炫的GCD,对于GCD我一直没有系统的梳理,趁着现在有点小时间,把GCD相关知识梳理一遍,给自己留下个学习笔录,也方便更多的人理解GCD。 GCD简介 Grand Central Dispatch (GCD) comprises language features, runti">
+<meta property="og:updated_time" content="2017-04-13T07:08:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS GCD(Grand Central Dispatch)的使用(一)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言最近公司在招人,经常会问面试者一些关于多线程的问题,提到多线程就不得不说一下强大酷炫的GCD,对于GCD我一直没有系统的梳理,趁着现在有点小时间,把GCD相关知识梳理一遍,给自己留下个学习笔录,也方便更多的人理解GCD。 GCD简介 Grand Central Dispatch (GCD) comprises language features, runti">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD简介"><span class="toc-text">GCD简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD优势"><span class="toc-text">GCD优势:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD相关概念"><span class="toc-text">GCD相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCD三种队列类型"><span class="toc-text">GCD三种队列类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建和管理队列"><span class="toc-text">创建和管理队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结:</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-iOS-GCD-Grand-Central-Dispatch-1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">iOS GCD(Grand Central Dispatch)的使用(一)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.03.27</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近公司在招人,经常会问面试者一些关于多线程的问题,提到多线程就不得不说一下强大酷炫的GCD,对于GCD我一直没有系统的梳理,趁着现在有点小时间,把GCD相关知识梳理一遍,给自己留下个学习笔录,也方便更多的人理解GCD。</p>
+<h2 id="GCD简介"><a href="#GCD简介" class="headerlink" title="GCD简介"></a>GCD简介</h2><blockquote>
+<p>Grand Central Dispatch (GCD) comprises language features, runtime libraries, and system enhancements that provide systemic, comprehensive improvements to the support for concurrent code execution on multicore hardware in macOS, iOS, watchOS, and tvOS.<br>The BSD subsystem, Core Foundation, and Cocoa APIs have all been extended to use these enhancements to help both the system and your application to run faster, more efficiently, and with improved responsiveness. Consider how difficult it is for a single application to use multiple cores effectively, let alone doing it on different computers with different numbers of computing cores or in an environment with multiple applications competing for those cores. GCD, operating at the system level, can better accommodate the needs of all running applications, matching them to the available system resources in a balanced fashion.<br>主要讲的是:<br>GCD 可以对MacOS，iOS，WatchOS和tvOS中的多核硬件的并发代码执行提供系统全面的改进,使系统和应用程序运行得更快，更高效，并且响应更快,能够充分调度CPU多核高效率工作,以均衡的方式将它们与可用的系统资源进行匹配。<br>摘自:<a href="https://developer.apple.com/reference/dispatch?language=objc" target="_blank" rel="external">Apple 开发者文档</a></p>
+</blockquote>
+<h2 id="GCD优势"><a href="#GCD优势" class="headerlink" title="GCD优势:"></a>GCD优势:</h2><p><strong>易用:</strong> <strong>GCD</strong> 提供一个易于使用的并发模型而不仅仅只是锁和线程，以帮助我们避开并发陷阱,而且因为基于block，它能极为简单得在不同代码作用域之间传递上下文。<br><strong>灵活:</strong> <strong>GCD</strong> 具有在常见模式上(比如锁、单例)，用更高性能的方法优化代码，而且 <strong>GCD</strong> 能提供更多的控制权力以及大量的底层函数。<br><strong>性能:</strong> <strong>GCD</strong> 能自动根据系统负载来增减线程数量，这就减少了上下文切换以及增加了计算效率。</p>
+<h2 id="GCD相关概念"><a href="#GCD相关概念" class="headerlink" title="GCD相关概念"></a>GCD相关概念</h2><ul>
+<li><p><strong>Dispatch Objects:</strong><br>GCD是纯C语言的,但它被组建成面向对象的风格。GCD对象被称为dispatch object, 所有的dispatch objects都是OC对象.，就如其他OC对象一样，当开启了ARC(automatic reference counting)时,dispatch objects的retain和release都会自动执行。而如果是MRC的话，dispatch objects会使用dispatch_retain和dispatch_release这两个方法来控制引用计数。</p>
+</li>
+<li><p><strong>Serial &amp; Concurrent:</strong><br>串行任务就是每次只有一个任务被执行，并发任务就是在同一时间可以有多个任务被执行。</p>
+</li>
+<li><p><strong>Synchronous &amp; Asynchronous:</strong><br><strong>同步函数</strong> 意思是在完成了它预定的任务后才返回，在任务执行时会阻塞当前线程。而 <strong>异步函数</strong> 则是任务会完成但不会等它完成，所以异步函数不会阻塞当前线程，会继续去执行下一个函数。</p>
+</li>
+<li><p><strong>Context Switch:</strong><br>Context Switch即上下文切换，一个上下文切换指当你在单个进程里切换执行不同的线程时存储与恢复执行状态的过程。这个过程在编写多任务应用时很普遍，但会带来一些额外的开销。</p>
+</li>
+<li><p><strong>Dispatch Queues:</strong><br>GCD dispatch queues是一个强大的执行多任务的工具。Dispatch queue是一个对象，它可以接受任务，并将任务以先进先出(FIFO)的顺序来执行。Dispatch queue可以并发的或串行的执行任意一个代码块，而且并发任务会像NSOperationQueue那样基于系统负载来合适地并发进行，串行队列同一时间则只执行单一任务。Dispatch queues内部使用的是线程，GCD 管理这些线程，并且使用Dispatch queues的时候，我们都不需要自己创建线程。Dispatch queues相对于和线程直接通信的代码优势是：Dispatch queues使用起来特别方便，执行任务更加有效率。</p>
+</li>
+</ul>
+<h2 id="GCD三种队列类型"><a href="#GCD三种队列类型" class="headerlink" title="GCD三种队列类型"></a>GCD三种队列类型</h2><p>(1) <strong>主线程队列:</strong> main queue可以调用dispatch_get_main_queue()来获得。因为main queue是与主线程相关的，所以这是一个串行队列。和其它串行队列一样，这个队列中的任务一次只能执行一个。它能保证所有的任务都在主线程执行，而主线程是唯一可用于更新 UI 的线程。</p>
+<p>(2) <strong>并发队列:</strong> 并发队列虽然是能同时执行多个任务，但这些任务仍然是按照先到先执行(FIFO)的顺序来执行的。并发队列会基于系统负载来合适地选择并发执行这些任务。在iOS5之前，并发队列一般指的就是全局队列(Global queue)，进程中存在四个全局队列：高、中(默认)、低、后台四个优先级队列，可以调用dispatch_get_global_queue函数传入优先级来访问队列。而在iOS5之后，我们也可以用dispatch_queue_create，并指定队列类型DISPATCH_QUEUE_CONCURRENT，来自己创建一个并发队列。</p>
+<p>(3) <strong>串行队列:</strong> 串行队列将任务以先进先出(FIFO)的顺序来执行，所以串行队列经常用来做访问某些特定资源的同步处理。你可以也根据需要创建多个队列，而这些队列相对其他队列都是并发执行的。换句话说，如果你创建了4个串行队列，每一个队列在同一时间都只执行一个任务，对这四个任务来说，他们是相互独立且并发执行的。如果需要创建串行队列，一般用dispatch_queue_create这个方法来实现。</p>
+<p>介绍完基本概念,我们看看如何使用…..</p>
+<hr>
+<h2 id="创建和管理队列"><a href="#创建和管理队列" class="headerlink" title="创建和管理队列"></a>创建和管理队列</h2><p>(1) <strong>global queue(全局队列):</strong><br>当我们需要同时执行多个任务时，并发队列是非常有用的。并发队列其实仍然还是一个队列，它保留了队列中的任务按先进先出(FIFO)的顺序执行的特点。一个并发队列中实际执行的任务数是由很多因素决定的，比如系统的内核数，其他串行队列中任务的优先级，以及其他进程的工作状态。<code>但是global queue 对于 dispatch_suspend(暂停)、dispatch_resume(恢复)、dispatch_set_context(切换上下文)函数无响应</code></p>
+<p>我们来看一看 dispatch queue队列的优先级都有哪些</p>
+<blockquote>
+<p>#define DISPATCH_QUEUE_PRIORITY_HIGH 2                 //高</p>
+<p> #define DISPATCH_QUEUE_PRIORITY_DEFAULT 0              //默认</p>
+<p> #define DISPATCH_QUEUE_PRIORITY_LOW (-2)               //低</p>
+<p> #define DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN   //后台</p>
+</blockquote>
+<p>global queue 通过 dispatch_get_global_queue函数 获取<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__OSX_AVAILABLE_STARTING(_MAC_10_6,__IPHONE_4_0)</div><div class="line">DISPATCH_EXPORT DISPATCH_CONST DISPATCH_WARN_RESULT DISPATCH_NOTHROW</div><div class="line"><span class="built_in">dispatch_queue_t</span></div><div class="line">dispatch_get_global_queue(<span class="keyword">long</span> identifier, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags);</div></pre></td></tr></table></figure></p>
+<p>使用示例<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * identifier: 队列的优先级 是个枚举值 后面会介绍每个枚举值的含义 DISPATCH_QUEUE_PRIORITY_DEFAULT(或者直接传入0)</div><div class="line"> * flags: 此参数为苹果预留参数,目前此参数传入0即可 据官方文档介绍如果此字段为非0可能会导致返回值为NULL</div><div class="line">*/</div><div class="line"><span class="built_in">dispatch_queue_t</span> glQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="comment">//我们在这个全局并发队列中下载个图片 并在最后打印图片尺寸</span></div><div class="line"><span class="comment">/*</span></div><div class="line">*创建异步线程</div><div class="line">*/</div><div class="line"><span class="built_in">dispatch_async</span>(glQueue, ^&#123;</div><div class="line">      <span class="built_in">NSData</span> *imageData = [<span class="built_in">NSData</span> dataWithContentsOfURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://pic33.nipic.com/20130916/3420027_192919547000_2.jpg"</span>]];</div><div class="line">      <span class="built_in">UIImage</span> *img = [<span class="built_in">UIImage</span> imageWithData:imageData];</div><div class="line">      <span class="built_in">NSLog</span>(<span class="string">@"下载的图片尺寸: %@"</span>,<span class="built_in">NSStringFromCGSize</span>(img.size));</div><div class="line">  &#125;);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>运行结果:<br>2017-03-27 14:30:44.057 GCD-Test[94341:5165844] 下载的图片尺寸: {1024, 768}</p>
+</blockquote>
+<p>到这里会发现现在所有的都是在子线程运行的,我们需要把图片赋值给UIImageView,所以我们必须回到主线程去更新UI,现在将上面的代码改造一下<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_async</span>(glQueue, ^&#123;</div><div class="line">      <span class="built_in">NSData</span> *imageData = [<span class="built_in">NSData</span> dataWithContentsOfURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://pic33.nipic.com/20130916/3420027_192919547000_2.jpg"</span>]];</div><div class="line">      <span class="built_in">UIImage</span> *img = [<span class="built_in">UIImage</span> imageWithData:imageData];</div><div class="line">        <span class="comment">//将下载的数据转换成图片后回到主线程更新UI</span></div><div class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">          <span class="built_in">NSLog</span>(<span class="string">@"下载的图片尺寸: %@"</span>,<span class="built_in">NSStringFromCGSize</span>(img.size));</div><div class="line">        &#125;);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure></p>
+<p><strong>注意:</strong><br>尽管dispatch queues是引用计数对象，但是我们不需要用retain和release来管理全局的并发队列。因为全局队列对于程序来说是全局的，retain和release会被全局队列忽略,而且在ARC下这两个方法也会被忽略的。所以，我们不需要存储这些队列的引用数，仅仅只需要在任何要使用它们的地方，调用dispatch_get_global_queue这个方法即可。</p>
+<p>(2) <strong>并发队列和串行队列</strong><br>当我们需要某些任务以指定的顺序去执行时，串行队列是一个非常好的选择。一个串行队列在同一时间里只会执行一个任务，而且每次都只会从队列的头部把任务取出来执行。正因为如此，我们可以用串行队列来替代锁的操作，比如数据资源的同步或修改数据结构时。和锁不同的是，串行队列能保证任务都是在可预见的顺序里执行，而且一旦我们在一个串行队列里异步提交了任务，队列就能永远不发生死锁。怎么样，是不是很棒，不过不像并发队列，这些串行队列是需要我们自己创建和管理的。</p>
+<p>我们还可以在程序里创建任意数量的队列，不过值得注意的是，我们要尽量避免创建大量的串行队列而目的仅仅是为了同时执行队列中的这些任务。虽然GCD 通过创建所谓的线程池来大致匹配 CPU 内核数量，但是线程的创建并不是无代价的。每个线程都需要占用内存和内核资源。所以如果需要创建大量的并发任务，我们只需要把这些任务放到并发队列中即可。</p>
+<p>代码示例<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 创建串行队列</div><div class="line"> * 第一个参数 tanlentC.com 队列的标识 用户自定义标识字符串</div><div class="line"> * 第二个参数 队列属性 DISPATCH_QUEUE_SERIAL 串行队列  DISPATCH_QUEUE_CONCURRENT 并行队列 此参数为null 时默认串行队列</div><div class="line"> */</div><div class="line"><span class="built_in">dispatch_queue_t</span> serialQueue =  dispatch_queue_create(<span class="string">"tanlentC.com.serialQueue"</span>, <span class="literal">NULL</span>);</div><div class="line"></div><div class="line"><span class="comment">//创建并行队列</span></div><div class="line"><span class="built_in">dispatch_queue_t</span> concurrentQueue =  dispatch_queue_create(<span class="string">"tanlentC.com.concurrentQueue"</span>, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure></p>
+<p>下面是一些GCD的简单用法<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  后台执行：</span></div><div class="line"> <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">      <span class="comment">// something</span></div><div class="line"> &#125;);</div><div class="line"> <span class="comment">//主线程执行：</span></div><div class="line"> <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">      <span class="comment">// something</span></div><div class="line"> &#125;);</div><div class="line"> <span class="comment">//一次性执行：</span></div><div class="line"> <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line"> <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">     <span class="comment">// code to be executed once</span></div><div class="line"> &#125;);</div><div class="line"> <span class="comment">// 延迟2秒执行：</span></div><div class="line"> <span class="keyword">double</span> delayInSeconds = <span class="number">2.0</span>;</div><div class="line"> dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * <span class="built_in">NSEC_PER_SEC</span>);</div><div class="line"> dispatch_after(popTime, dispatch_get_main_queue(), ^(<span class="keyword">void</span>)&#123;</div><div class="line">     <span class="comment">// code to be executed on the main queue after delay</span></div><div class="line"> &#125;);</div><div class="line"> <span class="comment">// 自定义dispatch_queue_t</span></div><div class="line"> <span class="built_in">dispatch_queue_t</span> urls_queue = dispatch_queue_create(<span class="string">"blog.devtang.com"</span>, <span class="literal">NULL</span>);</div><div class="line"> <span class="built_in">dispatch_async</span>(urls_queue, ^&#123;  </div><div class="line">　 　<span class="comment">// your code</span></div><div class="line"> &#125;);</div><div class="line"> dispatch_release(urls_queue);</div><div class="line"> <span class="comment">// 合并汇总结果</span></div><div class="line"> dispatch_group_t group = dispatch_group_create();</div><div class="line"> dispatch_group_async(group, dispatch_get_global_queue(<span class="number">0</span>,<span class="number">0</span>), ^&#123;</div><div class="line">      <span class="comment">// 并行执行的线程一</span></div><div class="line"> &#125;);</div><div class="line"> dispatch_group_async(group, dispatch_get_global_queue(<span class="number">0</span>,<span class="number">0</span>), ^&#123;</div><div class="line">      <span class="comment">// 并行执行的线程二</span></div><div class="line"> &#125;);</div><div class="line"> dispatch_group_notify(group, dispatch_get_global_queue(<span class="number">0</span>,<span class="number">0</span>), ^&#123;</div><div class="line">      <span class="comment">// 汇总结果</span></div><div class="line"> &#125;);</div><div class="line"><span class="comment">//定时器</span></div><div class="line"> __block <span class="keyword">int</span> count_t = <span class="number">0</span>;</div><div class="line"> <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_main_queue(); <span class="comment">//这里在非主线程队列运行</span></div><div class="line"> dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, <span class="number">0</span>, <span class="number">0</span>, queue);</div><div class="line"> dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">1.0</span> * <span class="built_in">NSEC_PER_SEC</span>));</div><div class="line"> uint64_t interval = (uint64_t)(<span class="number">0.01</span> * <span class="built_in">NSEC_PER_SEC</span>);</div><div class="line"> dispatch_source_set_timer(timer, start, interval, <span class="number">0</span>);</div><div class="line"> dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">     <span class="built_in">NSLog</span>(<span class="string">@"定时器运行了 %d 次"</span>,count_t);</div><div class="line">     <span class="keyword">if</span> (count_t == <span class="number">100</span>) &#123;</div><div class="line">         <span class="comment">//取消定时器</span></div><div class="line">         dispatch_cancel(timer);</div><div class="line">     &#125;</div><div class="line">     count_t++;</div><div class="line"> &#125;);</div><div class="line"> <span class="comment">// 启动定时器</span></div><div class="line"> dispatch_resume(timer);</div></pre></td></tr></table></figure></p>
+<p>关于GCD最基础的常用方法介绍完毕,下一篇文章会介绍较为深层次的用法</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p>这篇文章整理的技术比较基础,适合初学者参考,基本都是概念性的东西,下一篇文章会主要以实践为主.</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

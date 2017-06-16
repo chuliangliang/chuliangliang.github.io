@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--android基础(二) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Android Studio,android,Activity," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言上篇文章介绍了Android Studio 开发环境的 安装使用、项目工程创建、工程目录结构和log窗口 的使用技巧等;那么,今天我们来学习Android四大组件之一的Activity组件,涉及到的代码,希望大家可以自己敲一遍,这样印象会更加深刻一些。 Activity(活动)是什么?Activity(活动) 是一种可以包含用户界面的组件,主要用于和用户进行">
+<meta name="keywords" content="Android Studio,android,Activity">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--android基础(二)">
+<meta property="og:url" content="http://yoursite.com/2017/05/15/learningAndroid2/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言上篇文章介绍了Android Studio 开发环境的 安装使用、项目工程创建、工程目录结构和log窗口 的使用技巧等;那么,今天我们来学习Android四大组件之一的Activity组件,涉及到的代码,希望大家可以自己敲一遍,这样印象会更加深刻一些。 Activity(活动)是什么?Activity(活动) 是一种可以包含用户界面的组件,主要用于和用户进行">
+<meta property="og:updated_time" content="2017-05-18T07:40:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--android基础(二)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言上篇文章介绍了Android Studio 开发环境的 安装使用、项目工程创建、工程目录结构和log窗口 的使用技巧等;那么,今天我们来学习Android四大组件之一的Activity组件,涉及到的代码,希望大家可以自己敲一遍,这样印象会更加深刻一些。 Activity(活动)是什么?Activity(活动) 是一种可以包含用户界面的组件,主要用于和用户进行">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity-活动-是什么"><span class="toc-text">Activity(活动)是什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity如何创建"><span class="toc-text">Activity如何创建?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity中使用Toast控件"><span class="toc-text">Activity中使用Toast控件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity的销毁"><span class="toc-text">Activity的销毁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity间的切换"><span class="toc-text">Activity间的切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity间传递数据"><span class="toc-text">Activity间传递数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity的生命周期"><span class="toc-text">Activity的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity的启动模式"><span class="toc-text">Activity的启动模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Activity的实践技巧"><span class="toc-text">Activity的实践技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningAndroid2" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--android基础(二)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上篇文章介绍了<code>Android Studio</code> 开发环境的 <strong>安装使用、项目工程创建、工程目录结构和log窗口</strong> 的使用技巧等;那么,今天我们来学习<code>Android</code>四大组件之一的<code>Activity</code>组件,涉及到的代码,希望大家可以自己敲一遍,这样印象会更加深刻一些。</p>
+<h2 id="Activity-活动-是什么"><a href="#Activity-活动-是什么" class="headerlink" title="Activity(活动)是什么?"></a><code>Activity</code>(活动)是什么?</h2><p><strong>Activity(活动)</strong> 是一种可以包含用户界面的组件,主要用于和用户进行交互的。一个应用程序可以包含零个或者多个,但不包含的应用程序非常少,毕竟一个应用程序是给用户使用,可以让用户看得见的。其活动与概念与<code>OC</code>中的 <strong>UIViewController</strong> 基本一致。</p>
+<h2 id="Activity如何创建"><a href="#Activity如何创建" class="headerlink" title="Activity如何创建?"></a><code>Activity</code>如何创建?</h2><p>1、创建一个<code>ActivityTest</code>的项目工程,在 <strong>“Add an Activity to Mobile”</strong> 页面”选择 <strong>“Add No Activity”</strong> , 点击 <strong>“Finish”</strong> 等待一会,项目编译成功,将项目目录从默认使用 <strong>Android”</strong> 模式改成 <strong>“Project”</strong> 模式,我们在 “app/src/main /java/com.activitytest.chuliangliang.activitytest(项目包名)” 目录下没有任何<code>Activity</code>,原因是我们上面选择的是 <strong>“Add No Activity”</strong> 选项。下面我们手动创建<code>Activity</code>。</p>
+<p>2、右键”com.activitytest.chuliangliang.activitytest”(或者Mac 下 command+n) “new” –&gt; “activity” –&gt;”Empty Activity”, 此时会出现一个界面,分别有如下可操作的地方:</p>
+<ul>
+<li>Activity name: 新建的<code>Activity</code>的文件名。</li>
+<li>layout name: 对应的UI布局文件。</li>
+<li>Package name: 包名(一般默认即可, 也可自行修改)。</li>
+<li>Generate layout file: 是一个复选框, 表示是否创建布局文件</li>
+<li>Launcher Activity: 是一个复选框,表示是否将当前<code>Activity</code>设置为项目的主<code>Activity</code>。</li>
+<li>Backwards Compatibility(Appcompat): 是一个复选款,代表是否为项目启用向下兼容的模式。</li>
+</ul>
+<p>我们将活动名设置为 <strong>FirstActivity</strong> , 取消创建布局文件(“Generate layout file”),取消作为主活动(“Launcher Activity”),选中向下兼容(“Backwards Compatibility(Appcompat)”);为了更加了解如何创建活动,我们将手动一步一步创建。</p>
+<p>创建完活动后,我们打开新创建的活动会有如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到 “onCreate”方法很简单,就是调用了一下父类的方法,这是系统默认为我们实现的,后面我们可以在这里加一些我们自己的代码。</p>
+<p>3、接下来我们为这个活动创建一个布局文件<br>在”app/src/main/res” 目录中右键–&gt; “New” –&gt; “Directory” 创建一个名为”layout”的目录用来存放项目的所有的布局文件,然后在这目录上右键 –&gt; “Layout reseource file” 创建一个名为”first_layout”的文件 根源元素现在为”LinearLayout”(线性布局) 默认。</p>
+<p>创建完成打开这个文件,在你工作区上是一个可视化的UI控件界面的操作区域,我们可以在底部通过”Design/Text”,切换文件打开方式,我们使用”text”的方式打开,同时我们可以在右侧”Preview”区域实时预览UI样式。<br>使用text模式打开后我们会看到<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>             //活动的布局方向</div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>        //活动的宽度按照屏幕宽度一致</div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;      //活动高度与屏幕高度一致</div><div class="line">LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>此时右侧预览区域显示啊<code>Activity</code>效果为空白的,我们在布局文件添加如下代码<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>             //活动的布局方向</div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>        //活动的宽度按照屏幕宽度一致</div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;      //活动高度与屏幕高度一致</div><div class="line">    <span class="comment">&lt;!-- 添加一个Button 元素 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>    //布局约束为 宽度与屏幕宽度一致</div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>   //高度根据文字内容一致</div><div class="line">        <span class="attr">android:text</span>=<span class="string">"button1"</span>                 //显示的文字</div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_1"</span>             //控件的唯一标识,与<span class="attr">xml</span>语法中引用资源类似,只不过是把<span class="attr">string</span>替换成<span class="attr">id</span>, 在这里用来查找控件使用</div><div class="line">        /&gt;</div><div class="line">LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>此时右侧预览区域中的<code>Activity</code>上会显示一个button。关于布局约束我们后面会慢慢来看。<br>布局文件我们创建好了,可是问题来了, <code>Activity</code>是如何加载这布局的呢? 打开 <strong>FirstActivity</strong> 文件,<br>添加如下代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.first_layout);<span class="comment">//加载布局文件 first_layout 是刚刚创建布局文件名</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>目前为止Activity的基本创建工作完成了,那么这个<code>Activity</code>如何在项目中加载的呢?</p>
+<p>4、打开”AndroidManifest.xml”文件 ,这个文件里包含了整个项目的配置及需要注册的活动,不过这里我们已经看到<code>Android Studio</code>已经帮我们注册好了。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.activitytest.chuliangliang.activitytest"</span>&gt; //包名</div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span>&gt;</span> <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>可以看到,所有注册活动的声明都是放在<code>&lt;application&gt;</code> 标签内的,这一步是由<code>Android Studio</code>自动帮我完成,在<code>&lt;activity&gt;</code>标签中使用”android:name”来指定是哪一个活动,这里的”.FirstActivity” 是 “com.activitytest.chuliangliang.activitytest.FirstActivity”的简写,因为在package属性中已经表明了包名,所以这里可以简写成”.FirstActivity”。虽然我们向程序中注册了活动,但是我们并没有指定首先启动的是哪一个活动,所以程序还是不能启动的,配置主活动的方法在上篇文章我们已经有过了接触,就是在<code>&lt;activity&gt;</code> 中添加<code>&lt;intent-filter&gt;</code> 标签并在这个标签中添加 <code>&lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</code> 和 <code>&lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</code>属性即可。<br>代码示例:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.activitytest.chuliangliang.activitytest"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span></div><div class="line">            <span class="attr">android:label</span>=<span class="string">"我是第一个活动"</span>&gt; //添加一个标题</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这样的话我们的”FirstActivity”就是我们的主活动了,我们来运行一下程序,点击桌面的程序图标就可以启动程序了,如果程序中只注册了活动但没有指定主活动,这个程序是可以正常安装的,但是无法再启动器中看到或打开这个程序,这种程序通常作为第三方服务为其他程序提供服务的,如支付宝的快捷支付。</p>
+<p>在这里补一下关于<code>Android Studio</code>的运行程序的操作介绍,在上篇文章中忘记介绍这个了, 是我疏忽了,大伙多多担待~~~<br>顶部工具栏中 有一个锤子的图标,作用是编译项目, 在其后面有一个下拉框我们可以选在运行的程序,我们这里选在app, 在其右侧有一个三角的按钮,点击它开始运行程序。</p>
+<p>程序运行起来后,我们会在屏幕上看见一个名字为 <strong>Button1</strong> 的按钮。<br>现在你已经掌握了手动创建<code>Acticity</code>的全部过程了。是不是还有一些小激动呢~ 接下来我们让这个程序更有意思一点。</p>
+<h2 id="Activity中使用Toast控件"><a href="#Activity中使用Toast控件" class="headerlink" title="Activity中使用Toast控件"></a><code>Activity</code>中使用Toast控件</h2><p><strong>Toast</strong> 是 <code>Android</code> 中提供的一种非常好的提醒方式,可以将一些短小的信息提示给用户,一段时间后自动消失,不会占用屏幕空间。使用Toast必须要现有一个触发点,那我们正好借助屏幕上的button(按钮),点一下按钮显示一下提示,<code>Android</code>中为按钮添加点击事件有两种方式,一种是通过布局文件中设置按钮事件;另一种是使用代码设置,我们这里使用代码设置点击事件,关于第一种方法我们在学习UI控件用法的时候会详细介绍。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.first_layout);</div><div class="line">        Button button = (Button) findViewById(R.id.button_1);  <span class="comment">//获取布局文件中的按钮 button_1 按钮的id</span></div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123; <span class="comment">//为按钮添加点击事件</span></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Toast.makeText(FirstActivity.<span class="keyword">this</span>, <span class="string">"点击我了"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>再次运行,点击按钮在屏幕底部出现Toast提示, 内容为”点击我了”,过一会会自动消失。这就是Toast控件的使用方法。</p>
+<p><code>findViewById()</code>获取布局文件中定义的元素控件,这里我们传入 <strong>R.id.button_1</strong> 来得到按钮实例,<strong>button_1</strong> 值是在布局文件中通过 <strong>“android:id”</strong> 设置的属性值, 然后我们通过按钮的 <strong>“setOnClickListener()”</strong> 为按钮注册一个监听器,点击按钮是就会执行监听器中的 <strong>onClick()</strong> 方法,从而弹出 <strong>“Toast”</strong>。</p>
+<p><strong>“Toast”</strong> 是通过静态方法 <strong>“makeText()”</strong> 创建的,然后调用 <strong>“show()”</strong> 方法显示, <strong>“makeText()”</strong> 需要三个参数,第一个就是 <strong>Context对象</strong>, 活动本身就是一个 <strong>Context对象</strong>, 第二个是显示的文本内容, 第三个是显示的时间,有两个内置常量可以选择 <strong>Toast.LENGTH_SHORT</strong> 和 <strong>Toast.LENGTH_LONG</strong>。</p>
+<h2 id="Activity的销毁"><a href="#Activity的销毁" class="headerlink" title="Activity的销毁"></a><code>Activity</code>的销毁</h2><p>我们已经学会了如何创建一个活动,那么我们又有何销毁一个活动呢?<br>销毁一个活动很简单,只要按一下Back键就可以想回当前活动了,不过有时希望点击按钮等方式可以销毁一个活动,我们就需要借助活动的一个 <strong>finish()</strong> 方法了,我们在活动中调用一下 <strong>finish()</strong> 方法就可以销毁当前活动了。<br>我们将上述按钮的时间修改为如下代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">    finish();</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>运行程序,点击按钮会退出到桌面,当前活动已销毁。</p>
+<h2 id="Activity间的切换"><a href="#Activity间的切换" class="headerlink" title="Activity间的切换"></a><code>Activity</code>间的切换</h2><p>只有一个活动的应用是不是太过于简单了,一般的程序都是由多个活动组成,不管我们创建多少个活动创建的过程都是一样的,唯一的区别就是不需要设置为主活动。</p>
+<p>我们创建第二个活动名称为 <strong>SecondActivity</strong>, 我们这回选在自动创建布局文件,创建过程就不在介绍了。创建完后发现第二个活动布局文件和我们刚刚创建的不一样,是因为默认的布局约束不是线性布局,我们将第一个活动的布局文件中的内容全部拷贝出来替换第二个布局文件的内容,修改一下按钮的文字和id属性,我们在第二个活动的 <strong>onCreate()</strong> 中发现系统自动帮我们加载了布局文件了, 同时在 <strong>AndroidManifest.xml</strong> 文件中页自动帮我们注册了第二个活动, 是不是很方便啊。</p>
+<p><code>Intent</code>是<code>Android</code>程序中各个组件进行交互的一种重要方式,它不仅可以指明当前组件想要执行的动作,还可以在不同组件之间传递数据。<code>Intent</code>一般可被用于启动活动、启动服务以及发送广播等场景,我们这里暂时不介绍服务和广播。活动间的切换(跳转)使用 <code>Intent</code>进行,活动间的切换有两种跳转方式: 显式Intent 和 隐式Intent。</p>
+<p><strong>1.显式Intent:</strong><br><code>Intent</code>有多个构造函数的重载,其中 <strong>Intent(Context packageContext,Class &lt;?&gt; cls)</strong>。这个构造函数接收两个参数,第一个参数启动活动的上下文,第二个参数想要启动的目标活动。然后使用 <strong>startActivity()</strong> 方法启动活动,代码示例如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在FirstActivity 声明一个方法 然后在按钮点击事件中调用这个方法</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span>  <span class="title">pushSecondActivity</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">//显式调用        </span></div><div class="line">        Intent intent = <span class="keyword">new</span> Intent(FirstActivity.<span class="keyword">this</span>,SecondActivity.class);</div><div class="line">        startActivity(intent);</div><div class="line">    &#125;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">  <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">  setContentView(R.layout.first_layout);</div><div class="line">  Button button = (Button) findViewById(R.id.button_1);</div><div class="line">  button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">      Toast.makeText(FirstActivity.<span class="keyword">this</span>, <span class="string">"点击我了"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">      pushSecondActivity(); <span class="comment">//调用pushSecondActivity方法</span></div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序,点击按钮就可以跳转到第二个活动了。</p>
+<p><strong>2.隐式Intent:</strong><br>相对于 <strong>显式Intent</strong>,<strong>隐式Intent</strong> 比较含蓄,它并不明确指明要启动哪一个活动,而是指定了一系列更为抽象的 <strong>action</strong> 和 <strong>category</strong> 等信息,由系统去分析找出合适的活动并启动。<br>那么系统是如何找出合适的活动呢? 系统会根据我们初始化 <strong>Intent</strong> 时,传如的 <strong>action</strong> 和 <strong>category</strong> 等信息来确定是哪一个活动。</p>
+<p>我们需要在 <strong>AndroidManifest.xml</strong> 文件中指定 <strong>SecondActivity</strong> 的 <strong>action</strong> 和 <strong>category</strong> 属性。<br>代码示例:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.activitytest.chuliangliang.activitytest"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span></div><div class="line">            <span class="attr">android:label</span>=<span class="string">"我是第一个活动"</span>&gt;</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!-- 隐式调用intent --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.activitytest.chuliangliang.ACTION_START"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.MY_SECOND"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>设置了 <strong>SecondActivity</strong> 的 <strong>action</strong> 和 <strong>category</strong> 属性后我们需要跳转了,我们还是在 <strong>FirstActivity</strong> 点击按钮跳转到 <strong>SecondActivity</strong> 中,代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改显式Intent为隐式Intent</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span>  <span class="title">pushSecondActivity</span><span class="params">()</span></span>&#123;</div><div class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="string">"com.activitytest.chuliangliang.ACTION_START"</span>);</div><div class="line">        intent.addCategory(<span class="string">"android.intent.category.MY_SECOND"</span>);</div><div class="line">        startActivity(intent);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序,点击按钮跳转到 <strong>SecondActivity</strong>。</p>
+<p><strong>注意:</strong><br>使用 <strong>隐式Intent</strong> 时要注意初始化Intent时使用的 “com.activitytest.chuliangliang.ACTION_START” 和  <strong>Category</strong> 字符串要与 <strong>AndroidManifest.xml</strong> 中设置完全一致,否则会报错导致程序死掉。</p>
+<p><strong>拓展:</strong><br><strong>隐式Intent</strong> 有很多功能,使用 <strong>隐式Intent</strong> 不仅可以启动自己程序中的活动还可以启动其他程序的活动,使得<code>Android</code>程序间的功能共享称为可能,比如调用浏览器去显示网页,就没必要自己再去实现一个浏览器只需要调用系统浏览器就好。<br>代码示例: 我们在 <strong>SecondActivity</strong> 中添加一个按钮,点击这按钮跳转浏览器<br><strong>SecondActivity</strong> 的布局文件内容:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/button_web"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"打开网页"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>SecondActivity</strong> 中为按钮添加点击事件, 打开浏览器 并访问 <a href="http://baidu.com" target="_blank" rel="external">http://baidu.com</a> 网址:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.second_layout);</div><div class="line">        Button webButton = (Button) findViewById(R.id.button_web);</div><div class="line">        webButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                intent.setData(Uri.parse(<span class="string">"http://baidu.com"</span>));</div><div class="line">                startActivity(intent);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序,进入 <strong>SecondActivity</strong> 中点击按钮就会打开浏览器页面并加载网址,<strong>隐式Intent</strong> 可以设置传递的数据类型,这里就不一一演示了。</p>
+<h2 id="Activity间传递数据"><a href="#Activity间传递数据" class="headerlink" title="Activity间传递数据"></a><code>Activity</code>间传递数据</h2><p>有时我们在<code>Activity</code>切换的同时还需要传递一些数据,<strong>Intent</strong> 传递数据有两种: 向下一个活动传递数据 和 返回数据给上一个活动。</p>
+<p><strong>1.向下一个活动传递数据:</strong><br><code>Intent</code> 在启动活动时可以传递数据,<code>Intent</code>中提供了一系列 <code>putExtra()</code>方法的重载,可以把我们想要传递的数据暂存在<code>Intent</code>中,启动一个活动后,只需要把这些数据从<code>Intent</code>中读取出来即可。</p>
+<p>我们新建一个<code>Activity</code> 名为 “ThirdActivity”, 在 <strong>SecondActivity</strong> 添加按钮, 点击按钮启动 <strong>ThirdActivity</strong>, 并传递一个字符串过去,然后在 <strong>ThirdActivity</strong> 中打印出来。<br>代码示例:<br><strong>SecondActivity</strong> 中 新添加的按钮点击事件:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.second_layout);</div><div class="line"></div><div class="line">        Button button = (Button)findViewById(R.id.button_2);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                String data = <span class="string">"你好,第三个Activity"</span>;</div><div class="line">                Intent intent = <span class="keyword">new</span> Intent(SecondActivity.<span class="keyword">this</span>, ThirdActivity.class);</div><div class="line">                intent.putExtra(<span class="string">"my_pudata"</span>,data); <span class="comment">//my_pudata为key通过此key可以取出数据 putExtra</span></div><div class="line">               startActivity(intent); <span class="comment">//单向 向下传值</span></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p><strong>ThirdActivity</strong> 中接收数据代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.third_layout);</div><div class="line">        Intent intent = getIntent();</div><div class="line">        String dataString =  intent.getStringExtra(<span class="string">"my_pudata"</span>); <span class="comment">//通过my_pudata key取出数据</span></div><div class="line">        Log.d(TAG,<span class="string">"dataString"</span> + dataString);</div><div class="line">        Toast.makeText(<span class="keyword">this</span>, dataString, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序,点击 <strong>SecondActivity</strong> 中的按钮 跳转到  <strong>ThirdActivity</strong> 中,我们可以看到屏上会显示Toast提示,同时也可以在log窗口看到印出来了我们传递的字符串。</p>
+<p><code>Intent</code>中的<code>putExtra()</code> 通过key存放需要传递的数据, 数据可以有很多中数据类型的数据,例如字符串、基本数据类型等等,具体可以查阅API文档;在另外一个活动通过这个key取出数据,例如我传递的是字符串所以我们通过<code>getStringExtra()</code>方法取出数据。</p>
+<p><strong>2.返回数据给上一个活动:</strong><br>既然<code>Intent</code>可以向下一个活动传递数据,那么能不能将数据返回给上一个活动呢? 答案是肯定的。不过并不是用启动活动的方式传递数据,查看api你会发现还有另外一个启动活动的方法:<code>startActivityForResult()</code>,通过名字就可以猜到带有返回值的启动方式。<br>我们将 <strong>SecondActivity</strong> 跳转代码稍作修改,代码示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.second_layout);</div><div class="line">        Button button = (Button)findViewById(R.id.button_2);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                String data = <span class="string">"你好,第三个Activity"</span>;</div><div class="line">                Intent intent = <span class="keyword">new</span> Intent(SecondActivity.<span class="keyword">this</span>, ThirdActivity.class);</div><div class="line">                intent.putExtra(<span class="string">"my_pudata"</span>,data);</div><div class="line"><span class="comment">//                startActivity(intent); //单向 向下传值</span></div><div class="line">                startActivityForResult(intent, <span class="number">1</span>); <span class="comment">//双向 向下传值同时返回值 此方法需要两个参数,第一个参数intent 第二个是一个请求码,用来标记这个传递参数过程的标识</span></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>我们在 <strong>ThirdActivity</strong> 中接收 <strong>SecondActivity</strong> 传递过来的数据并输出数据;在 <strong>ThirdActivity</strong> 中点击按钮返回到 <strong>SecondActivity</strong> 中并输出返回给 <strong>SecondActivity</strong> 的数据。</p>
+<p><strong>ThirdActivity</strong> 中代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.third_layout);</div><div class="line">        Intent intent = getIntent();</div><div class="line">        String dataString =  intent.getStringExtra(<span class="string">"my_pudata"</span>);</div><div class="line">        Log.d(TAG,<span class="string">"dataString"</span> + dataString);</div><div class="line">        Toast.makeText(<span class="keyword">this</span>, dataString, Toast.LENGTH_SHORT).show();</div><div class="line">        Button button = (Button) findViewById(R.id.button_result);  <span class="comment">//获取布局文件中的返回按钮实例</span></div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;      <span class="comment">//为按钮添加事件</span></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Intent inent = <span class="keyword">new</span> Intent();</div><div class="line">                inent.putExtra(<span class="string">"data_return"</span>,<span class="string">"第三个活动返回处理结果"</span>); <span class="comment">//设置返回给 SecondActivity 的数据</span></div><div class="line">                setResult(RESULT_OK,inent);     <span class="comment">//需要两个参数 第一个 结果状态码   第二个 inent</span></div><div class="line">                finish();                       <span class="comment">//销毁当前 activity 返回上一个 activity</span></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>那么现在 <strong>ThirdActivity</strong> 中已经向 <strong>SecondActivity</strong> 返回数据了, 在 <strong>SecondActivity</strong> 中如何接收数据呢?接下来我们看看 <strong>SecondActivity</strong> 如何接收数据,其实简单只需要重写<code>Activity</code>的 <code>onActivityResult()</code>方法,重写方法可以使用 <strong>control + O</strong> (windows 系统: Ctrl+O)快捷键会弹出一个对话框,在里面找到 <code>onActivityResult()</code> 回车即可。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    * requestCode : SecondActivity跳转ThirdActivity时   startActivityForResult(intent, 1)中的1这个参数,通过requestCode可以判断数据来源</div><div class="line">    *                      </div><div class="line">    * resultCode :  ThirdActivity返回SecondActivity时  setResult(RESULT_OK,inent)中的结果状态码,通过resultCode可以判断数据是否处理正确</div><div class="line">     *</div><div class="line">     *data:  返回的Intent 对象,里面包含着数据信息</div><div class="line">    **/</div><div class="line">       <span class="keyword">switch</span> (requestCode)&#123;</div><div class="line">           <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">           &#123;</div><div class="line">               <span class="keyword">if</span> (resultCode == RESULT_OK)</div><div class="line">               &#123;</div><div class="line">                   String returnString = data.getStringExtra(<span class="string">"data_return"</span>);</div><div class="line">                   Log.d(TAG,<span class="string">"returnString = "</span> + returnString);</div><div class="line">                   Toast.makeText(<span class="keyword">this</span>, returnString, Toast.LENGTH_SHORT).show();</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">break</span>;</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序,我们从 <strong>SecondActivity</strong> 进入 <strong>ThirdActivity</strong> ,可以打印传递的数据信息, 然后点击 <strong>ThirdActivity</strong> 中的按钮返回到 <strong>SecondActivity</strong> 我们页接收到了传递回来的数据。</p>
+<p><strong>拓展:</strong><br>我们是点击 <strong>ThirdActivity</strong> 中的按钮退回到 <strong>SecondActivity</strong> 中的,但是实际运用中用户还可以通过点击手机上的 <strong>Back键</strong> 返回 <strong>SecondActivity</strong>,我们该怎么办? 我们将上述代码稍加改动,重写<code>Activity</code>的 <code>onBackPressed()</code>方法,此方法会在用户点击Back键时调用。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span> </span>&#123;</div><div class="line">       Intent inent = <span class="keyword">new</span> Intent();</div><div class="line">       inent.putExtra(<span class="string">"data_return"</span>,<span class="string">"第三个活动返回处理结果"</span>);</div><div class="line">       setResult(RESULT_OK,inent);</div><div class="line">       <span class="keyword">super</span>.onBackPressed();</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>再次运行程序,返回点击back键返回到 <strong>SecondActivity</strong> 时同样可以得数据。</p>
+<h2 id="Activity的生命周期"><a href="#Activity的生命周期" class="headerlink" title="Activity的生命周期"></a><code>Activity</code>的生命周期</h2><p>掌握活动的生命周期对于任何 <strong>Android开发者</strong> 来说都是非常重要的,当你了解了<code>Activity</code>的生命周期后,就可以写出更加连贯流畅的程序,并在如何管理应用资源方面发挥的游刃有余,你的程序将会拥有更好的用户体验。</p>
+<p><strong>返回栈:</strong><br>通过上面的示例,大家可以看出来多个<code>Activity</code>是可以层叠的,每启动一个活动都是覆盖在原有活动的上面,点击Back键时销毁最上面的活动,下一个活动就会重新显示在屏幕上。<br><code>Android</code>是使用任务(Task)来管理活动的,一个任务就是一组存放在栈里的活动的集合,这个栈也被成称作返回栈(Back Stack)。栈是一种先进后出的数据结构,在默认情况下,每当我们新启动一个活动时,它会在返回栈中入栈,并处于返回栈最顶端,当我们按下 <strong>Back键</strong> 或者调用 <strong>finish()</strong> 方法去销毁一个活动时,处于栈顶的活动就会出栈,这时前一个入栈的活动会重新回到栈顶的位置,系统就会显示处于栈顶的活动给用户。</p>
+<p><strong>活动的状态:</strong><br>每个活动在其生命周期中最多会有四中状态: <strong>运行状态</strong> 、<strong>暂停状态</strong> 、<strong>停止状态</strong> 、<strong>销毁状态</strong>。</p>
+<p><strong>(1)运行状态:</strong><br>当一个活动位于返回栈顶时,这时活动就处于活动状态。系统最不愿意收回的就是处于运行状态的活动,因为会给用户带来非常差的用户体验。</p>
+<p><strong>(2)暂停状态:</strong><br>当一个活动不再处于栈顶位置,但仍可见,这时活动就处于暂停状态。如在这个活动上面存在一个非全屏的对话框形式的活动时,这个活动就会处于暂停状态;系统也不愿意回收此种状态的活动,只有在内存极低的情况,系统才会考虑回收。</p>
+<p><strong>(3)停止状态:</strong><br>当一个活动不再处于栈顶,并且完全不可见,这时就进入了停止状态。系统会保存活动的相应状态和临时数据等信息,但这不是完全可靠的,当内存不足时可能被系统回收。</p>
+<p><strong>(4)销毁状态:</strong><br>当一个活动从返回栈移除后就变成了销毁状态。系统最倾向将处于这种状态的活动回收。</p>
+<p><strong>活动的生命周期:</strong><br><code>Activity</code>定义了7个回调方法,覆盖了活动的生命周期的每个环节。</p>
+<p><strong>(1)onCreate():</strong><br>这个方法我们都已经看过很多次了,每次创建<code>Activity</code>时都在里面做了一些操作,它会在活动第一次被创建的时候调用。一般在它中做一些初始化操作。</p>
+<p><strong>(2)onStart():</strong><br>这个方法在活动由不可见变为可见的时候调用。</p>
+<p><strong>(3)onResume():</strong><br>这个方法在活动准备好和用户进行交互的时候调用,此时活动一定处于返回栈顶部,并且处于运行状态。</p>
+<p><strong>(4)onPause():</strong><br>这个方法在系统准备去启动或者恢复另一个活动的时候调用。我们通常会在这个方法中将一些消耗CPU的资源释放掉,以及保存一些关键数据,但这个方法执行一定要快,不然会影响都新的栈顶的活动的使用。</p>
+<p><strong>(5)onStop():</strong><br>这个方法在活动完全不可见的时候调用,它和<code>onPause()</code>方法主要区别在于,如果启动的新活动是一个对话框式的活动,那么<code>onPause()</code>方法是不会执行的。</p>
+<p><strong>(6)onDestory():</strong><br>这个方法在活动将要被销毁时调用,之后活动的状态变为销毁状态。</p>
+<p><strong>(7)onRestart():</strong><br>这个方法是活动由停止状态变为运行状态之前调用,也就是活动被重新启动了。</p>
+<p>以上7个方法中除了<code>onRestart()</code>方法,其他都是两两相对的,从而又可以将活动分为 <strong>三种生存期:</strong> <strong>完整生存期</strong> 、<strong>可见生存期</strong> 和 <strong>前台生存期</strong>。<br><strong>(1)完整生存期:</strong><br> 活动在<code>onCreate()</code>方法和 <code>onDestory()</code>方法之间所经历的,就是完整生存期,一般会在<code>onCreate()</code>方法中执行各种初始化操作,在<code>onDestory()</code>方法中执行释放内存的操作。</p>
+<p><strong>(2)可见生存期:</strong><br>活动在<code>onStart()</code>方法 与 <code>onStop()</code>方法之间所经历的,就是可见生存期。在可见生存期内,活动对于用户总是可见的,即便可能无法与用户进行交互。我们可以通过这两个方法合理管理那些对用户可见的资源。比如在<code>onStart()</code>加载资源,在<code>onStop()</code>释放资源,从而保证处于停止状态的活动不会占用过多资源。</p>
+<p><strong>(3)前台生存期:</strong><br>活动在<code>onResume()</code>方法 与 <code>onPause</code>方法之间所经历的,就是前台生存期。在前台生存期内,活动总是处于运行状态的,此时活动是可以与用户进行交互的,我们平时看到和接触最多的就是这个状态下的活动。</p>
+<p>这里建议大家可以动手写写代码(在<code>Activity</code>中重写上面的7中方法即可),亲自体验一下活动的生命周期,充分了解活动的生命周期的一些列过程。<br>这里给大家一段代码示例用来改变一个普通的<code>Acitivity</code>样式 使其变为对话框的样式(类似于<code>OC</code>中 <strong>UIAlertView</strong> )。<br>创建一个名为”DialogActivity”的<code>Activity</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".Nomal_activity"</span> &gt;</span><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".DialogActivity"</span></span></div><div class="line">            <span class="attr">android:theme</span>=<span class="string">"@android:style/Theme.Dialog"</span> &gt; //将普通样式的Activity修改为弹窗样式的对话框</div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>实践应用: 活动被回收了怎么办?</strong><br>我们在上面提到过,在活动进入停止状态时,是有可能被系统回收的。那么在如下场景,在活动A中启动活动B,活动A进入了停止状态,此时如果内存极度不足,系统就会将活动A回收了,然后用户按下Back键,返回到活动A,会出现什么问题呢? 其实还是会显示活动A的,只不过并不会执行活动A的<code>onStart()</code>方法,而是执行活动A的<code>onCreate()</code>方法,因为活动A在这种情况下会被重新创建一次。<br>这里看上去没什么问题,但是有一个重要问题,活动A中可能存在的临时数据和状态都会丢失了,例如活动A中有一个文本输入框,里面输入了一些文字,启动了活动B,然后出现内存不足活动A被回收,然后这时用户点击Back键返回活动A中发现文本框内刚才输入的文字没有了,原因就是活动A被重新创建了。</p>
+<p>问题我们知道了,那应该如何解决呢?<br>通过查阅文档可以看出<code>Activity</code>提供了一个<code>onSaveInstanceState(Bundle outState)</code>回调方法,这个方法可以保证活动在回收之前一定会被调用,因此我们可以通过这个方法来解决活动被回收时得不到保存的临时数据的问题。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onSaveInstanceState</span><span class="params">(Bundle outState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onSaveInstanceState(outState);</div><div class="line">    String tmpString = <span class="string">"我是保存的临时数据"</span>;</div><div class="line">    outState.putString(<span class="string">"data_key"</span>,tmpString);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>onSaveInstanceState(Bundle outState)</code>方法中会携带一个参数 <code>Bundle</code>类型,<code>Bundle</code>提供了一些列保存数据的方法。如使用<code>outState.putString()</code>保存字符串,此方法需要两个参数第一个是key,第二个是值,与<code>Intent</code>传递数据类似;数据是保存下来了,那么我们应该在哪里进行恢复呢? 不知道大家有没有注意到在<code>onCreate(Bundle savedInstanceState)</code>方法中也携带了一个<code>Bundle</code>类型参数,这个参数就是保存我们之前保存的所有数据,我们只需要从里面读取出来就可以了,如果之前未保存过数据,<code>savedInstanceState</code>为<code>null</code>。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">       setContentView(R.layout.first_layout);</div><div class="line">       <span class="keyword">if</span> (savedInstanceState != <span class="keyword">null</span>) &#123;</div><div class="line">           String stingData = savedInstanceState.getString(<span class="string">"data_key"</span>);</div><div class="line">           Log.d(TAG, <span class="string">"恢复保存数据:"</span> + stingData);</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>细心的你一定会发现,<code>Bundle</code>对数据的保存和读取与<code>Intent</code>传递数据的很相似,其实<code>Activity</code>间传递数据可以用<code>Intent</code>与<code>Bundle</code>结合起来使用,具体的代码我就不演示了,大家自己试试看。</p>
+<h2 id="Activity的启动模式"><a href="#Activity的启动模式" class="headerlink" title="Activity的启动模式"></a><code>Activity</code>的启动模式</h2><p>在实际项目中我们需要根据特定的需求为每个活动指定恰当的启动模式。启动模式一共分为四种: <strong>standard(默认)</strong> 、<strong>singleTop</strong> 、<strong>singleTask</strong> 和 <strong>singleInstance</strong>。可以在 <strong>AndroidManifest.xml</strong> 文件中 <code>&lt;activity&gt;</code>标签指定 <strong>android:lanuchMode</strong> 属性来选择启动模式。<br>代码示例: 将 <strong>FirstActivity</strong> 设置 <strong>standard</strong> 启动模式。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">package</span>=<span class="string">"com.activitytest.chuliangliang.activitytest"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">application</span></span></div><div class="line">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></div><div class="line">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></div><div class="line">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">".FirstActivity"</span></div><div class="line">            <span class="attr">android:label</span>=<span class="string">"我是第一个活动"</span></div><div class="line">            <span class="attr">android:launchMode</span>=<span class="string">"standard"</span>&gt; //设置启动模式</div><div class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>下面我们分别看一下这四种启动模式:</strong><br><strong>(1)standard:</strong><br><strong>standard</strong> 是活动默认的启动模式,在不进行显式指定的情况下,所有活动都会自动使用这种模式启。我们上述所有例子都是使用这个模式启动的。在 <strong>standard</strong> (默认情况)模式下,每当启动一个新的活动,它就会在栈顶中入栈,并处于栈顶的位置,系统不会在乎这个活动是否已经在返回栈中存在。</p>
+<p><strong>(2)singleTop:</strong><br>在某些场景下你会觉得 <strong>standard</strong> 模式不太合理。活动已经明明在栈顶了,为什么再次启动的时候还需要创建新的活动实例呢? 此时系统又提供了一种启动模式 <strong>singleTop</strong> ;<strong>singleTop</strong> 启动模式下, 在启动活动时如果发现返回栈的栈顶已经是该活动,则认为可以直接使用它,不会再创建新的活动实例。<br>我们只要修改 <strong>AndroidManifest.xml</strong> 文件中 <code>&lt;activity&gt;</code>标签的 <strong>android:launchMode</strong> 属性为 <code>singleTop</code> 即可为指定活动设置启动模式。</p>
+<p><strong>(3)singleTask:</strong><br>使用 <strong>singleTop</strong> 模式可以很好的解决重复创建栈顶活动问题,但是如果上述活动并未处于栈顶,还是会创建多个活动,那么有没有办法让一个活动在整个程序的上下文中只存在一个实例呢?这就需要借助 <strong>singleTask</strong> 模式;当前活动的启动模式指定为 <strong>singleTask</strong> 模式,每次启动该活动时系统首先会在返回栈中查找是否已经创建过给活动的实例,如果发现已存在的活动实例则直接使用,并把在这个活动之上的所有活动统统出栈,如果没有就创建一个新的活动实例。</p>
+<p><strong>(4)singleInstance:</strong><br><strong>singleInstance</strong> 模式应该是四中模式中最特殊也是最复杂的一种了,需要多花一点时间来理解这个模式。不同于以上三种模式,指定为 <strong>singleInstance</strong> 模式的活动会启用一个新的返回栈来管理这个活动,(其实如果 <strong>singleTask</strong> 模式指定了不同的 <strong>taskAffinity</strong>,也会启动一个新的返回栈)。什么情况会使用到这模式?假如我们程序中有一个活动是允许其他程序调用的,如果我们想实现其他程序可以共享这个活动实例时, 前三种模式肯定是做不到的,因为每个应用程序都会与自己的返回栈,同一个活动在不同返回栈入栈是必然是创建了新的实例。而使用 <strong>singleInstance</strong> 模式就可以解决这问题,这种模式会有一个单独的返回栈来管理这个活动,也就解决了实例共享的问题。</p>
+<h2 id="Activity的实践技巧"><a href="#Activity的实践技巧" class="headerlink" title="Activity的实践技巧"></a><code>Activity</code>的实践技巧</h2><p>关于活动的知识基本介绍完毕,不过距离熟练应用可能还是有一段距离,下面我们来看几个小技巧,这些小技巧在实际运用中会非常实用。</p>
+<p><strong>1.快速知晓当前是哪一个Activity:</strong><br>我们进入公司时,大部分都是接手他人的项目,假如让你修改某个界面上的非常简单的东西,却花费很多时间才能找到对应的活动,我们就以 <strong>ActivityTest</strong> 这个工程为例<br>我们创建一个 <strong>BaseActivity</strong> 类,让所有活动都继承这个类, 因为我们不需要将 <strong>BaseActivity</strong> 在程序中注册,我们就创建一个普通的Class就好,修改父类为 <code>AppCompatActivity</code> 类并重写<code>onCreate()</code>方法,在<code>onCreate()</code>中输出活动的名字。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        Log.d(<span class="string">"BaseActivity"</span>, getClass().getSimpleName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>(2)随时随地快速退出程序</strong><br>假如目前你停留在 <strong>ThirdActivity</strong> 页,想要退出程序,需要点击至少3次Back键才可以,按home键只是把程序挂起,并不是退出程序。如果我们程序需要有一个注销或者退出的功能怎么办?<br>解决思路非常简单,只要用一个集合将创建的活动保存起来,进行管理就可以了。<br>我们创建一个<code>ActivityController</code>类作为活动的集合管理器,代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.activitytest.chuliangliang.activitytest;</div><div class="line"><span class="keyword">import</span> android.app.Activity;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by chuliangliang on 2017/5/15.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityController</span> </span>&#123;</div><div class="line">    <span class="comment">//创建一个静态数据 用来存放新创建的活动</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Activity&gt; activities = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="comment">//将指定的活动加入到数组中</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addActivity</span> <span class="params">(Activity activity)</span></span></div><div class="line">    &#123;</div><div class="line">        activities.add(activity);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//从数组中移除指定的活动</span></div><div class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeActivity</span><span class="params">(Activity activity)</span></span></div><div class="line">    &#123;</div><div class="line">        activities.remove(activity);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//结束全部活动 &lt;退出程序&gt;</span></div><div class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span>  <span class="keyword">void</span>  <span class="title">finishAll</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span> (Activity activity : activities)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (!activity.isFinishing())</div><div class="line">            &#123;</div><div class="line">                activity.finish();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来我们修改一下 <strong>BaseActivity</strong> 类的代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        Log.d(<span class="string">"BaseActivity"</span>, getClass().getSimpleName());</div><div class="line">        ActivityController.addActivity(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        ActivityController.removeActivity(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序进入到  <strong>ThirdActivity</strong> 页面点击退出程序按钮,在按钮事件中调用<code>ActivityController.finishAll();</code>即可退出程序。</p>
+<p><strong>(3)启动活动的最佳写法</strong><br>相信我们启动活动的方法大家都非常熟练了,但是在实际开发中往往会遇到合作的问题,比如你开发 <strong>FirstActivity</strong> 活动中的功能, 其他队友开发 <strong>SecondActivity</strong> 界面, 当 <strong>FirstActivity</strong> 跳转 <strong>SecondActivity</strong> 时需要传递数据,如果此时还是按照以前的方式去写,那么开发 <strong>SecondActivity</strong> 的人需要到 <strong>FirstActivity</strong> 中查看传递数据是什么格式及key 是什么,比较麻烦。那么我们在 <strong>SecondActivity</strong> 添加一个静态方法用来构建<code>Intent</code> 并启动 <strong>SecondActivity</strong>。<br>代码示例:  <strong>SecondActivity</strong> 中的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">actionStart</span> <span class="params">(Context ctx,String data1)</span></span></div><div class="line">    &#123;</div><div class="line">        Intent intent = <span class="keyword">new</span> Intent(ctx,SecondActivity.class);</div><div class="line">        intent.putExtra(<span class="string">"param_key"</span>,data1);</div><div class="line">        ctx.startActivity(intent);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>修改 <strong>FirstActivity</strong> 中启动 <strong>SecondActivity</strong> 的代码。<br>代码示例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span>  <span class="title">pushSecondActivity</span><span class="params">()</span></span>&#123;</div><div class="line">  SecondActivity.actionStart(<span class="keyword">this</span>,<span class="string">"你好, 第二个活动"</span>);</div><div class="line">&#125;</div><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.first_layout);</div><div class="line">        Button button = (Button) findViewById(R.id.button_1);</div><div class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Toast.makeText(FirstActivity.<span class="keyword">this</span>, <span class="string">"点击我了"</span>, Toast.LENGTH_SHORT).show();</div><div class="line">                pushSecondActivity();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>现在只需要一行代码就可以启动 <strong>SecondActivity</strong>。一些代码上的使用技巧就介绍这么多吧。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>学习总是很累的,但是学习也会使我更加充实,以上就是我学习<code>Android</code>中<code>Activity</code>组件的学习笔记,学习的时只用了半天时间,整理笔记却用了1天时间,虽然是在整理笔记,但在不知不觉间是使自己对于<code>Activity</code>的理解更加深入和扎实了,学习不光是大脑的事情,学习也是手的事情,我们要在学习中多动脑,多动手,深入实际的去编写代码。<br>本文使用的全部代码示例<a href="https://github.com/chuliangliang/ActivityTest" target="_blank" rel="external">Demo 下载</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

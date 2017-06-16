@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 学习之路--Java基础(三) | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="android,Java," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言今天主要学习一下Java中的类及与类相关的知识,在Java开发中可以说类是我们时时刻刻都在使用的东西,也是面向对象的重要组成,废话不多说进入今天的正题。 Java中的类什么是类?在面向对象的编程语言中，类是一个独立的程序单位，是具有相同属性和方法的一组对象的集合。 类的组成格式  访问权限修饰符 修饰符 class 类名{  类中的属性变量  类中的行为方法">
+<meta name="keywords" content="android,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 学习之路--Java基础(三)">
+<meta property="og:url" content="http://yoursite.com/2017/05/08/learningJava3/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言今天主要学习一下Java中的类及与类相关的知识,在Java开发中可以说类是我们时时刻刻都在使用的东西,也是面向对象的重要组成,废话不多说进入今天的正题。 Java中的类什么是类?在面向对象的编程语言中，类是一个独立的程序单位，是具有相同属性和方法的一组对象的集合。 类的组成格式  访问权限修饰符 修饰符 class 类名{  类中的属性变量  类中的行为方法">
+<meta property="og:updated_time" content="2017-05-09T01:28:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 学习之路--Java基础(三)">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言今天主要学习一下Java中的类及与类相关的知识,在Java开发中可以说类是我们时时刻刻都在使用的东西,也是面向对象的重要组成,废话不多说进入今天的正题。 Java中的类什么是类?在面向对象的编程语言中，类是一个独立的程序单位，是具有相同属性和方法的一组对象的集合。 类的组成格式  访问权限修饰符 修饰符 class 类名{  类中的属性变量  类中的行为方法">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中的类"><span class="toc-text">Java中的类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java中类的关系"><span class="toc-text">Java中类的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java类的生命周期"><span class="toc-text">Java类的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-learningJava3" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 学习之路--Java基础(三)</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.05.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天主要学习一下<code>Java</code>中的类及与类相关的知识,在<code>Java</code>开发中可以说类是我们时时刻刻都在使用的东西,也是面向对象的重要组成,废话不多说进入今天的正题。</p>
+<h2 id="Java中的类"><a href="#Java中的类" class="headerlink" title="Java中的类"></a>Java中的类</h2><p><strong>什么是类?</strong><br>在面向对象的编程语言中，类是一个独立的程序单位，是具有相同属性和方法的一组对象的集合。</p>
+<p><strong>类的组成格式</strong></p>
+<blockquote>
+<p>访问权限修饰符 修饰符 class 类名<br>{<br>  类中的属性变量<br>  类中的行为方法<br>}<br>例如:<br>public class Person<br>{<br>    private String name;<br>    private int age;<br>    public void sayHello()<br>    {<br>        System.out.print(“你好”);<br>    }<br>}</p>
+</blockquote>
+<p>我们来了解一下<code>Java</code>中的几种权限修饰<br><strong>(1) friendly:</strong>   默认权限,在包内访问。<br><strong>(2) Public:</strong>     共有的,所有地方都可以访问;<br><strong>(3) Private:</strong>    私有的,只有对象本身可以访问;<br><strong>(4) Protected:</strong>  保护的,只有对象本身与其子类可以访问;</p>
+<p>一个类中可以有哪些东西?<br><code>Java</code>中的类中可以存在, 构造方法、 属性 、方法 、内部类、块。</p>
+<p><strong>构造方法:</strong></p>
+<ul>
+<li>构造器必须与类同名（如果一个源文件中有多个类，那么构造器必须与公共类同名）</li>
+<li>每个类可以有一个以上的构造器</li>
+<li>构造器可以有0个、1个或1个以上的参数</li>
+<li>构造器没有返回值</li>
+<li>构造器总是伴随着new操作一起调用</li>
+</ul>
+<p><strong>属性:</strong><br>成员变量是类的属性， 例如一个人,他有很多属性,如名字,性别等等都是这个人属性<br>声明的一般格式为：<br>[变量修饰符] &lt;成员变量类型&gt;   &lt;成员变量名&gt;<br>变量修饰符:public、protected、private、和默认（frieddlly）<br><strong>方法:</strong><br>成员方法成员方法定义的类的操作和行为，一般形式为：<br>[方法修饰符] &lt;方法返回值类型&gt; &lt;方法名&gt;（[&lt;参数列表&gt;]）<br>{<br>      方法体<br>}<br>成员方法修饰符主要有public、private、protected、final、static、abstract和synchronized七种，前三种的访问权限、说明形式和含义与成员变量一致。<br>与成员变量类似，成员方法也分为实例方法和类方法。如果方法定义中使用了static ,则该方法为类方法。</p>
+<p><strong>内部类:</strong><br>内部类是声明在类体中的类,包含内部类的类往往被称为外部类,内部类作为外部类的成员存在,可以像方法一样使用外部类的属性和方法,同时内部类也有类的特征,可以声明属性、方法、构造方法等,内部类也需要创建对象才可以使用其中的方法等。<br>代码示例: <strong>Person</strong> 类中含有一个内部类 <strong>Pen</strong> 类</p>
+<blockquote>
+<p>public class Person<br>{<br>    private String name;<br>    private int age;<br>    public   pen p; //内部类 笔类对象<br>    public Person()<br>    {<br>        p = new pen();<br>    }<br>    //内部类 笔类<br>    public class pen {<br>        public void  write (String text)<br>        {<br>            System.out.print(text);<br>        }<br>    }<br>}</p>
+</blockquote>
+<p><strong>块:</strong><br>块,在时间运用中可能不太常见,但也有部分程序中会使用到它,块分为静态块和实例块。</p>
+<blockquote>
+<p>代码示例<br>{<br>  实例块<br>}<br>static {<br>  静态快<br>}</p>
+</blockquote>
+<p>实例块不能直接被使用,每次调用任何构造方法创建对象时,在调用构造方法前,都会调用实例块的代码,所以实例块常常用来包含所有构造方法所需要执行的代码,而这些功能只能在构造方法前执行。静态快与实例块的区别是,静态快只能执行一次,而实例块每次创建对象都会执行,静态块往往用来包含该类必须执行且只能执行一次的功能代码。</p>
+<p>在<code>Java</code>中，类文件是以 <strong>.java为</strong> 后缀的代码文件，在每个类文件中最多只允许出现一个 <strong>public类</strong>，当有 <strong>public类</strong> 的时候，类文件的名称必须和public类的名称相同，若不存在public，则类文件的名称可以为任意的名称（当然以数字开头的名称是不允许的）。<br>在类内部，对于成员变量，如果在定义的时候没有进行显示的赋值初始化，则<code>Java</code>会保证类的每个成员变量都得到恰当的初始化：<br>1）对于  <strong>char、short、byte、int、long、float、double</strong> 等基本数据类型的变量来说会默认初始化为 <strong>0</strong>（<strong>boolean</strong> 变量默认会被初始化为 <strong>false</strong>）；<br>2）对于引用类型的变量，会默认初始化为 <strong>null</strong>。<br>如果没有显示地定义构造器，则编译器会自动创建一个无参构造器，但是要记住一点，如果显示地定义了构造器，编译器就不会自动添加构造器。注意，所有的构造器默认为 <strong>static</strong> 的。</p>
+<p>当程序执行时，需要生成某个类的对象，<code>Java</code>执行引擎会先检查是否加载了这个类，如果没有加载，则先执行类的加载再生成对象，如果已经加载，则直接生成对象。<br>在类的加载过程中，类的<code>static</code>成员变量会被初始化，另外，如果类中有<code>static</code>语句块，则会执行<code>static</code>语句块。<code>static</code>成员变量和<code>static</code>语句块的执行顺序同代码中的顺序一致。记住，在<code>Java</code>中，类是按需加载，只有当需要用到这个类的时候，才会加载这个类，并且只会加载一次。</p>
+<p><strong>疑问一 、类中为什么只有构造函数,析构函数去哪里了呢?</strong></p>
+<p>在<code>C++</code>程序设计中有构造函数与析构函数的概念，并且是内存管理技术中相当重要的一部分，而在<code>Java</code>语言中只有构造器（也可以称为构造函数）的概念，却没有析构器或析构函数的概念。这是因为，理论上<code>JVM</code>负责对象的析构（销毁与回收）工作。也就是之前讲到的垃圾回收的概念。那么<code>Java</code>语言中是否真的不存在与<code>C++</code>中析构函数职能类似的方法？其实<code>Java</code>语言中的<code>finalize</code> 方法与<code>C++</code>语言中的析构函数的职能就极为类似。<code>finalize</code>方法是<code>Java</code>语言根基类<code>Object</code>类中所包含的一个方法，这个方法是保护类型的方法 <strong>（protected）</strong>，由于在<code>Java</code>应用中开发的所有类都为<code>Object</code>的子类，因此用户类都从<code>Object</code>对象中隐式地继承了该方法。因此，我们在<code>Java</code>类中可以调用其父类的<code>finalize</code>方法，并且可以覆盖自身继承来的<code>finalize</code>方法。虽然我们可以在一个<code>Java</code>类中调用其父类的<code>finalize</code>方法，但是由于<code>finalize</code>方法没有自动实现递归调用，我们必须手动实现，因此<code>finalize</code>函数的最后一个语句通常是<code>super.finalize()</code>语句。通过这种方式，我们可以实现从下到上<code>finalize</code>的迭代调用，即先释放用户类自身的资源，然后再释放父类的资源。通常我们可以在<code>finalize</code>方法中释放一些不容易控制，并且非常重要的资源，例如：一些I/O的操作，数据的连接。这些资源的释放对整个应用程序是非常关键的。<br><code>Java</code>中的析构方法<code>finalize</code> 与 <code>OC</code> 中的<code>dealloc</code>相同。</p>
+<p><code>finalize</code>方法最终是由<code>JVM</code>中的垃圾回收器调用的，由于垃圾回收器调用<code>finalize</code>的时间是不确定或者不及时的，调用时机对我们来说是不可控的，因此，有时我们需要通过其他的手段来释放程序中所占用的系统资源，比如自己在类中声明一个<code>destroy()</code>方法，在这个方法中添加释放系统资源的处理代码，当你使用完该对象后可以通过调用这个<code>destroy()</code>方法来释放该对象内部成员占用的系统资源。虽然我们可以通过调用自己定义的<code>destroy()</code>方法释放系统资源，但是还是建议你最好将对<code>destroy()</code>方法的调用放入当前类的<code>finalize()</code>方法体中，因为这样做更保险，更安全。在类深度继承的情况下，这种方法就显得更为有效了，我们可以通过递归调用<code>destroy</code>的方法在子类被销毁的时候释放父类所占用的资源。</p>
+<p><strong>注意:</strong><br>我们为减少内存资源的浪费以及缩短响应时间,我尽量不在构造函数里创建、初始化大量的对象或执行某种复杂、耗时的运算逻辑。</p>
+<h2 id="Java中类的关系"><a href="#Java中类的关系" class="headerlink" title="Java中类的关系"></a>Java中类的关系</h2><p><strong>1.关联关系</strong><br>给定有关联的两个类，可以从一个类的对象得到另一个类的对象。关联有两元关系和多元关系。两元关系是指一种一对一的关系，多元关系是一对多或多对一的关系。两个类之间的简单关联表示了两个同等地位类之间的结构关系。换句话说就是类A中存在类B的对象,即类A与类B存在关联关系;<br>代码示例:</p>
+<blockquote>
+<p>public class A<br>{<br>   private B b;<br>}<br>public  class  B<br>{<br>}</p>
+</blockquote>
+<p><strong>关联关系分为:</strong> 单项关联与双向关联<br>单项关联,顾名思义就是A类中B类而B类没有A类;而双向关联就是B中页存在A类。</p>
+<p><strong>2.依赖关系</strong><br>一个类中的某个行为(方法)需要通过另一个类去完成则两个类的关系为依赖关系。如A类中有个方法f在f,方法f中使用B类的去处理一些事情。<br>代码示例:</p>
+<blockquote>
+<p>public class A<br>{<br>   void  showBClassInfo(B b) {<br>       b.p();<br>   }<br>}<br>public  class  B<br>{<br>    void p ()<br>    {<br>       System.out.print(“依赖关系”);<br>    }<br>}</p>
+</blockquote>
+<p><strong>关联与依赖的区别和联系?</strong></p>
+<ul>
+<li>关联是”HAS”关系,依赖是”USE”关系;</li>
+<li>关联是一个类持有另一个类,而依赖是一个类并不持有另一个类只是使用另一个类;</li>
+<li>生命周期不同,关联关系中,如A类持有B类则B类需要等A类销毁后才会销毁;依赖关系中,A类依赖B类,使用B类后立即销毁B类,而不用等待A类销毁后才会销毁B类。</li>
+</ul>
+<p>我们在日常编程时,大多数都是既有关联关系又有依赖关系。</p>
+<p><strong>3.继承关系</strong><br>一个类在另一个类的基础上衍生过来,衍生出来的类不仅拥有其全部属性与方法,还可以扩展了新的属性和方法,那么衍生出来的类与原来的类存在继承关系,即衍生出来的类为子类,原来的类为父类。<br><code>Java</code>中继承关系使用 <strong>extends</strong> 关键字表示。<br>如 <strong>Student</strong> 类继承上述中的 <strong>Person</strong> 类</p>
+<blockquote>
+<p>public  class Student extends Person<br>{<br>    private int stuNo;<br>}</p>
+</blockquote>
+<p>上述代码表示一个学生类继承 <strong>Person</strong> 类。</p>
+<p><strong>这么做的好处是什么?</strong></p>
+<ul>
+<li>继承简化了人们对事物的认识和描述，能清晰体现相关类间的层次结构关系。</li>
+<li>继承提供了软件复用功能。若类B继承类A，那么建立类B时只需要再描述与基类(类A)不同的少量特征(数据成员和成员方法)即可。这种做法能减小代码和数据的冗余度，大大增加程序的重用性。</li>
+<li>继承通过增强一致性来减少模块间的接口和界面，大大增加了程序的易维护性。</li>
+<li>提供多重继承机制。从理论上说，一个类可以是多个一般类的特殊类，它可以从多个一般类中继承属性与方法，这便是多重继承。<code>Java</code>出于安全性和可靠性的考虑，仅支持单重继承，而通过使用接口机制来实现多重继承。</li>
+</ul>
+<p><strong>抽象类</strong><br>抽象类,不能实例化,通过关键字 <strong>abstract</strong> 修饰。<br>代码示例: 定义一个树的抽象类 <strong>Tree</strong></p>
+<blockquote>
+<p>public abstract class Tree {<br>    protected int yearsCount;<br>    protected String name;<br>    int getYearCount ()<br>    {<br>        return yearsCount;<br>    }<br>    public  abstract String getName ();<br>}<br>//松树类继承自树类<br>public class Pine extends Tree<br>{<br>}</p>
+</blockquote>
+<p><strong>作用:</strong></p>
+<ul>
+<li>一般抽象类都是作为父类使用,用来定义子类的方法和属性,子类继承后复用属性和方法。</li>
+<li>抽象类虽然不能实例化,但是可以作为数据类型使用。</li>
+<li>抽象类中可以存在实现好的方法也可以存在抽象方法。</li>
+<li>可以将子类的一些公关方法提取出来。</li>
+</ul>
+<p><strong>抽象方法:</strong><br>在<code>Java</code>中没有方法体的方法称为抽象方法,使用 <strong>abstract</strong> 关键字修饰。<br>有抽象方法的类一定是抽象类,但抽象类中不一定有抽象方法,抽象方法被子类实现,如果子类不实现,则编译会报错。</p>
+<p><strong>多态:</strong><br>多态是声明形式一样,而实现方式却不同的特征,下面是<code>Java</code>中多态的三大体现:</p>
+<ul>
+<li>方法重载: 一个类中有多个方法名相同但参数不同的方法。</li>
+<li>方法覆盖: 子类中重新实现方法,方法名相同,参数相同,返回值页相同。</li>
+<li>多态参数: 多态参数是一种用的比较多的方式,即方法中的形式参数是父类型,而实际传递的是不同的子类型。</li>
+</ul>
+<p><strong>4.实现关系</strong><br>严格来说,实现关系并不是类与类的关系,而是类与接口的关系,而接口的本质是一个特殊的抽象类,因此,实现关系也可以理解为一种类与类的关系,实现关系与集成关系类似。</p>
+<p><strong>接口:</strong><br>在<code>Java</code>中,可以使用 <strong>interface</strong> 关键字修饰。<br>代码示例:</p>
+<blockquote>
+<p>public interface TalentC {<br>  public abstract void showAllInfo();<br>}</p>
+</blockquote>
+<p>接口的特点:</p>
+<ul>
+<li>没有属性变量,所有的方法都是抽象方法。</li>
+<li>可以看做是一种特殊的抽象类,接口编译后也会生成 <strong>.class</strong> 文件。</li>
+<li>可以有静态常量,如 public static int a = 100; 中的修饰符可以省略不写。</li>
+</ul>
+<p><strong>接口与类的关系:</strong><br>使用关键字 <strong>implements</strong> 表示实现接口,一个类可以实现多个接口。<br>代码示例:松树类实现 接口类<code>TalentC</code></p>
+<blockquote>
+<p>public class Pine extends Tree implements TalentC<br>{<br>  public void showAllInfo()<br>  {<br>    System.out.print(“实现接口TalentC类”);<br>  }<br>}</p>
+</blockquote>
+<p>由于<code>Java</code>中没有多继承,一个类只能继承一个父类,但同时可以实现多个接口,解决了类与类的单继承的局限性。虽然接口不可以实例化,但是可以作为数据类型使用,也可以作为多态形式参数使用。</p>
+<p><strong>注意:</strong><br><code>Java</code>中类的继承只能是单继承,接口与接口的继承可是多继承。</p>
+<h2 id="Java类的生命周期"><a href="#Java类的生命周期" class="headerlink" title="Java类的生命周期"></a>Java类的生命周期</h2><p>我们先来了解<code>jvm</code>中几个重要的内存区域,这几个区域在类的生命周期中有很重要的作用。</p>
+<p><strong>方法区:</strong> 在 <strong>Java虚拟机</strong> 中有一块内存区域专门用来存放已经加载的类的信息、常量、静态变量以及方法代码的内存区域。</p>
+<p><strong>常量池:</strong> 常量池也是方法区的一部分,主要存放常量和类中的符号引用等信息。</p>
+<p><strong>堆区:</strong>   用于存放类对象的实例。</p>
+<p><strong>栈区:</strong>   也叫 <strong>Java虚拟机栈</strong>, 是一个一个由栈帧组成,后进先出的栈式结构。栈帧中存储运行时产生的局部变量、方法出口信息,当调用一个方法时,虚拟机会创建一个栈帧存放这些数据,当方法调用完毕时,栈帧消失,如果方法中调用方法则继续创建新的栈帧。</p>
+<p> 除了以上四个内存区域之外，<code>jvm</code>中的运行时内存区域还包括 <strong>本地方法栈</strong> 和 <strong>程序计数器</strong>，这两个区域与 <strong>Java类</strong> 的 <strong>生命周期</strong> 关系不是很大,就不多说了。</p>
+<p><strong>Java类的生命周期:</strong><br>一个 <strong>Java类</strong> 的源文件编译后产生<code>.class</code>的文件,也叫字节码文件,只有字节码文件才可以在 <strong>Java虚拟机</strong> 中运行,<strong>Java类</strong> 的生命周期就是一个 <strong>class文件</strong> 从加载到卸载的过程。</p>
+<p>这一过程分为: <strong>加载</strong> 、 <strong>连接</strong> 、 <strong>初始化</strong> 、 <strong>使用</strong> 、<strong>卸载</strong> 共五个阶段。</p>
+<p><strong>加载:</strong><br><strong>Java虚拟机</strong> 将需要加载的类的信息加载到<code>jvm</code>的方法区中,然后在堆区实例化对象,作为方法区中这类的信息的入口;<code>Java</code>中类的加载方式比较灵活,通常的加载方式有两种:<br>(1)根据全路径名找到对应的 <strong>class文件</strong>,从中读取文件内容。<br>(2)从 <strong>jar</strong> 文件中读取内容。<br>另外还有几种方式,有不是特别常见这里就不介绍了。</p>
+<p>加载类的时机各个 <strong>Java虚拟机</strong> 做法不同,但有一个原则,当<code>jvm</code>“预期”到一个类将要被使用时,就会在使用之前对这个类加载。如<code>jvm</code>在代码段中遇到一个类的名字,<code>jvm</code>在执行代码段之前并不能确定这个类是否被使用到,于是有些<code>jvm</code>会在执行这段代码前加载这个类,而有些则是真是使用到这个类时才会加载这个类,这取决于<code>jvm</code>的实现,如 “hotspot”就做到了真正使用到一个类时才会加载这个类。</p>
+<p>加载阶段是 <strong>Java类</strong> 生命周期的第一个阶段,之后是连接阶段,不过有时连接阶段并不是等待加载阶段完毕后才进入连接阶段的,而是交叉进行的。但是有一个原则就是:</p>
+<ul>
+<li>连接阶段总是在加载阶段开始后进入的;</li>
+<li>加载阶段的完成总是在连接阶段完毕前完成的;</li>
+</ul>
+<p><strong>连接:</strong><br>连接阶段就是为初始化做一些准备工作的,分为三个步骤进行: <strong>验证</strong> 、 <strong>准备</strong> 、 <strong>解析</strong>;</p>
+<p><strong>(1)验证:</strong><br>  主要作用是验证一下这个类是否合法、是否为字节码文件、变量名和方法名是否重复、数据类型是否有效等,为了保证加载的类可以被<code>jvm</code>执行。</p>
+<p><strong>(2)准备:</strong><br>为静态变量分配内存,对于非静态变量则不会分配内存;<br><code>jvm</code>默认的初值是这样的：</p>
+<ul>
+<li>基本类型（int、long、short、char、byte、boolean、float、double）的默认值为<code>0</code>。</li>
+<li>引用类型的默认值为<code>null</code>。</li>
+<li>常量的默认值为我们程序中设定的值，比如我们在程序中定义final static int a = 10，则准备阶段中a的初值就是10。</li>
+</ul>
+<p><strong>(3)解析:</strong><br>这一步骤的任务是将常量池的符号引用转换为直接引用;如一个类有一个方法<code>say()</code>,我们在内存中查询这个方法<code>say()</code>是查询不到的,但<code>jvm</code>的这个步骤会将<code>say()</code>这个方法转换为指向这个方法的内存地址,通过这个内存地址我们就可以使用这个方法了。</p>
+<p>如果上一个例子不太懂我们换一个通俗的列子就是,我们每个人都有一个身份证号:9876543210,我们如果直接使用这个身份证号是无法找到这个人的,我需要借助公安系统通过这个身份证号找到这个人,我就可以知道这个人名字、性别、住址等信息。</p>
+<p><strong>初始化:</strong> 创建对象,这个详细大家都已经很清楚了就不解释了;</p>
+<p><strong>使用:</strong> 使用这个阶段就更简单了, 如 <strong>Person</strong> 类对象 <strong>p</strong> 调用 <code>say()</code>方法;</p>
+<p><strong>卸载:</strong><br><code>jvm</code>会在方法区垃圾回收时对类进行卸载,也就是将方法区该类信息清空,执行到这一阶段,<strong>Java类</strong> 的生命周期全部完毕。</p>
+<p>卸载的三个条件:</p>
+<ul>
+<li>该类的所有实例对象全部被回收,也就是<code>Java</code>堆中不存在任何该类的对象;</li>
+<li>加载该类的<code>ClassLoader</code>已经被回收;</li>
+<li>该类对应的<code>java.lang.class</code>对象没有任何地方被引用,无法再任何地方通过反射访问该类的方法;</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们今天学习了<code>Java</code>中类及类的关系、类的生命周期;其中抽象类与接口很容易被一些初学者弄混;<code>Java</code>类不可以多继承,接口是都多继承的;弄清楚了类的生命周期有助于我们提高程序健壮性,避免一些不必要的问题出现。这里类的生命周期不是对象的生命周期,对象的生命周期只是类的生命周期中<code>使用阶段</code>的主动引用的一种情况。</p>
+
+    
+  </div>
+</article>
+
+
+   
+
+   
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
