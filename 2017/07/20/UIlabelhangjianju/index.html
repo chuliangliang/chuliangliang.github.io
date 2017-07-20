@@ -7,25 +7,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>iPhone 屏幕尺寸统计 | Talent•C</title>
+  <title>UILabel 设置字体行间距 | Talent•C</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="iOS,iPhone," />
+    <meta name="keywords" content="iOS,UILabel," />
   
 
-  <meta name="description" content="机型 屏幕x宽高,单位点 屏幕分辨率 屏幕模式     iPhone 3GS 320 x 480 320 x 480 1x   iPhone 4 320 x 480 640 x 960 2x   iPhone 4S 320 x 480 640 x 960 2x   iPhone 5 320 x 568 640 x 1136 2x   iPhone 5S 320 x 568 640 x 113">
-<meta name="keywords" content="iOS,iPhone">
+  <meta name="description" content="在iOS开发中经常会用到UIlabel来展示一些文字性的内容，但是默认的文字排版会觉得有些挤，为了更美观也更易于阅读我们可以通过某些方法将UIlabel的行间距和字间距按照需要调节。 123456789101112131415161718- (NSAttributedString *)handleTextWithFont:(UIFont *)font textString:(NSString *)">
+<meta name="keywords" content="iOS,UILabel">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iPhone 屏幕尺寸统计">
-<meta property="og:url" content="http://yoursite.com/2017/07/07/iphoneScreenSize/index.html">
+<meta property="og:title" content="UILabel 设置字体行间距">
+<meta property="og:url" content="http://yoursite.com/2017/07/20/UIlabelhangjianju/index.html">
 <meta property="og:site_name" content="Talent•C">
-<meta property="og:description" content="机型 屏幕x宽高,单位点 屏幕分辨率 屏幕模式     iPhone 3GS 320 x 480 320 x 480 1x   iPhone 4 320 x 480 640 x 960 2x   iPhone 4S 320 x 480 640 x 960 2x   iPhone 5 320 x 568 640 x 1136 2x   iPhone 5S 320 x 568 640 x 113">
-<meta property="og:updated_time" content="2017-07-07T06:55:51.000Z">
+<meta property="og:description" content="在iOS开发中经常会用到UIlabel来展示一些文字性的内容，但是默认的文字排版会觉得有些挤，为了更美观也更易于阅读我们可以通过某些方法将UIlabel的行间距和字间距按照需要调节。 123456789101112131415161718- (NSAttributedString *)handleTextWithFont:(UIFont *)font textString:(NSString *)">
+<meta property="og:updated_time" content="2017-07-20T12:34:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iPhone 屏幕尺寸统计">
-<meta name="twitter:description" content="机型 屏幕x宽高,单位点 屏幕分辨率 屏幕模式     iPhone 3GS 320 x 480 320 x 480 1x   iPhone 4 320 x 480 640 x 960 2x   iPhone 4S 320 x 480 640 x 960 2x   iPhone 5 320 x 568 640 x 1136 2x   iPhone 5S 320 x 568 640 x 113">
+<meta name="twitter:title" content="UILabel 设置字体行间距">
+<meta name="twitter:description" content="在iOS开发中经常会用到UIlabel来展示一些文字性的内容，但是默认的文字排版会觉得有些挤，为了更美观也更易于阅读我们可以通过某些方法将UIlabel的行间距和字间距按照需要调节。 123456789101112131415161718- (NSAttributedString *)handleTextWithFont:(UIFont *)font textString:(NSString *)">
 
   
 
@@ -141,14 +141,14 @@
 
 
 <div class="content content-post CENTER">
-   <article id="post-iphoneScreenSize" class="article article-type-post" itemprop="blogPost">
+   <article id="post-UIlabelhangjianju" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">iPhone 屏幕尺寸统计</h1>
+    <h1 class="post-title">UILabel 设置字体行间距</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2017.07.07</span>
+        <span>2017.07.20</span>
       </span>
 
       
@@ -178,84 +178,8 @@
 
   <div class="article-content">
     
-      <table>
-<thead>
-<tr>
-<th style="text-align:center">机型</th>
-<th style="text-align:center">屏幕x宽高,单位点</th>
-<th style="text-align:center">屏幕分辨率</th>
-<th style="text-align:center">屏幕模式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">iPhone 3GS</td>
-<td style="text-align:center">320 x 480</td>
-<td style="text-align:center">320 x 480</td>
-<td style="text-align:center">1x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 4</td>
-<td style="text-align:center">320 x 480</td>
-<td style="text-align:center">640 x 960</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 4S</td>
-<td style="text-align:center">320 x 480</td>
-<td style="text-align:center">640 x 960</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 5</td>
-<td style="text-align:center">320 x 568</td>
-<td style="text-align:center">640 x 1136</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 5S</td>
-<td style="text-align:center">320 x 568</td>
-<td style="text-align:center">640 x 1136</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 5C</td>
-<td style="text-align:center">320 x 568</td>
-<td style="text-align:center">640 x 1136</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone SE</td>
-<td style="text-align:center">320 x 568</td>
-<td style="text-align:center">640 x 1136</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 6</td>
-<td style="text-align:center">375 x 667</td>
-<td style="text-align:center">740 x 1334</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 6P</td>
-<td style="text-align:center">414 x 736</td>
-<td style="text-align:center">1242 x 1472</td>
-<td style="text-align:center">3x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 7</td>
-<td style="text-align:center">375 x 667</td>
-<td style="text-align:center">740 x 1334</td>
-<td style="text-align:center">2x</td>
-</tr>
-<tr>
-<td style="text-align:center">iPhone 7P</td>
-<td style="text-align:center">414 x 736</td>
-<td style="text-align:center">1242 x 1472</td>
-<td style="text-align:center">3x</td>
-</tr>
-</tbody>
-</table>
+      <p>在iOS开发中经常会用到UIlabel来展示一些文字性的内容，但是默认的文字排版会觉得有些挤，为了更美观也更易于阅读我们可以通过某些方法将UIlabel的行间距和字间距按照需要调节。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSAttributedString</span> *)handleTextWithFont:(<span class="built_in">UIFont</span> *)font textString:(<span class="built_in">NSString</span> *)str</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSMutableParagraphStyle</span> *paraStyle = [[<span class="built_in">NSMutableParagraphStyle</span> alloc] init];</div><div class="line">    paraStyle.lineBreakMode = <span class="built_in">NSLineBreakByTruncatingTail</span>;</div><div class="line">    paraStyle.alignment = <span class="built_in">NSTextAlignmentLeft</span>;</div><div class="line">    paraStyle.lineSpacing = <span class="number">9</span>; <span class="comment">//设置行间距</span></div><div class="line">    paraStyle.hyphenationFactor = <span class="number">1.0</span>;</div><div class="line">    paraStyle.firstLineHeadIndent = <span class="number">0.0</span>;</div><div class="line">    paraStyle.paragraphSpacingBefore = <span class="number">0.0</span>;</div><div class="line">    paraStyle.headIndent = <span class="number">0</span>;</div><div class="line">    paraStyle.tailIndent = <span class="number">0</span>;</div><div class="line">    <span class="comment">//设置字间距 NSKernAttributeName:@1.5f 如果需要可以将此字段加入字典用来设置字间距</span></div><div class="line">    <span class="built_in">NSDictionary</span> *dic = @&#123;<span class="built_in">NSFontAttributeName</span>:font, <span class="built_in">NSParagraphStyleAttributeName</span>:paraStyle</div><div class="line">                          &#125;;</div><div class="line">    <span class="built_in">NSAttributedString</span> *attributeStr = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:str attributes:dic];</div><div class="line">    <span class="keyword">return</span> attributeStr;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
     
   </div>
@@ -286,10 +210,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2017/05/31/learningAndroid7/">
+    <a class="show pull-left" href="/2017/07/07/iphoneScreenSize/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2017/07/20/UIlabelhangjianju/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
