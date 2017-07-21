@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>编译 opencore-amr for iOS | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="amr,iOS,audio," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言最近好多人跟我反馈,我2年前写的关于SoundTouch的Demo,随着 xcode 版本的升级出现了一个问题就是不支持 bitcode, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 bitcode, 分别是 lame(mp3音频格式编码库) 和 opencore-amr(amr音频格式编/解码库两个库)。 关于">
+<meta name="keywords" content="amr,iOS,audio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译 opencore-amr for iOS">
+<meta property="og:url" content="http://yoursite.com/2017/07/21/build-opencore-amr-ios/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言最近好多人跟我反馈,我2年前写的关于SoundTouch的Demo,随着 xcode 版本的升级出现了一个问题就是不支持 bitcode, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 bitcode, 分别是 lame(mp3音频格式编码库) 和 opencore-amr(amr音频格式编/解码库两个库)。 关于">
+<meta property="og:updated_time" content="2017-07-21T08:45:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译 opencore-amr for iOS">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言最近好多人跟我反馈,我2年前写的关于SoundTouch的Demo,随着 xcode 版本的升级出现了一个问题就是不支持 bitcode, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 bitcode, 分别是 lame(mp3音频格式编码库) 和 opencore-amr(amr音频格式编/解码库两个库)。 关于">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译-opencore-amr"><span class="toc-text">编译 opencore-amr</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-build-opencore-amr-ios" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">编译 opencore-amr for iOS</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.07.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近好多人跟我反馈,我2年前写的关于<code>SoundTouch</code>的Demo,随着 <strong>xcode</strong> 版本的升级出现了一个问题就是不支持 <strong>bitcode</strong>, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 <strong>bitcode</strong>, 分别是 <strong>lame(mp3音频格式编码库)</strong> 和 <strong>opencore-amr(amr音频格式编/解码库两个库)</strong>。</p>
+<p>关于 <strong>bitcode</strong> 的相关介绍我之前就有过介绍以及如何支持 <strong>bitcode</strong>,<a href="http://www.chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/" target="_blank" rel="external">点击这里查看</a>。上面我提到 <strong>opencore-amr(amr音频格式编码库)</strong> 不支持 <strong>bitcode</strong>, 那么就需要将其重新编译,网上有很多关于编译 <strong>opencore-amr(amr音频格式编码库)</strong> 的文章,但几乎都不能正确编译,今天我们就自己动手试着编译 <strong>opencore-amr</strong> 库。</p>
+<p>可能有人会说 <strong>iOS</strong> 本身是不支持 <strong>amr格式音频的</strong>, 为什么我们还在用?<br><strong>amr</strong> 由欧洲通信标准化委员会提出，是在移动通信系统中使用最广泛的语音标准。他是被各大手机厂商认可的一种保存手机录音的格式。由于 <strong>amr</strong> 文件容量很小，因此即便是长达一分钟的音频文件，也能符合中国移动现行的彩信不超过50KB容量的技术规范，所以 <strong>amr</strong> 也是实现在彩信中加载人声的唯一格式。但是受体积所限，<strong>amr</strong> 在音质方面不太乐观。<br>摘自<a href="https://baike.baidu.com/item/Amr/217870?fr=aladdin" target="_blank" rel="external">百度百科</a></p>
+<p>由此可见,当我们的app 需要传递音频文件时,在不要求高音频质量是使用 <strong>amr</strong> 格式的音频会大大降低网络带宽使用量,减少通讯时间,提高app使用体验</p>
+<h2 id="编译-opencore-amr"><a href="#编译-opencore-amr" class="headerlink" title="编译 opencore-amr"></a>编译 <code>opencore-amr</code></h2><p><strong>opencore-amr</strong> <a href="https://sourceforge.net/projects/opencore-amr/" target="_blank" rel="external">源码下载</a>。 目前官网最新版本是 0.1.5,本文使用的版本为最新版本。</p>
+<p>将下载好的源码放在桌面(任何地方都可以,只要你能找到就可以),源码有了,下一步就是编译这个库了,我们使用脚本来编译。<br>注: 本文使用的脚本来自网络,脚本部分内容被修改</p>
+<p>在电脑中新建一个文件命名为 <strong>build_ios.sh</strong>,并将如下内容拷贝至文件中。<strong>文章结尾有完整文件下载链接。</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line"><span class="comment">### Modified from http://blog.csdn.net/favormm/article/details/6772097</span></div><div class="line"><span class="built_in">set</span> -xe</div><div class="line">DEVELOPER=`xcode-select -<span class="built_in">print</span>-path`</div><div class="line">DEST=`<span class="built_in">pwd</span> .`<span class="string">"/opencore-amr-iOS"</span></div><div class="line">ARCHS=<span class="string">"i386 x86_64 armv7 armv7s arm64"</span></div><div class="line">LIBS=<span class="string">"libopencore-amrnb.a libopencore-amrwb.a"</span></div><div class="line"><span class="comment"># Note that AMR-NB is for narrow band http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec</span></div><div class="line"><span class="comment"># for AMR-WB encoding, refer to http://sourceforge.net/projects/opencore-amr/files/vo-amrwbenc/</span></div><div class="line"><span class="comment"># or AMR Codecs as Shared Libraries http://www.penguin.cz/~utx/amr</span></div><div class="line">mkdir -p <span class="variable">$DEST</span></div><div class="line">./configure</div><div class="line"><span class="keyword">for</span> arch <span class="keyword">in</span> <span class="variable">$ARCHS</span>; <span class="keyword">do</span></div><div class="line">make clean</div><div class="line">IOSMV=<span class="string">" -miphoneos-version-min=6.0"</span></div><div class="line"><span class="keyword">case</span> <span class="variable">$arch</span> <span class="keyword">in</span></div><div class="line">arm*)</div><div class="line"><span class="keyword">if</span> [ <span class="variable">$arch</span> == <span class="string">"arm64"</span> ]</div><div class="line"><span class="keyword">then</span></div><div class="line">IOSMV=<span class="string">" -miphoneos-version-min=7.0"</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Building opencore-amr for iPhoneOS <span class="variable">$arch</span> ****************"</span></div><div class="line">PATH=`xcodebuild -version -sdk iphoneos PlatformPath`<span class="string">"/Developer/usr/bin:<span class="variable">$PATH</span>"</span> \</div><div class="line">SDK=`xcodebuild -version -sdk iphoneos Path` \</div><div class="line">CXX=<span class="string">"xcrun --sdk iphoneos clang++ -arch <span class="variable">$arch</span> <span class="variable">$IOSMV</span> --sysroot=<span class="variable">$SDK</span> -fembed-bitcode-marker -isystem <span class="variable">$SDK</span>/usr/include"</span> \</div><div class="line">LDFLAGS=<span class="string">"-Wl,-syslibroot,<span class="variable">$SDK</span>"</span> \</div><div class="line">./configure \</div><div class="line">--host=arm-apple-darwin \</div><div class="line">--prefix=<span class="variable">$DEST</span> \</div><div class="line">--<span class="built_in">disable</span>-shared</div><div class="line">;;</div><div class="line">*)</div><div class="line"><span class="built_in">echo</span> <span class="string">"Building opencore-amr for iPhoneSimulator <span class="variable">$arch</span> *****************"</span></div><div class="line">PATH=`xcodebuild -version -sdk iphonesimulator PlatformPath`<span class="string">"/Developer/usr/bin:<span class="variable">$PATH</span>"</span> \</div><div class="line">CXX=<span class="string">"xcrun --sdk iphonesimulator clang++ -arch <span class="variable">$arch</span> -fembed-bitcode-marker <span class="variable">$IOSMV</span>"</span> \</div><div class="line">./configure \</div><div class="line">--host=<span class="variable">$arch</span> \</div><div class="line">--prefix=<span class="variable">$DEST</span> \</div><div class="line">--<span class="built_in">disable</span>-shared</div><div class="line">;;</div><div class="line"><span class="keyword">esac</span></div><div class="line">make -j3</div><div class="line">make install</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$LIBS</span>; <span class="keyword">do</span></div><div class="line">mv <span class="variable">$DEST</span>/lib/<span class="variable">$i</span> <span class="variable">$DEST</span>/lib/<span class="variable">$i</span>.<span class="variable">$arch</span></div><div class="line"><span class="keyword">done</span></div><div class="line"><span class="keyword">done</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Merge into universal binary."</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$LIBS</span>; <span class="keyword">do</span></div><div class="line">input=<span class="string">""</span></div><div class="line"><span class="keyword">for</span> arch <span class="keyword">in</span> <span class="variable">$ARCHS</span>; <span class="keyword">do</span></div><div class="line">input=<span class="string">"<span class="variable">$input</span> <span class="variable">$DEST</span>/lib/<span class="variable">$i</span>.<span class="variable">$arch</span>"</span></div><div class="line"><span class="keyword">done</span></div><div class="line">xcrun lipo -create -output <span class="variable">$DEST</span>/lib/<span class="variable">$i</span> <span class="variable">$input</span></div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+<p>脚本有了, 源码有了, 接下来我们开始操作:<br>1、找到刚才下载源码,将新建的脚本文件放入 <strong>“opencore-amr-0.1.5”</strong> 文件夹下(源码所有资源的根目录下)。<br>2、打开命令行工具 进入到 <strong>“opencore-amr-0.1.5”</strong> 目录下 (新建的脚本文件所在目录)。<br>3、执行命令 <strong>“./build_ios.sh”</strong>,等待几分钟,就会发现在其根目录下出现一个文件夹 <strong>opencore-amr-iOS</strong> 所有编译的静态库都在这里, 其中 <strong>xxx.a</strong> 为通用静态库, 其余静态库为对应架构下的静态库 如xxx.a.arm64等 以便于上线时可以将通用静态库替换成不包含模拟器架构的,以达到减少ipa包大小。<br>4、便已完毕后在 <strong>opencore-amr-iOS</strong> 目录下 会有两个子目录 <strong>lib</strong> 和 <strong>include</strong> 我们将两个目录中的 <strong>.h</strong> 文件 和 <strong>.a</strong> 文件 加入到工程中就可以使用了。</p>
+<p>本文使用的脚本及源码<a href="https://github.com/chuliangliang/opencore-amr-iOS" target="_blank" rel="external">下载</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持Talent•C</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/07/20/UIlabelhangjianju/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
