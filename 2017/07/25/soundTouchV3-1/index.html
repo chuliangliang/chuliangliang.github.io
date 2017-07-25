@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>SoundTouch for iOS 音频变声 | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,soundTouch,音频," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 介绍早在2014年的时候由于公司项目需要做一个音频变声处理的功能,翻遍万水千山,终于找到了SoundTouch这个NB的音频处理库,关于SoundTouch这个库的使用介绍不管在国内还是国外的网站介绍的都比较少,国内的基本都是复制来的内容,没什么太大的价值; 因为需要写个Demo给产品,正是这个Demo让我们苦逼的产品开始了测试之路,每天抱着手机测试各种参数下的">
+<meta name="keywords" content="iOS,soundTouch,音频">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SoundTouch for iOS 音频变声">
+<meta property="og:url" content="http://yoursite.com/2017/07/25/soundTouchV3-1/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 介绍早在2014年的时候由于公司项目需要做一个音频变声处理的功能,翻遍万水千山,终于找到了SoundTouch这个NB的音频处理库,关于SoundTouch这个库的使用介绍不管在国内还是国外的网站介绍的都比较少,国内的基本都是复制来的内容,没什么太大的价值; 因为需要写个Demo给产品,正是这个Demo让我们苦逼的产品开始了测试之路,每天抱着手机测试各种参数下的">
+<meta property="og:updated_time" content="2017-07-25T10:57:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SoundTouch for iOS 音频变声">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 介绍早在2014年的时候由于公司项目需要做一个音频变声处理的功能,翻遍万水千山,终于找到了SoundTouch这个NB的音频处理库,关于SoundTouch这个库的使用介绍不管在国内还是国外的网站介绍的都比较少,国内的基本都是复制来的内容,没什么太大的价值; 因为需要写个Demo给产品,正是这个Demo让我们苦逼的产品开始了测试之路,每天抱着手机测试各种参数下的">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-soundTouchV3-1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">SoundTouch for iOS 音频变声</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.07.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>早在2014年的时候由于公司项目需要做一个音频变声处理的功能,翻遍万水千山,终于找到了<code>SoundTouch</code>这个NB的音频处理库,关于<code>SoundTouch</code>这个库的使用介绍不管在国内还是国外的网站介绍的都比较少,国内的基本都是复制来的内容,没什么太大的价值; 因为需要写个Demo给产品,正是这个Demo让我们苦逼的产品开始了测试之路,每天抱着手机测试各种参数下的音频效果,看着这个样子,心里很开心, 哈哈你也有今天…. 开个玩笑哈 那个产品同学看到后别来砍我哈, 经过产品的”艰苦奋斗”终于赢来了第一批效果参数。</p>
+<p>SoundTouch官方的介绍就一句话:<br><code>SoundTouch</code>是一个开源的音频处理库，用于改变音频流或音频文件的速度、音高和回放速率。<br><a href="http://www.surina.net/soundtouch/" target="_blank" rel="external"><code>soundTouch</code>官方网站</a></p>
+<p>正是因为关于<code>SoundTouch</code>的介绍比较少,所以想将这个Demo分享出来,使更多人获得更好的帮助, 没想到这个Demo会成我所有开源的工程的下载量最大的一个。<br>这个Demo从开源以来一共经历的4个版本(其中三个大版本),每个版本的下载量如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">版本</th>
+<th style="text-align:left">下载量</th>
+<th style="text-align:left">开源时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">V1.0</td>
+<td style="text-align:left">300+</td>
+<td style="text-align:left">2014年8月</td>
+</tr>
+<tr>
+<td style="text-align:left">V2.0</td>
+<td style="text-align:left">200+</td>
+<td style="text-align:left">2014年11月</td>
+</tr>
+<tr>
+<td style="text-align:left">V3.0</td>
+<td style="text-align:left">1000+</td>
+<td style="text-align:left">2015年1月</td>
+</tr>
+</tbody>
+</table>
+<p>1.0的时候是最low的 Demo只能对录音的音频进行变声,而且整体结构很简单,就是这么一个很low的Demo居然还有这么多的下载量我感到很震惊,同时跟我反馈的人 <strong>50+</strong>,从此引发了我兴趣,于是我着手准备第二个版本,在第二个版本中我将除录音文件之外的音频的文件也可变声这个功能加入去,也陆陆续续收到了很多反馈信息,大家在说支持的格式比较单一,因为那是这个Demo只能处理<code>WAV</code>格式的音频包括音频输出格式也只能是<code>WAV</code>,也正赶上那是苹果要求所有的app必须只是<code>arm64</code>,于是就有了3.0版本,可以说3.0版本满足很大一部分人的需求了,支持输入几乎是所有音频格式的音频文件,输出的音频格式新增了 <strong>MP3</strong> 、<strong>AMR</strong> (至于为什么苹果自身不支持 <strong>AMR</strong> 为什么我还要让这个Demo支持 <strong>AMR</strong> 格式的音频可以查看<a href="http://www.chuliangliang.com/2017/07/21/build-opencore-amr-ios" target="_blank" rel="external">上一篇文章</a>)。</p>
+<p>但当时并没有建立自己的博客,就没有写关于 <code>SoundTouch</code>的帖子, 都是将代码分享在 <strong>cocoachina</strong> 和 <strong>CSDN</strong>,后来又因为xx国规定各个网站不允许传播关于音频变声类软件,最后么办法将代码暂时放在百度网盘中; 最近有很多开发者反馈Demo不支持bitcode 和 想要得到我那苦逼的产品测试出来的具体参数,自己也趁着这段是时间重新整理了一下这个Demo,并将源码开源在 github 上。打算今后所有的更新及相关文旦介绍都迁移到到这个博客中。</p>
+<p><strong>最新版本 V3.1</strong><br>新增功能:<br>  1.支持bicode<br>  2.对模拟支持不好的静态库替换<br>  3.修复录音时因系统权限造成的崩溃问题<br>  4.调整功能结构<br>  5.新增5种音频处理效果参数值</p>
+<p>使用时仅需要引入 <code>AudioConvert.h</code>即可 具体API 可参考注释。同时欢迎大家反馈各种意见,好的,坏的都好!!!<br>  <a href="https://github.com/chuliangliang/soundTouchDemo" target="_blank" rel="external">工程下载</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持Talent•C</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/07/21/build-opencore-amr-ios/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
