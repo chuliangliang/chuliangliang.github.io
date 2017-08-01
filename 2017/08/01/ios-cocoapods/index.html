@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>如何使用 CocoaPods 管理项目中的第三方库 | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,Xcode,cocos2dx,苹果,iPhone开发,WKWebView,Webkit" />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言很多时候, 由于项目中用到的第三方框架较多, 如果每个框架都手动管理的话, 会比较麻烦,需要自己手动去下载和更新;除此之外也会造成Git服务器中项目过大。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。CocoaPods 应该是 iOS 最常用最有名的类库管理工具了，上述两个烦人的问题，通过 CocoaPods，只需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用 CocoaPods 管理项目中的第三方库">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/ios-cocoapods/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言很多时候, 由于项目中用到的第三方框架较多, 如果每个框架都手动管理的话, 会比较麻烦,需要自己手动去下载和更新;除此之外也会造成Git服务器中项目过大。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。CocoaPods 应该是 iOS 最常用最有名的类库管理工具了，上述两个烦人的问题，通过 CocoaPods，只需">
+<meta property="og:updated_time" content="2017-08-01T05:47:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用 CocoaPods 管理项目中的第三方库">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言很多时候, 由于项目中用到的第三方框架较多, 如果每个框架都手动管理的话, 会比较麻烦,需要自己手动去下载和更新;除此之外也会造成Git服务器中项目过大。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。CocoaPods 应该是 iOS 最常用最有名的类库管理工具了，上述两个烦人的问题，通过 CocoaPods，只需">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何下载和安装CocoaPods？"><span class="toc-text">如何下载和安装CocoaPods？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用CocoaPods？"><span class="toc-text">如何使用CocoaPods？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CocoPods与Git一起使用的问题"><span class="toc-text">CocoPods与Git一起使用的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-ios-cocoapods" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">如何使用 CocoaPods 管理项目中的第三方库</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.08.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很多时候, 由于项目中用到的第三方框架较多, 如果每个框架都手动管理的话, 会比较麻烦,需要自己手动去下载和更新;除此之外也会造成Git服务器中项目过大。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 <strong>CocoaPods</strong>。<br><strong>CocoaPods</strong> 应该是 <strong>iOS</strong> 最常用最有名的类库管理工具了，上述两个烦人的问题，通过 <strong>CocoaPods</strong>，只需要一行命令就可以完全解决，当然前提是你必须正确设置它。重要的是，绝大部分有名的开源类库，都支持 <strong>CocoaPods</strong>。所以，作为 <strong>iOS</strong> 程序员的我们，掌握 <strong>CocoaPods</strong> 的使用是必不可少的基本技能了。</p>
+<h2 id="如何下载和安装CocoaPods？"><a href="#如何下载和安装CocoaPods？" class="headerlink" title="如何下载和安装CocoaPods？"></a>如何下载和安装CocoaPods？</h2><p>在安装 <strong>CocoaPods</strong> 之前，首先要在本地安装好 <strong>Ruby环境</strong>。至于如何在Mac中安装好 <strong>Ruby环境</strong>，请百度一下，这里就不再解释了。</p>
+<p>假如你在本地已经安装好 <strong>Ruby环境</strong>，那么下载和安装 <strong>CocoaPods</strong> 将十分简单，只需要一行命令。在 <strong>Terminator(也就是终端)</strong> 中输入以下命令（注意，本文所有命令都是在终端中输入并运行的)。</p>
+<blockquote>
+<p>$ sudo gem install cocoapods</p>
+</blockquote>
+<p>如果你在国内，在终端中敲入这个命令之后，会发现半天没有任何反应。原因无他，因为那堵墙阻挡了cocoapods.org。此时我们有两种方式解决:</p>
+<ul>
+<li>用淘宝的Ruby镜像来访问cocoapods。</li>
+<li>翻墙后继续。<br>我们这里使用淘宝的Ruby镜像来访问cocoapods。按照下面的顺序在终端中敲入依次敲入命令：<blockquote>
+<p>$ gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a><br>//等上面的命令执行完后 在输入此命令<br>$ gem sources -a <a href="http://ruby.taobao.org/" target="_blank" rel="external">http://ruby.taobao.org/</a></p>
+</blockquote>
+</li>
+</ul>
+<p>验证你的Ruby镜像是并且仅是taobao，可以用以下命令查看：</p>
+<blockquote>
+<p>$ gem sources -l</p>
+</blockquote>
+<p>你会在终端里看到如下信息</p>
+<blockquote>
+<p><strong><em> CURRENT SOURCES </em></strong><br>        <a href="http://ruby.taobao.org/" target="_blank" rel="external">http://ruby.taobao.org/</a></p>
+</blockquote>
+<p>切换完淘宝镜像后,我们再重头安装 <strong>CocoaPods</strong>。再次在终端中运行：</p>
+<blockquote>
+<p>$ sudo gem install cocoapods    </p>
+</blockquote>
+<p>等上十几秒钟，CocoaPods就可以在你本地下载并且安装好了,安装好后输入以下命令查看其版本号:</p>
+<blockquote>
+<p>$ pod –version</p>
+</blockquote>
+<h2 id="如何使用CocoaPods？"><a href="#如何使用CocoaPods？" class="headerlink" title="如何使用CocoaPods？"></a>如何使用CocoaPods？</h2><p><strong>CocoaPods</strong> 使用起来也非常简单,通过几行命令就可以完美的操控它。<br>我们通过 <strong>CocoaPods</strong> 搜索一下我们非常熟悉的 AFN, 通过下面的命令就可以搜索你想要搜索的第三方库;</p>
+<blockquote>
+<p>$ pod search 第三方库的名字</p>
+</blockquote>
+<p>我们输入:</p>
+<blockquote>
+<p>$ pod search AFNetworking</p>
+</blockquote>
+<p>因为首次搜索, <strong>CocoaPods</strong> 会将一些信息clone到本地 <strong>“/Users/用户名/.cocoapods/repos/master/“</strong> 目录下。所以时间会稍微有点慢,等待一会,就可以看到关于AFNetworking类库的一些信息。</p>
+<p>下面我们来看看如何将 <strong>CocoaPods</strong> 与 <strong>Xcode</strong> 结合使用<br>我们进入到 工程所在的目录下 (在终端中使用 cd命令);</p>
+<ol>
+<li><p>新建 <strong>Podfile</strong> 文件。命令如下:</p>
+<blockquote>
+<p>$ vim Podfile</p>
+</blockquote>
+</li>
+<li><p>然后在Podfile文件中输入以下文字：</p>
+<blockquote>
+<p>platform :ios, ‘8.0’<br>target ‘Test01’ do<br>pod ‘AFNetworking’, ‘~&gt; 3.1.0’<br>end</p>
+</blockquote>
+</li>
+<li><p>结束输入并保存 <strong>Podfile</strong> 文件:<br>在输入状态下 按键盘上的 “esc” 键 然后 输入 :wq 再按回车, 即可退出并保存。</p>
+</li>
+</ol>
+<p>这时候，你会发现你的项目目录中，出现一个名字为 <strong>Podfile</strong> 的文件，而且文件内容就是你刚刚输入的内容。注意，<strong>Podfile</strong> 文件应该和你的工程文件xxx.xcodeproj在同一个目录下,现在你就可以利用 <strong>CocoPods</strong> 下载 <strong>AFNetworking</strong> 类库了。同样还是在终端进入当前项目的根目录,运行以下命令:</p>
+<blockquote>
+<p>$ pod install</p>
+</blockquote>
+<p>运行此命令后终端会输出以下信息</p>
+<blockquote>
+<p>chuliangliang$ pod install<br>        Analyzing dependencies<br>        Downloading dependencies<br>        Installing AFNetworking (3.1.0)<br>        Generating Pods project<br>        Integrating client project<br>        [!] From now on use <code>Test01.xcworkspace</code>.</p>
+</blockquote>
+<p>到此,<strong>AFNetworking</strong> 就已经通过 <strong>CocoPods</strong> 下载完毕了, 打开 <code>Test01.xcworkspace</code> 并且以后也要通过 <code>Test01.xcworkspace</code> 来打开工程,我们在项目使用 <strong>AFNetworking</strong> 可以使用两种方式引入 <code>#import &lt;AFNetworking.h&gt;</code> 或者 <code>#import &quot;AFNetworking.h&quot;</code>。<br>细心的你会发现, 当你在工程中 <code>import</code> <strong>AFNetworking</strong> 时没有任何提示了,我们可以做出以下修改:</p>
+<p>选择工程的target（就是左边你的工程target）——&gt; BuildSettings ——&gt; search Paths 下的 User Header Search Paths<br>添加一项 <strong>$(PODS_ROOT)</strong> 并在后方选在 选择：<strong>recursive</strong> (会在相应的目录递归搜索文件就可以使得项目中可以添加第三方库头文件时自动联想)。</p>
+<h2 id="CocoPods与Git一起使用的问题"><a href="#CocoPods与Git一起使用的问题" class="headerlink" title="CocoPods与Git一起使用的问题"></a>CocoPods与Git一起使用的问题</h2><p>很多时候我们的工程使用<code>Git</code>进行版本管理,同时又使用 <strong>CocoPods</strong> 管理第三方库,此时,我们就考虑 <strong>pod</strong> 的哪些部分需要纳入 <strong>Git</strong> 管理,哪些不需要,这样我们就降低了Git服务器的文件大小。首先就是关于 <strong>pod</strong> 的哪部分内容需要纳入 <strong>Git</strong> 管理,   <strong>pod</strong> 文件需要纳入<code>git</code>管理的只需要两个文件,  <strong>Podfile</strong> 和 <strong>Podfile.lock</strong>.其次就是剩下的 <strong>pod</strong> 文件如何忽略,  这个就得从<code>.ignore</code>文件着手了 打开<code>.ignore</code>文件,在 <code>ignore</code>加入一行  <strong>“Pods/“</strong> 这样 <strong>pod</strong> 框架下得文件就不会再纳入管理,在其他开发人员使用时,  克隆代码后只需要做一下 <strong>pod  update</strong>  或者 <strong>pod install</strong> 即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当我们将现有工程追加 <strong>CcocoaPods</strong> 时可能会出现一些警告, 原因就是因为之前的工程修改或增加一些设置,而引用 <strong>CcocoaPods</strong> 时也会做一些默认的修改,从而导致出现警告, 我们只需要将这些警告的地方按照工程需要手动合并或者修改一下就可以,具体做法百度一大堆。当我们初次使用工程时使用终端进入工程的根目录执行 <strong>pod  install</strong> 命令, 以后每次修改 <strong>Podfile</strong> 文件后只需要执行 <strong>pod  update</strong> 即可完成更新。</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持Talent•C</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/07/25/soundTouchV3-1/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "",
+    productKey: "1b0a252de8ad4426acb2366f7fc71872",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
