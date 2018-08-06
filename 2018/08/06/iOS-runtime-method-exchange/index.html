@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS Runtime－Method Swizzling | Talent•C</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="iOS,Runtime,Method Swizzling," />
+  
+
+  <meta name="description" content="作者Talent•C转载请注明出处 前言这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~说一个工程中有一个很有意思的代码现象吧,使用 Runtime中 method_exchangeImplementations 函数将 UIViewController 的 viewDidLoad 函数 与 myViewDidLoad 函数交换后在其内部调用 [self myViewDidLoa">
+<meta name="keywords" content="iOS,Runtime,Method Swizzling">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS Runtime－Method Swizzling">
+<meta property="og:url" content="http://yoursite.com/2018/08/06/iOS-runtime-method-exchange/index.html">
+<meta property="og:site_name" content="Talent•C">
+<meta property="og:description" content="作者Talent•C转载请注明出处 前言这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~说一个工程中有一个很有意思的代码现象吧,使用 Runtime中 method_exchangeImplementations 函数将 UIViewController 的 viewDidLoad 函数 与 myViewDidLoad 函数交换后在其内部调用 [self myViewDidLoa">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing01.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
+<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing02.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
+<meta property="og:updated_time" content="2018-08-06T07:48:41.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS Runtime－Method Swizzling">
+<meta name="twitter:description" content="作者Talent•C转载请注明出处 前言这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~说一个工程中有一个很有意思的代码现象吧,使用 Runtime中 method_exchangeImplementations 函数将 UIViewController 的 viewDidLoad 函数 与 myViewDidLoad 函数交换后在其内部调用 [self myViewDidLoa">
+<meta name="twitter:image" content="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing01.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
+
+  
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?910a0dcd613da531acd126e48789c447";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling原理"><span class="toc-text">Method Swizzling原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling使用"><span class="toc-text">Method Swizzling使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-iOS-runtime-method-exchange" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">iOS Runtime－Method Swizzling</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.08.06</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Talent•C</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~<br>说一个工程中有一个很有意思的代码现象吧,使用 <code>Runtime</code>中 <strong>method_exchangeImplementations</strong> 函数将 <code>UIViewController</code> 的 <strong>viewDidLoad</strong> 函数 与 <strong>myViewDidLoad</strong> 函数交换后在其内部调用 <strong>[self myViewDidLoad];</strong>,看到这个代码难道不会出现递归调用吗? 带这个这个疑问我们来看一下其原因吧。<br>代码示例:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)myViewDidLoad &#123;</div><div class="line">    [<span class="keyword">self</span> myViewDidLoad];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Method-Swizzling原理"><a href="#Method-Swizzling原理" class="headerlink" title="Method Swizzling原理"></a><strong>Method Swizzling原理</strong></h2><p><code>Method Swizzing</code> 是发生在运行时的，主要用于在运行时将两个 <strong>Method</strong> 进行交换，我们可以将 <strong>Method Swizzling</strong> 代码写到任何地方，但是只有在这段 <strong>Method Swilzzling</strong> 代码执行完毕之后互换才起作用。</p>
+<p>而且 <strong>Method Swizzling</strong> 也是<code>iOS</code>中<code>AOP</code>(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现<code>AOP</code>编程。<br>首先，让我们通过两张图片来了解一下 <strong>Method Swizzling</strong> 的实现原理<br>未做方法交换:<br><img src="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing01.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt="s"></p>
+<p>方法交换后:<br><img src="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing02.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt=""></p>
+<p>在<code>OC</code>语言的<code>runtime</code>特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的<code>SEL</code>，这个<code>SEL</code>对应着一个<code>IMP</code>(一个<code>IMP</code>可以对应多个<code>SEL</code>)，通过这个<code>IMP</code>找到对应的方法调用。</p>
+<p>在每个类中都有一个 <strong>Dispatch Table</strong>，这个 <strong>Dispatch Table</strong> 本质是将类中的<code>SEL</code>和<code>IMP</code>(可以理解为函数指针)进行对应。而我们的 <strong>Method Swizzling</strong> 就是对这个 <strong>table</strong> 进行了操作，让<code>SEL</code>对应另一个<code>IMP</code>。</p>
+<h2 id="Method-Swizzling使用"><a href="#Method-Swizzling使用" class="headerlink" title="Method Swizzling使用"></a><strong>Method Swizzling使用</strong></h2><p>在实现 <strong>Method Swizzling</strong> 时，核心代码主要就是一个<code>runtime</code>的<code>C语言API</code>：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> method_exchangeImplementations(Method m1, Method m2)</div><div class="line"> __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);</div></pre></td></tr></table></figure></p>
+<p>了解完原理后我们具体操作一下 创建一个<code>iOS</code>工程,并给 <strong>UIViewController</strong> 添加一个<code>Category</code>,然后在<code>Category</code>中的 <strong>+(void)load</strong> 方法中添加 <strong>Method Swizzling</strong> 方法，我们用来替换的方法也写在这个<code>Category</code>中。由于 <strong>+load</strong> 类方法是程序运行时这个类被加载到内存中就调用的一个方法，执行比较早，并且不需要我们手动调用。而且这个方法具有唯一性，也就是只会被调用一次，不用担心资源抢夺的问题。</p>
+<p>代码如下:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"UIViewController+sw.h"</span></span></div><div class="line"><span class="meta">#import @implementation UIViewController (sw)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    [<span class="keyword">super</span> load];</div><div class="line">    Method method1 = class_getInstanceMethod([<span class="keyword">self</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(viewDidLoad));</div><div class="line">    Method method2 = class_getInstanceMethod([<span class="keyword">self</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(myViewDidLoad));</div><div class="line">    <span class="comment">/**</span></div><div class="line">     *  我们在这里使用class_addMethod()函数对Method Swizzling做了一层验证，如果self没有实现被交换的方法，会导致失败。</div><div class="line">     *  而且self没有交换的方法实现，但是父类有这个方法，这样就会调用父类的方法，结果就不是我们想要的结果了。</div><div class="line">     *  所以我们在这里通过class_addMethod()的验证。</div><div class="line">     */</div><div class="line">    <span class="keyword">if</span> (!class_addMethod([<span class="keyword">self</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(viewDidLoad), method_getImplementation(method2), method_getTypeEncoding(method2))) &#123;</div><div class="line">        method_exchangeImplementations(method1, method2);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 我们自己实现的方法，也就是和self的viewDidLoad方法进行交换的方法。</span></div><div class="line">- (<span class="keyword">void</span>)myViewDidLoad &#123;</div><div class="line">    [<span class="keyword">self</span> myViewDidLoad];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"myViewDidLoad"</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure></p>
+<p>看到这里就出现了文章开头的问题了, <strong>myViewDidLoad</strong> 中调用自己会不会出现递归调用???<br>答案是当然不会的, 通过上面两个图就可以看出原因来,<strong>Method Swizzling</strong> 的实现原理可以理解为 <strong>”方法互换“</strong>。假设我们将A和B两个方法进行互换，向A方法发送消息时执行的却是B方法，向B方法发送消息时执行的是A方法。</p>
+<p>例如我们上面的代码，系统调用 <strong>UIViewController</strong> 的 <strong>viewDidLoad</strong> 方法时，实际上执行的是我们实现的 <strong>myViewDidLoad</strong> 方法。而我们在 <strong>myViewDidLoad</strong> 方法内部调用 <strong>[self myViewDidLoad];</strong> 时，执行的是 <strong>UIViewController</strong>的 <strong>viewDidLoad</strong> 方法。所以并不会出现递归调用。<br>我们将上面的 <strong>myViewDidLoad</strong> 函数实现修改一下,按照上面的解释应该就会出现递归调用,我们来验证一下:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)myViewDidLoad &#123;</div><div class="line">    [<span class="keyword">self</span> viewDidLoad];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"myViewDidLoad"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行程序会发现程序启动后卡住了,几秒后程序崩溃了,在调用堆栈里看到出现了方法递归调用。</p>
+<p>关于 <strong>Method Swizzling</strong> 的用处有很多,这里给大家推荐一个Github上星星最多的一个第三方库－<a href="https://github.com/rentzsch/jrswizzle" target="_blank" rel="external">JRSwizzle</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>天下难事，必做于易；天下大事，必做于细。     —— 老子</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持Talent•C</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.jpg" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.jpg" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/08/01/ios-cocoapods/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+
+    
+
+    
+  <!-- 来必力City版安装代码 -->
+  <div id="lv-container" data-id="city" data-uid= MTAyMC8yOTk2NS82NTMw>
+  	<script type="text/javascript">
+     (function(d, s) {
+         var j, e = d.getElementsByTagName(s)[0];
+
+         if (typeof LivereTower === 'function') { return; }
+
+         j = d.createElement(s);
+         j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+         j.async = true;
+
+         e.parentNode.insertBefore(j, e);
+     })(document, 'script');
+  	</script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+  </div>
+  <!-- City版安装代码已完成 -->
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
