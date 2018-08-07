@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2018/08/06/iOS-runtime-method-exchange/</loc>
+    <lastmod>2018-08-06T08:02:24.829Z</lastmod>
+    <data>
+        <display>
+        <title>iOS Runtime－Method Swizzling</title>
+        <pubTime>2018-08-06T05:50:02.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>Runtime</tag>
+         
+        <tag>Method Swizzling</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/07/07/iphoneScreenSize/</loc>
+    <lastmod>2017-11-20T09:09:18.423Z</lastmod>
+    <data>
+        <display>
+        <title>iPhone 屏幕尺寸统计</title>
+        <pubTime>2017-07-07T06:28:30.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>iPhone</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/08/01/ios-cocoapods/</loc>
+    <lastmod>2017-08-01T05:50:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何使用 CocoaPods 管理项目中的第三方库</title>
+        <pubTime>2017-08-01T02:01:44.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/07/25/soundTouchV3-1/</loc>
+    <lastmod>2017-07-25T11:16:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>SoundTouch for iOS 音频变声</title>
+        <pubTime>2017-07-25T08:59:52.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>soundTouch</tag>
+         
+        <tag>音频</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/07/21/build-opencore-amr-ios/</loc>
+    <lastmod>2017-07-21T08:45:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>编译 opencore-amr for iOS</title>
+        <pubTime>2017-07-21T07:10:31.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>amr</tag>
+         
+        <tag>audio</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/07/20/UIlabelhangjianju/</loc>
+    <lastmod>2017-07-21T07:15:17.000Z</lastmod>
+    <data>
+        <display>
+        <title>UILabel 设置字体行间距</title>
+        <pubTime>2017-07-20T12:21:47.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>UILabel</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/31/learningAndroid7/</loc>
+    <lastmod>2017-05-31T08:41:15.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(七)</title>
+        <pubTime>2017-05-31T04:09:37.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/26/learningAndroid6/</loc>
+    <lastmod>2017-05-26T12:37:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(六)</title>
+        <pubTime>2017-05-26T06:16:40.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/24/learningAndroid5/</loc>
+    <lastmod>2017-05-25T06:38:57.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(五)</title>
+        <pubTime>2017-05-24T10:43:53.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/19/learningAndroid4/</loc>
+    <lastmod>2017-05-19T12:11:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(四)</title>
+        <pubTime>2017-05-19T07:06:57.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/18/learningAndroid3/</loc>
+    <lastmod>2017-05-18T12:01:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(三)</title>
+        <pubTime>2017-05-18T07:38:11.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/15/learningAndroid2/</loc>
+    <lastmod>2017-05-18T07:40:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(二)</title>
+        <pubTime>2017-05-15T01:05:40.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+        <tag>Activity</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/04/06/iOS-GCD-Grand-Central-Dispatch-2/</loc>
+    <lastmod>2017-05-18T03:12:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS GCD(Grand Central Dispatch)的使用(二)</title>
+        <pubTime>2017-04-06T03:37:40.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>GCD</tag>
+         
+        <tag>多线程</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/12/learningAndroid1/</loc>
+    <lastmod>2017-05-15T01:07:06.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(一)</title>
+        <pubTime>2017-05-12T08:59:59.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/04/13/webp-image-format-ios/</loc>
+    <lastmod>2017-05-12T10:25:15.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何使UIWebview/WKWebView支持WebP格式图片</title>
+        <pubTime>2017-04-13T05:43:26.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>Xcode</tag>
+         
+        <tag>WebView</tag>
+         
+        <tag>WebP</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/10/learningJava4/</loc>
+    <lastmod>2017-05-12T09:01:15.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--Java基础(四)</title>
+        <pubTime>2017-05-10T03:27:55.000Z</pubTime>
+        
+        <tag>android</tag>
+         
+        <tag>Java</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/04/learningJava1/</loc>
+    <lastmod>2017-05-09T01:30:11.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--Java基础(一)</title>
+        <pubTime>2017-05-04T03:51:31.000Z</pubTime>
+        
+        <tag>android</tag>
+         
+        <tag>Java</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/08/learningJava3/</loc>
+    <lastmod>2017-05-09T01:28:30.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--Java基础(三)</title>
+        <pubTime>2017-05-08T03:21:51.000Z</pubTime>
+        
+        <tag>android</tag>
+         
+        <tag>Java</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/05/learningJava2/</loc>
+    <lastmod>2017-05-08T03:22:53.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--Java基础(二)</title>
+        <pubTime>2017-05-05T01:31:44.000Z</pubTime>
+        
+        <tag>android</tag>
+         
+        <tag>Java</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/05/02/iOS-GCD-Grand-Central-Dispatch-3/</loc>
+    <lastmod>2017-05-02T06:13:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS GCD(Grand Central Dispatch)的使用(三)</title>
+        <pubTime>2017-05-02T02:40:02.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>GCD</tag>
+         
+        <tag>多线程</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/03/27/iOS-GCD-Grand-Central-Dispatch-1/</loc>
+    <lastmod>2017-04-13T07:08:51.000Z</lastmod>
+    <data>
+        <display>
+        <title>iOS GCD(Grand Central Dispatch)的使用(一)</title>
+        <pubTime>2017-03-27T01:52:33.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>GCD</tag>
+         
+        <tag>多线程</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/</loc>
+    <lastmod>2017-04-13T03:39:23.000Z</lastmod>
+    <data>
+        <display>
+        <title>Xcode8 编译 framework 支持bitcode</title>
+        <pubTime>2017-03-23T08:09:36.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>xcode</tag>
+         
+        <tag>framework</tag>
+         
+        <tag>bitcode</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/03/22/Learning%20AV%20Foundation(%E4%BA%8C)AVAudioPlayer/</loc>
+    <lastmod>2017-03-27T07:29:04.000Z</lastmod>
+    <data>
+        <display>
+        <title>Learning AV Foundation(二)AVAudioPlayer</title>
+        <pubTime>2017-03-22T10:26:06.000Z</pubTime>
+        
+        <tag>iOS开发</tag>
+         
+        <tag>macOS开发</tag>
+         
+         
+           
+             
+              <breadCrumb title="iOS开发" url="http://chuliangliang.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+  <url>
+    <loc>http://chuliangliang.com/2017/03/22/First-article/</loc>
+    <lastmod>2017-03-22T07:42:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>开篇</title>
+        <pubTime>2017-03-22T03:37:22.000Z</pubTime>
+        
+        <tag>生活</tag>
+         
+        <tag>工作</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+</urlset>
