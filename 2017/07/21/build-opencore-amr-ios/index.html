@@ -12,14 +12,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="amr,iOS,audio," />
+    <meta name="keywords" content="iOS,amr,audio," />
   
 
   <meta name="description" content="作者Talent•C转载请注明出处 前言最近好多人跟我反馈,我2年前写的关于SoundTouch的Demo,随着 xcode 版本的升级出现了一个问题就是不支持 bitcode, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 bitcode, 分别是 lame(mp3音频格式编码库) 和 opencore-amr(amr音频格式编/解码库两个库)。 关于">
-<meta name="keywords" content="amr,iOS,audio">
+<meta name="keywords" content="iOS,amr,audio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译 opencore-amr for iOS">
-<meta property="og:url" content="http://chuliangliang.com/2017/07/21/build-opencore-amr-ios/index.html">
+<meta property="og:url" content="http://www.chuliangliang.com/2017/07/21/build-opencore-amr-ios/index.html">
 <meta property="og:site_name" content="Talent•C">
 <meta property="og:description" content="作者Talent•C转载请注明出处 前言最近好多人跟我反馈,我2年前写的关于SoundTouch的Demo,随着 xcode 版本的升级出现了一个问题就是不支持 bitcode, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 bitcode, 分别是 lame(mp3音频格式编码库) 和 opencore-amr(amr音频格式编/解码库两个库)。 关于">
 <meta property="og:updated_time" content="2017-07-21T08:45:21.000Z">
@@ -193,7 +193,7 @@
     
       <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近好多人跟我反馈,我2年前写的关于<code>SoundTouch</code>的Demo,随着 <strong>xcode</strong> 版本的升级出现了一个问题就是不支持 <strong>bitcode</strong>, 最近正好项目上线了,时间比较充裕决定把它搞搞,将其下载下来分析看看发现主要有三个库不支持 <strong>bitcode</strong>, 分别是 <strong>lame(mp3音频格式编码库)</strong> 和 <strong>opencore-amr(amr音频格式编/解码库两个库)</strong>。</p>
-<p>关于 <strong>bitcode</strong> 的相关介绍我之前就有过介绍以及如何支持 <strong>bitcode</strong>,<a href="http://www.chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/" target="_blank" rel="external">点击这里查看</a>。上面我提到 <strong>opencore-amr(amr音频格式编码库)</strong> 不支持 <strong>bitcode</strong>, 那么就需要将其重新编译,网上有很多关于编译 <strong>opencore-amr(amr音频格式编码库)</strong> 的文章,但几乎都不能正确编译,今天我们就自己动手试着编译 <strong>opencore-amr</strong> 库。</p>
+<p>关于 <strong>bitcode</strong> 的相关介绍我之前就有过介绍以及如何支持 <strong>bitcode</strong>,<a href="http://www.chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/">点击这里查看</a>。上面我提到 <strong>opencore-amr(amr音频格式编码库)</strong> 不支持 <strong>bitcode</strong>, 那么就需要将其重新编译,网上有很多关于编译 <strong>opencore-amr(amr音频格式编码库)</strong> 的文章,但几乎都不能正确编译,今天我们就自己动手试着编译 <strong>opencore-amr</strong> 库。</p>
 <p>可能有人会说 <strong>iOS</strong> 本身是不支持 <strong>amr格式音频的</strong>, 为什么我们还在用?<br><strong>amr</strong> 由欧洲通信标准化委员会提出，是在移动通信系统中使用最广泛的语音标准。他是被各大手机厂商认可的一种保存手机录音的格式。由于 <strong>amr</strong> 文件容量很小，因此即便是长达一分钟的音频文件，也能符合中国移动现行的彩信不超过50KB容量的技术规范，所以 <strong>amr</strong> 也是实现在彩信中加载人声的唯一格式。但是受体积所限，<strong>amr</strong> 在音质方面不太乐观。<br>摘自<a href="https://baike.baidu.com/item/Amr/217870?fr=aladdin" target="_blank" rel="external">百度百科</a></p>
 <p>由此可见,当我们的app 需要传递音频文件时,在不要求高音频质量是使用 <strong>amr</strong> 格式的音频会大大降低网络带宽使用量,减少通讯时间,提高app使用体验</p>
 <h2 id="编译-opencore-amr"><a href="#编译-opencore-amr" class="headerlink" title="编译 opencore-amr"></a>编译 <code>opencore-amr</code></h2><p><strong>opencore-amr</strong> <a href="https://sourceforge.net/projects/opencore-amr/" target="_blank" rel="external">源码下载</a>。 目前官网最新版本是 0.1.5,本文使用的版本为最新版本。</p>
