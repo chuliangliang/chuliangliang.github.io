@@ -22,13 +22,13 @@
 <meta property="og:url" content="http://www.chuliangliang.com/2018/08/06/iOS-runtime-method-exchange/index.html">
 <meta property="og:site_name" content="Talent•C">
 <meta property="og:description" content="作者Talent•C转载请注明出处 前言这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~说一个工程中有一个很有意思的代码现象吧,使用 Runtime中 method_exchangeImplementations 函数将 UIViewController 的 viewDidLoad 函数 与 myViewDidLoad 函数交换后在其内部调用 [self myViewDidLoa">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing01.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing02.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
-<meta property="og:updated_time" content="2018-08-06T08:02:24.829Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/iOS-runtimeios_runtime_Method_Swizzing/iOS-runtimeios_runtime_Method_Swizzing01.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/iOS-runtimeios_runtime_Method_Swizzing/iOS-runtimeios_runtime_Method_Swizzing02.jpg">
+<meta property="og:updated_time" content="2019-02-25T08:44:28.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS Runtime－Method Swizzling">
 <meta name="twitter:description" content="作者Talent•C转载请注明出处 前言这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~说一个工程中有一个很有意思的代码现象吧,使用 Runtime中 method_exchangeImplementations 函数将 UIViewController 的 viewDidLoad 函数 与 myViewDidLoad 函数交换后在其内部调用 [self myViewDidLoa">
-<meta name="twitter:image" content="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing01.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/iOS-runtimeios_runtime_Method_Swizzing/iOS-runtimeios_runtime_Method_Swizzing01.jpg">
 
   
 
@@ -150,7 +150,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling原理"><span class="toc-text">Method Swizzling原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-Swizzling使用"><span class="toc-text">Method Swizzling使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
@@ -197,8 +197,8 @@
       <p>作者<a href="https://chuliangliang.github.io" target="_blank" rel="external">Talent•C</a><br>转载请注明出处</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这几天暂时比较闲,翻翻博客看一下,发现一年没有更新了,很惭愧啊~~<br>说一个工程中有一个很有意思的代码现象吧,使用 <code>Runtime</code>中 <strong>method_exchangeImplementations</strong> 函数将 <code>UIViewController</code> 的 <strong>viewDidLoad</strong> 函数 与 <strong>myViewDidLoad</strong> 函数交换后在其内部调用 <strong>[self myViewDidLoad];</strong>,看到这个代码难道不会出现递归调用吗? 带这个这个疑问我们来看一下其原因吧。<br>代码示例:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)myViewDidLoad &#123;</div><div class="line">    [<span class="keyword">self</span> myViewDidLoad];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="Method-Swizzling原理"><a href="#Method-Swizzling原理" class="headerlink" title="Method Swizzling原理"></a><strong>Method Swizzling原理</strong></h2><p><code>Method Swizzing</code> 是发生在运行时的，主要用于在运行时将两个 <strong>Method</strong> 进行交换，我们可以将 <strong>Method Swizzling</strong> 代码写到任何地方，但是只有在这段 <strong>Method Swilzzling</strong> 代码执行完毕之后互换才起作用。</p>
-<p>而且 <strong>Method Swizzling</strong> 也是<code>iOS</code>中<code>AOP</code>(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现<code>AOP</code>编程。<br>首先，让我们通过两张图片来了解一下 <strong>Method Swizzling</strong> 的实现原理<br>未做方法交换:<br><img src="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing01.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt="s"></p>
-<p>方法交换后:<br><img src="http://on9f8tjnd.bkt.clouddn.com/iOS-runtimeios_runtime_Method_Swizzing02.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim/imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt=""></p>
+<p>而且 <strong>Method Swizzling</strong> 也是<code>iOS</code>中<code>AOP</code>(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现<code>AOP</code>编程。<br>首先，让我们通过两张图片来了解一下 <strong>Method Swizzling</strong> 的实现原理<br>未做方法交换:<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/iOS-runtimeios_runtime_Method_Swizzing/iOS-runtimeios_runtime_Method_Swizzing01.jpg" alt="s"></p>
+<p>方法交换后:<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/iOS-runtimeios_runtime_Method_Swizzing/iOS-runtimeios_runtime_Method_Swizzing02.jpg" alt=""></p>
 <p>在<code>OC</code>语言的<code>runtime</code>特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的<code>SEL</code>，这个<code>SEL</code>对应着一个<code>IMP</code>(一个<code>IMP</code>可以对应多个<code>SEL</code>)，通过这个<code>IMP</code>找到对应的方法调用。</p>
 <p>在每个类中都有一个 <strong>Dispatch Table</strong>，这个 <strong>Dispatch Table</strong> 本质是将类中的<code>SEL</code>和<code>IMP</code>(可以理解为函数指针)进行对应。而我们的 <strong>Method Swizzling</strong> 就是对这个 <strong>table</strong> 进行了操作，让<code>SEL</code>对应另一个<code>IMP</code>。</p>
 <h2 id="Method-Swizzling使用"><a href="#Method-Swizzling使用" class="headerlink" title="Method Swizzling使用"></a><strong>Method Swizzling使用</strong></h2><p>在实现 <strong>Method Swizzling</strong> 时，核心代码主要就是一个<code>runtime</code>的<code>C语言API</code>：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> method_exchangeImplementations(Method m1, Method m2)</div><div class="line"> __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);</div></pre></td></tr></table></figure></p>
@@ -264,7 +264,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">

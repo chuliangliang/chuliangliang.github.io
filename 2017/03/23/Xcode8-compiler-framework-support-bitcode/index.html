@@ -22,23 +22,23 @@
 <meta property="og:url" content="http://www.chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/index.html">
 <meta property="og:site_name" content="Talent•C">
 <meta property="og:description" content="作者Talent•C转载请注明出处 前言关于Framework制作的教程数不胜数,但是比较老旧,一般都是xcode7或者更早的教程,并且有些教程并不齐全,制作出来的framework库还是存在大大小小的问题,所以我把自己制作framework的过程记录下来，并且使用的是最新的Xcode8环境; 正文Bitcode是什么? Bitcode is an intermediate representat">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/bitcodeImage.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/theCompiler.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw1.png?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw2.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw3.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw4.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw5.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw6.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw7.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw8.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw9.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw10.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
-<meta property="og:updated_time" content="2017-04-13T03:39:23.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/bitcodeImage.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/theCompiler.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw3.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw4.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw5.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw6.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw7.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw8.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw9.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw10.jpg">
+<meta property="og:updated_time" content="2019-02-25T07:57:34.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode8 编译 framework 支持bitcode">
 <meta name="twitter:description" content="作者Talent•C转载请注明出处 前言关于Framework制作的教程数不胜数,但是比较老旧,一般都是xcode7或者更早的教程,并且有些教程并不齐全,制作出来的framework库还是存在大大小小的问题,所以我把自己制作framework的过程记录下来，并且使用的是最新的Xcode8环境; 正文Bitcode是什么? Bitcode is an intermediate representat">
-<meta name="twitter:image" content="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/bitcodeImage.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/bitcodeImage.jpg">
 
   
 
@@ -160,7 +160,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bitcode是什么"><span class="toc-text">Bitcode是什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始制作framework"><span class="toc-text">开始制作framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#制作通用库"><span class="toc-text">制作通用库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
   </div>
 
@@ -211,32 +211,32 @@
 <p>Xcode hides symbols generated during build time by default, so they are not readable by Apple. Only if you choose to include symbols when uploading your app to iTunes Connect would the symbols be sent to Apple. You must include symbols to receive crash reports from Apple.<br>原文大意:<br>Bitcode是编译程序的中间表示形式。 您上传到iTunes Connect的包含位代码的应用程序将在商店中进行编译和链接。 包括位代码将允许Apple在将来重新优化您的应用程序二进制文件，而无需将新版本的应用程序提交到商店。</p>
 <p>默认情况下，Xcode会隐藏在构建时生成的符号，因此它们不可读取。 只有当您将应用程序上传到iTunes Connect时选择包含符号，才能将符号发送给Apple。 您必须包含符号以从Apple收到崩溃报告。<br>摘自:<a href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AppThinning/AppThinning.html#//apple_ref/doc/uid/TP40012582-CH35" target="_blank" rel="external">Apple 开发者文档</a></p>
 </blockquote>
-<p>bitcode图解<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/bitcodeImage.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>bitcode图解<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/bitcodeImage.jpg" alt=""></p>
 <p>为了更好的理解什么是<strong>bitcode</strong>，简单介绍一下编译器编译的过程：<br>1.<strong>Lexer:</strong> 读入源文件，并将其转化成字符流<br>2.<strong>Parser:</strong> 将字符流转换成AST（抽象语法树）<br>3.<strong>Semantic Analysis:</strong> 对输入的AST进行语法检查。<br>4.<strong>Code Generation:</strong> 代码生成，将AST转换成低层次的IR指令<br>4.<strong>Optimization:</strong> 分析IR指令，将其中潜在会拖慢运行速度的指令干掉。<br>5.<strong>AsmPrinter:</strong> 通过IR（中间码）生成特定CPU架构的汇编代码<br>6.<strong>Assemble:</strong> 将汇编代码转化成二进制<br>7.<strong>Linker:</strong> 通常程序会引用其他的二进制文件（.a或者framework)，但是这些链接在程序中没有正确的地址，只是个占位符。Linker的工作就是给这些占位符正确的地址。<br>更多信息请参考<a href="https://www.objc.io/issues/6-build-tools/compiler/" target="_blank" rel="external">The Compiler</a></p>
-<p>一般情况下编译器构架会将上述过程分成前端和后端两部分来处理：<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/theCompiler.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>一般情况下编译器构架会将上述过程分成前端和后端两部分来处理：<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/theCompiler.jpg" alt=""></p>
 <p>在前后端之间传递的就是IR（中间码），而bitcode就是一种特殊形式的中间码。原本前后端的工作都是在本地LLVM中完成，虽然Apple没有给出具体的Bitcode实现，但是通过他们的文档可以猜测，是将一部分后端的工作移到了服务器进行。从Xcode上传IR到服务器，服务器来真对不同的机型进行后续操作。从而达到真对不同机型生成对应指令集的二进制，而减小报体积的目的。</p>
-<h2 id="开始制作framework"><a href="#开始制作framework" class="headerlink" title="开始制作framework"></a>开始制作framework</h2><p>1.首先新建一个项目，选择 <code>Cocoa touch Framework</code> 取名”TalentCFor-framework”<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw1.png?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
-<p>2.将要封装成framework的代码拖入工程<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw2.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<h2 id="开始制作framework"><a href="#开始制作framework" class="headerlink" title="开始制作framework"></a>开始制作framework</h2><p>1.首先新建一个项目，选择 <code>Cocoa touch Framework</code> 取名”TalentCFor-framework”<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw1.png" alt=""></p>
+<p>2.将要封装成framework的代码拖入工程<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw2.jpg" alt=""></p>
 <p>3.设置Build Setting<br>选择工程文件&gt; <strong>target</strong> 第一项&gt;<strong>Build Setting</strong><br>(1).<strong>Dead Code Stripping:</strong> 设置为 <strong>NO</strong>, 网上对此项的解释如下，大致意思是如果开启此项就会对代码中的”dead”、”unreachable”的代码过滤，不过这个开关是否关闭，似乎没有多大影响，不过为了完整还原framework中的代码，将此项关闭也未曾不可。</p>
 <blockquote>
 <p>The resulting executable will not include any “dead” or unreachable code。</p>
 </blockquote>
-<p>(2).<strong>Link With Standard Libraries:</strong> 设置为 <strong>NO</strong> 可能是为了避免重复链接<br>(3).<strong>Mach-O Type:</strong> 设为 <strong>Static Library</strong> framework可以是动态库也可以是静态库，对于系统的framework是动态库，而用户制作的framework只能是静态库。<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw3.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
-<p>然后将需要公开的头文件从_Project中拖入 <strong>Public</strong>，至于是否需要将私有的头文件拖入 <strong>Private</strong>，我觉得直接放在Project中即可，若是Private中有头文件，打包以后的framework中会多出一个Private的文件夹包含着放入Private的头文件，不过我觉得如果是私有最好还是不要让别人看到。 这里为了给大家演示则将Utils这个工具类放入Private。<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw4.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
-<p>为了对一些特殊机型的支持，添加 <strong>armv7s</strong> 架构，当然不添加也没什么问题，只有5和5c使用了此架构。<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw5.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>(2).<strong>Link With Standard Libraries:</strong> 设置为 <strong>NO</strong> 可能是为了避免重复链接<br>(3).<strong>Mach-O Type:</strong> 设为 <strong>Static Library</strong> framework可以是动态库也可以是静态库，对于系统的framework是动态库，而用户制作的framework只能是静态库。<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw3.jpg" alt=""></p>
+<p>然后将需要公开的头文件从_Project中拖入 <strong>Public</strong>，至于是否需要将私有的头文件拖入 <strong>Private</strong>，我觉得直接放在Project中即可，若是Private中有头文件，打包以后的framework中会多出一个Private的文件夹包含着放入Private的头文件，不过我觉得如果是私有最好还是不要让别人看到。 这里为了给大家演示则将Utils这个工具类放入Private。<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw4.jpg" alt=""></p>
+<p>为了对一些特殊机型的支持，添加 <strong>armv7s</strong> 架构，当然不添加也没什么问题，只有5和5c使用了此架构。<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw5.jpg" alt=""></p>
 <p>注意,注意,注意 重要的事说三遍… 以下 (4)、(5) 很重要 很重要 很重要</p>
 <blockquote>
 <p>Bitcode是苹果在Xcode7及以后推出的新功能。用于代码的二次编译，针对CPU进行优化，编译工作由苹果AppStore后台来完成。<br>针对iOS是可选项，默认打开。watchOS 和 tvOS 是必选项</p>
 </blockquote>
-<p>(4).<strong>Build Active Architecture only:</strong> 设置为 <strong>NO</strong> ,设为YES，导致其编译时只生成当前机器的框架，将其设置为NO后，发现用模拟器编译后生成的framework同时包含x86_64和i386架构。<br>(5).所以需要打开库工程的此选项并加上 <strong>-fembed-bitcode</strong> 参数<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw6.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
-<p>到此全部设置完毕开始编译 !!!<br>编译成功 查看编译后的framework库<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw7.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>(4).<strong>Build Active Architecture only:</strong> 设置为 <strong>NO</strong> ,设为YES，导致其编译时只生成当前机器的框架，将其设置为NO后，发现用模拟器编译后生成的framework同时包含x86_64和i386架构。<br>(5).所以需要打开库工程的此选项并加上 <strong>-fembed-bitcode</strong> 参数<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw6.jpg" alt=""></p>
+<p>到此全部设置完毕开始编译 !!!<br>编译成功 查看编译后的framework库<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw7.jpg" alt=""></p>
 <p>打开终端查看模拟器的framework 与 真机的 framework 支持的架构</p>
 <blockquote>
-<p><strong>查看真机环境的framework:</strong> lipo -info lipo -info /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphoneos/TalentC.framework/TalentC<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw8.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""><br><strong>查看模拟器的framework:</strong> lipo -info /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphonesimulator/TalentC.framework/TalentC<br><img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw9.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p><strong>查看真机环境的framework:</strong> lipo -info lipo -info /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphoneos/TalentC.framework/TalentC<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw8.jpg" alt=""><br><strong>查看模拟器的framework:</strong> lipo -info /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphonesimulator/TalentC.framework/TalentC<br><img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw9.jpg" alt=""></p>
 </blockquote>
 <h2 id="制作通用库"><a href="#制作通用库" class="headerlink" title="制作通用库"></a>制作通用库</h2><p>终端执行</p>
 <blockquote>
-<p>lipo -create /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphoneos/TalentC.framework/TalentC /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphonesimulator/TalentC.framework/TalentC -output /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/All/TalentC<br> <img src="http://on9f8tjnd.bkt.clouddn.com/githubPagesForframeworks/fw10.jpg?imageView2/0/format/jpg/q/80|watermark/2/text/VGFsZW504oCiQw==/font/YXJpYWw=/fontsize/600/fill/I0JEQjJCMg==/dissolve/89/gravity/SouthEast/dx/16/dy/16|imageslim" alt=""></p>
+<p>lipo -create /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphoneos/TalentC.framework/TalentC /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/Debug-iphonesimulator/TalentC.framework/TalentC -output /Users/chuliangliang/Library/Developer/Xcode/DerivedData/TalentCFor-framework-arwwimdmqumeihfeafwteozpdlws/Build/Products/All/TalentC<br> <img src="https://raw.githubusercontent.com/chuliangliang/pages.io.images/master/ios-frame-bulid-images/fw10.jpg" alt=""></p>
 </blockquote>
 <p> 将<strong>…Products/All/TalentC</strong> 的 <strong>TalentC</strong> 文件替换 <strong>…/Products/Debug-iphoneos/TalentC.framework/TalentC</strong> 中的 <strong>TalentC</strong> 文件, 至此通用的framework就制作完毕了, 底部有工程下载地址;</p>
 <p>实际结果均以最终打包结果为准,此framework经过实际打包app是完全可以通过的!!!</p>
@@ -299,7 +299,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">

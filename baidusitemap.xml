@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://www.chuliangliang.com/2018/08/06/iOS-runtime-method-exchange/</loc>
-    <lastmod>2018-08-06T08:02:24.829Z</lastmod>
+    <lastmod>2019-02-25T08:44:28.934Z</lastmod>
     <data>
         <display>
         <title>iOS Runtime－Method Swizzling</title>
@@ -16,6 +16,111 @@
         <tag>Runtime</tag>
          
         <tag>Method Swizzling</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.chuliangliang.com/2017/05/26/learningAndroid6/</loc>
+    <lastmod>2019-02-25T08:36:29.107Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(六)</title>
+        <pubTime>2017-05-26T06:16:40.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.chuliangliang.com/2017/05/15/learningAndroid2/</loc>
+    <lastmod>2019-02-25T08:28:13.516Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(二)</title>
+        <pubTime>2017-05-15T01:05:40.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+        <tag>Activity</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.chuliangliang.com/2017/05/12/learningAndroid1/</loc>
+    <lastmod>2019-02-25T08:28:02.198Z</lastmod>
+    <data>
+        <display>
+        <title>Android 学习之路--android基础(一)</title>
+        <pubTime>2017-05-12T08:59:59.000Z</pubTime>
+        
+        <tag>Android Studio</tag>
+         
+        <tag>android</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.chuliangliang.com/2017/04/13/webp-image-format-ios/</loc>
+    <lastmod>2019-02-25T08:12:10.741Z</lastmod>
+    <data>
+        <display>
+        <title>如何使UIWebview/WKWebView支持WebP格式图片</title>
+        <pubTime>2017-04-13T05:43:26.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>Xcode</tag>
+         
+        <tag>WebView</tag>
+         
+        <tag>WebP</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/</loc>
+    <lastmod>2019-02-25T07:57:34.267Z</lastmod>
+    <data>
+        <display>
+        <title>Xcode8 编译 framework 支持bitcode</title>
+        <pubTime>2017-03-23T08:09:36.000Z</pubTime>
+        
+        <tag>iOS</tag>
+         
+        <tag>xcode</tag>
+         
+        <tag>framework</tag>
+         
+        <tag>bitcode</tag>
          
          
            
@@ -139,25 +244,6 @@
 
     
   <url>
-    <loc>http://www.chuliangliang.com/2017/05/26/learningAndroid6/</loc>
-    <lastmod>2017-05-26T12:37:24.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android 学习之路--android基础(六)</title>
-        <pubTime>2017-05-26T06:16:40.000Z</pubTime>
-        
-        <tag>Android Studio</tag>
-         
-        <tag>android</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.chuliangliang.com/2017/05/24/learningAndroid5/</loc>
     <lastmod>2017-05-25T06:38:57.000Z</lastmod>
     <data>
@@ -215,27 +301,6 @@
 
     
   <url>
-    <loc>http://www.chuliangliang.com/2017/05/15/learningAndroid2/</loc>
-    <lastmod>2017-05-18T07:40:27.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android 学习之路--android基础(二)</title>
-        <pubTime>2017-05-15T01:05:40.000Z</pubTime>
-        
-        <tag>Android Studio</tag>
-         
-        <tag>android</tag>
-         
-        <tag>Activity</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.chuliangliang.com/2017/04/06/iOS-GCD-Grand-Central-Dispatch-2/</loc>
     <lastmod>2017-05-18T03:12:34.000Z</lastmod>
     <data>
@@ -248,48 +313,6 @@
         <tag>GCD</tag>
          
         <tag>多线程</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.chuliangliang.com/2017/05/12/learningAndroid1/</loc>
-    <lastmod>2017-05-15T01:07:06.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android 学习之路--android基础(一)</title>
-        <pubTime>2017-05-12T08:59:59.000Z</pubTime>
-        
-        <tag>Android Studio</tag>
-         
-        <tag>android</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.chuliangliang.com/2017/04/13/webp-image-format-ios/</loc>
-    <lastmod>2017-05-12T10:25:15.000Z</lastmod>
-    <data>
-        <display>
-        <title>如何使UIWebview/WKWebView支持WebP格式图片</title>
-        <pubTime>2017-04-13T05:43:26.000Z</pubTime>
-        
-        <tag>iOS</tag>
-         
-        <tag>Xcode</tag>
-         
-        <tag>WebView</tag>
-         
-        <tag>WebP</tag>
          
          
            
@@ -412,29 +435,6 @@
         <tag>GCD</tag>
          
         <tag>多线程</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.chuliangliang.com/2017/03/23/Xcode8-compiler-framework-support-bitcode/</loc>
-    <lastmod>2017-04-13T03:39:23.000Z</lastmod>
-    <data>
-        <display>
-        <title>Xcode8 编译 framework 支持bitcode</title>
-        <pubTime>2017-03-23T08:09:36.000Z</pubTime>
-        
-        <tag>iOS</tag>
-         
-        <tag>xcode</tag>
-         
-        <tag>framework</tag>
-         
-        <tag>bitcode</tag>
          
          
            
